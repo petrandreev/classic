@@ -12,6 +12,5 @@ public class Foo {
     @Produces
     @ApplicationScoped
     @DirectReference
-    @SuppressWarnings("unused")
     private String bar = "bar";
 }

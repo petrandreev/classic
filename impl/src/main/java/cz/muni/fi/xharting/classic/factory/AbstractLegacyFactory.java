@@ -11,7 +11,7 @@ import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionPoint;
 
-import org.jboss.solder.literal.NamedLiteral;
+import org.apache.deltaspike.core.api.literal.NamedLiteral;
 
 /**
  * Common operations for a legacy factory.

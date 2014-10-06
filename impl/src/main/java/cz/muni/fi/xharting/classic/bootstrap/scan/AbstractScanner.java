@@ -12,11 +12,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.jboss.solder.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractScanner implements Scanner {
 
-    private static final Logger log = Logger.getLogger(AbstractScanner.class);
+    private static final Logger log = LoggerFactory.getLogger(AbstractScanner.class);
 
     private static final String[] SEAM_ARCHIVE_MARKERS = { "seam.properties", "META-INF/seam.properties", "META-INF/components.xml" };
     private static final String[] SEAM_ARCHIVE_BLACKLIST = { "org/jboss/integration/ext-content/main/bundled/jboss-seam-int.jar" };
@@ -32,7 +33,7 @@ public abstract class AbstractScanner implements Scanner {
             try {
                 urls = loader.getResources(resourceName);
             } catch (IOException e) {
-                log.warnv(e, "Unable to load Seam resource {0}", resourceName);
+                log.warn("Unable to load Seam resource {}", resourceName, e);
                 continue;
             }
             while (urls.hasMoreElements()) {
@@ -41,9 +42,9 @@ public abstract class AbstractScanner implements Scanner {
                 try {
                     resourcePath = URLDecoder.decode(resourcePath, "UTF-8");
                 } catch (UnsupportedEncodingException e) {
-                    log.warnv("Unable to decode URL {0}", resourcePath);
+                    log.warn("Unable to decode URL {}", resourcePath);
                 }
-                log.debugv("Found Seam resource at the following url {0} and path {1}", resource, resourcePath);
+                log.debug("Found Seam resource at the following url {} and path {}", resource, resourcePath);
 
                 if (resourcePath.indexOf('!') > 0) { // no idea what ! in the path means
                     resourcePath = resourcePath.substring(0, resourcePath.indexOf('!'));
@@ -61,7 +62,7 @@ public abstract class AbstractScanner implements Scanner {
                 } catch (MalformedURLException e) {
                     throw new IllegalStateException("Unable to identify Seam archive " + resource, e);
                 }
-                log.debugv("Identified Seam archive at {0}", archiveUrl);
+                log.debug("Identified Seam archive at {}", archiveUrl);
                 archives.add(archiveUrl);
             }
         }

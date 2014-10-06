@@ -2,15 +2,14 @@ package cz.muni.fi.xharting.classic.util.literal;
 
 import javax.enterprise.util.AnnotationLiteral;
 
-import org.jboss.solder.servlet.http.RequestParam;
+import cz.muni.fi.xharting.classic.util.servlet.http.RequestParameter;
 
 @SuppressWarnings("all")
-public class RequestParamLiteral extends AnnotationLiteral<RequestParam> implements RequestParam {
+public class RequestParameterLiteral extends AnnotationLiteral<RequestParameter> implements RequestParameter {
 
-    private static final long serialVersionUID = 1235118464286179120L;
     private String value;
     
-    public RequestParamLiteral(String value) {
+    public RequestParameterLiteral(String value) {
         this.value = value;
     }
     

@@ -10,8 +10,9 @@ import java.util.Set;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.InjectionPoint;
 
-import org.jboss.solder.literal.DefaultLiteral;
-import org.jboss.solder.reflection.HierarchyDiscovery;
+import org.apache.deltaspike.core.util.HierarchyDiscovery;
+
+import cz.muni.fi.xharting.classic.util.literal.DefaultLiteral;
 
 public abstract class AbstractBean<T> implements Bean<T> {
 

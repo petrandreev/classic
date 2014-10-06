@@ -13,9 +13,10 @@ import java.util.StringTokenizer;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
-import org.jboss.solder.logging.Logger;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Name;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.muni.fi.xharting.classic.metadata.ElFactoryDescriptor;
 import cz.muni.fi.xharting.classic.metadata.ElObserverMethodDescriptor;
@@ -41,7 +42,7 @@ public class ComponentsDotXml {
     private Map<String, Map<String, Conversions.PropertyValue>> initialValueMap = new HashMap<String, Map<String, Conversions.PropertyValue>>();
     private Set<ConfiguredManagedBean> configuredManagedBeans = new HashSet<ConfiguredManagedBean>();
 
-    private static final Logger log = Logger.getLogger(ComponentsDotXml.class);
+    private static final Logger log = LoggerFactory.getLogger(ComponentsDotXml.class);
 
     private Set<ElFactoryDescriptor> factoryCache;
     private Set<ElObserverMethodDescriptor> observerMethodCache;
@@ -180,7 +181,7 @@ public class ComponentsDotXml {
                     }
                     NamespaceDescriptor descriptor = namespaces.get(ns.toString());
                     if (descriptor == null) {
-                        log.warnv("namespace declared in components.xml does not resolve to a package: {0}", ns);
+                        log.warn("namespace declared in components.xml does not resolve to a package: {}", ns);
                     }
 
                     String name = element.attributeValue("name");

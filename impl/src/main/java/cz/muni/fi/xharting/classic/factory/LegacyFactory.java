@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.BeanManager;
 
-import org.jboss.solder.reflection.HierarchyDiscovery;
+import org.apache.deltaspike.core.util.HierarchyDiscovery;
 import org.jboss.solder.reflection.Reflections;
 
 import cz.muni.fi.xharting.classic.metadata.FactoryDescriptor;

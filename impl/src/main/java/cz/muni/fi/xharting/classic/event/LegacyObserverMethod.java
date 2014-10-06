@@ -1,12 +1,12 @@
 package cz.muni.fi.xharting.classic.event;
 
+import static org.jboss.solder.reflection.Reflections.setAccessible;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.enterprise.event.TransactionPhase;
 import javax.enterprise.inject.spi.BeanManager;
-
-import org.jboss.solder.reflection.Reflections;
 
 import cz.muni.fi.xharting.classic.metadata.ObserverMethodDescriptor;
 import cz.muni.fi.xharting.classic.util.CdiUtils;
@@ -29,7 +29,7 @@ public class LegacyObserverMethod extends AbstractLegacyObserverMethod {
         this.hostType = descriptor.getBean().getJavaClass();
         this.method = descriptor.getMethod();
         if (method.isAccessible()) {
-            Reflections.setAccessible(method);
+            setAccessible(method);
         }
     }
 

@@ -15,7 +15,6 @@ import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ConfigurationBuilder;
-import org.reflections.vfs.JBoss6UrlType;
 import org.reflections.vfs.Vfs;
 
 /**
@@ -31,7 +30,7 @@ public class ReflectionsScanner extends AbstractScanner {
 
     public ReflectionsScanner(ClassLoader loader) {
         Collection<URL> urls = getSeamArchives(loader);
-        Vfs.addDefaultURLTypes(new JBoss6UrlType());
+        Vfs.addDefaultURLTypes(new JBoss7UrlType());
         Configuration configuration = new ConfigurationBuilder().setUrls(urls).setScanners(new ResourcesScanner(), new TypeAnnotationsScanner(), new MethodAnnotationsScanner())
                 .setExecutorService(executorService);
         reflections = new Reflections(configuration);

@@ -1,10 +1,12 @@
 package cz.muni.fi.xharting.classic.metadata;
 
+import static org.jboss.solder.reflection.Reflections.setFieldValue;
+
 import java.lang.reflect.Field;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
-import org.jboss.solder.reflection.Reflections;
 
 /**
  * Represents a field annotated with the {@link In} annotation.
@@ -12,6 +14,7 @@ import org.jboss.solder.reflection.Reflections;
  * @author Jozef Hartinger
  * 
  */
+@Exclude
 public class InjectionPointDescriptor extends AbstractManagedFieldDescriptor {
 
     private final boolean create;
@@ -35,7 +38,7 @@ public class InjectionPointDescriptor extends AbstractManagedFieldDescriptor {
     }
 
     public void set(Object target, Object value) {
-        Reflections.setFieldValue(false, getField(), target, value);
+        setFieldValue(false, getField(), target, value);
     }
 
     @Override

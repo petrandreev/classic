@@ -1,5 +1,7 @@
 package cz.muni.fi.xharting.classic.config;
 
+import static org.jboss.solder.reflection.Reflections.invokeMethod;
+
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -24,7 +26,6 @@ import javax.enterprise.inject.spi.InjectionTarget;
 import org.jboss.seam.core.Expressions;
 import org.jboss.seam.core.Expressions.MethodExpression;
 import org.jboss.seam.core.Expressions.ValueExpression;
-import org.jboss.solder.bean.ForwardingInjectionTarget;
 import org.jboss.solder.reflection.Reflections;
 
 import cz.muni.fi.xharting.classic.config.Conversions.PropertyValue;
@@ -354,7 +355,7 @@ public class ConfiguringInjectionTarget<T> extends ForwardingInjectionTarget<T> 
 
     private void setPropertyValue(Object bean, Method method, String name, Object value) {
         try {
-            Reflections.invokeMethod(method, bean, value);
+            invokeMethod(method, bean, value);
         } catch (Exception e) {
             throw new IllegalArgumentException("could not set property value: " + getAttributeMessage(name), e);
         }

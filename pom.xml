@@ -12,8 +12,19 @@
     <packaging>pom</packaging>
     <name>Classic Parent</name>
     <properties>
-        <solder.version>3.1.0.Final</solder.version>
+        <solder.version>3.2.1.Final</solder.version>
+        <deltaspike.version>1.0.3</deltaspike.version>
         <javaee.spec.version>2.0.0.Final</javaee.spec.version>
+        <arquillian-core.version>1.1.5.Final</arquillian-core.version>
+        <shrinkwrap-resolver.version>2.1.1</shrinkwrap-resolver.version>
+        <slf4j.version>1.6.1</slf4j.version>
+        <!-- maven-compiler-plugin -->
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <!-- Options to override the compiler arguments directly on the compiler argument line to separate between what the IDE understands 
+            as the source level and what the Maven compiler actually use. -->
+        <maven.compiler.argument.target>${maven.compiler.target}</maven.compiler.argument.target>
+        <maven.compiler.argument.source>${maven.compiler.source}</maven.compiler.argument.source>
     </properties>
     <modules>
         <module>api</module>
@@ -29,9 +40,28 @@
                 <type>pom</type>
             </dependency>
             <dependency>
-                <groupId>org.jboss.solder</groupId>
-                <artifactId>solder-impl</artifactId>
-                <version>${solder.version}</version>
+                <groupId>org.jboss.arquillian</groupId>
+                <artifactId>arquillian-bom</artifactId>
+                <version>${arquillian-core.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.shrinkwrap.resolver</groupId>
+                <artifactId>shrinkwrap-resolver-bom</artifactId>
+                <version>${shrinkwrap-resolver.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.deltaspike.core</groupId>
+                <artifactId>deltaspike-core-impl</artifactId>
+                <version>${deltaspike.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.deltaspike.modules</groupId>
+                <artifactId>deltaspike-servlet-module-impl</artifactId>
+                <version>${deltaspike.version}</version>
             </dependency>
             <dependency>
                 <groupId>cz.muni.fi.xharting.classic</groupId>
@@ -74,4 +104,18 @@
             </snapshots>
         </pluginRepository>
     </pluginRepositories>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${maven.compiler.argument.source}</source>
+                        <target>${maven.compiler.argument.target}</target>
+                        <debug>true</debug>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

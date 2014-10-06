@@ -1,6 +1,7 @@
 package cz.muni.fi.xharting.classic.log;
 
 import static cz.muni.fi.xharting.classic.util.Annotations.getAnnotation;
+import static org.jboss.solder.reflection.Reflections.getRawType;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
@@ -10,8 +11,7 @@ import javax.inject.Inject;
 import org.jboss.seam.log.Log;
 import org.jboss.seam.log.Logging;
 import org.jboss.solder.el.Expressions;
-import org.jboss.solder.logging.Logger;
-import org.jboss.solder.reflection.Reflections;
+import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
 public class LogFactoryImpl extends Logging {
@@ -21,12 +21,12 @@ public class LogFactoryImpl extends Logging {
     
     @Override
     protected Log internalGetLog(String category) {
-        return new LogImpl(Logger.getLogger(category), expressions);
+        return new LogImpl(LoggerFactory.getLogger(category), expressions);
     }
 
     @Override
     protected Log internalGetLog(Class<?> clazz) {
-        return new LogImpl(Logger.getLogger(clazz), expressions);
+        return new LogImpl(LoggerFactory.getLogger(clazz), expressions);
     }
 
     @Produces
@@ -36,7 +36,7 @@ public class LogFactoryImpl extends Logging {
         org.jboss.seam.annotations.Logger annotation = getAnnotation(ip.getQualifiers(), org.jboss.seam.annotations.Logger.class);
         if (annotation == null || "".equals(annotation.value()))
         {
-            Class<?> clazz = Reflections.getRawType(ip.getType());
+            Class<?> clazz = getRawType(ip.getType());
             return getLog(clazz);
         }
         return getLog(annotation.value());

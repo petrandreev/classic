@@ -1,11 +1,11 @@
 package cz.muni.fi.xharting.classic.log;
 
 import java.io.Serializable;
+import java.util.logging.Level;
 
 import org.jboss.seam.log.Log;
 import org.jboss.solder.el.Expressions;
-import org.jboss.solder.logging.Logger;
-import static org.jboss.solder.logging.Logger.Level;
+import org.slf4j.Logger;
 
 /**
  * Log implementation that delegates calls to Solder logging
@@ -25,87 +25,87 @@ public class LogImpl implements Log, Serializable {
     }
 
     public boolean isDebugEnabled() {
-        return delegate.isEnabled(Level.DEBUG);
+        return delegate.isDebugEnabled();
     }
 
     public boolean isErrorEnabled() {
-        return delegate.isEnabled(Level.ERROR);
+        return delegate.isErrorEnabled();
     }
 
     public boolean isFatalEnabled() {
-        return delegate.isEnabled(Level.FATAL);
+        return delegate.isErrorEnabled();
     }
 
     public boolean isInfoEnabled() {
-        return delegate.isEnabled(Level.INFO);
+        return delegate.isInfoEnabled();
     }
 
     public boolean isTraceEnabled() {
-        return delegate.isEnabled(Level.TRACE);
+        return delegate.isTraceEnabled();
     }
 
     public boolean isWarnEnabled() {
-        return delegate.isEnabled(Level.WARN);
+        return delegate.isWarnEnabled();
     }
 
     @Override
     public void trace(Object object, Object... params) {
-        delegate.tracev(interpolate(object), params);
+        delegate.trace(interpolate(object), params);
     }
 
     @Override
     public void trace(Object object, Throwable t, Object... params) {
-        delegate.tracev(t, interpolate(object), params);
+        delegate.trace(interpolate(object), t,params);
     }
 
     @Override
     public void debug(Object object, Object... params) {
-        delegate.debugv(interpolate(object), params);
+        delegate.debug(interpolate(object), params);
     }
 
     @Override
     public void debug(Object object, Throwable t, Object... params) {
-        delegate.debugv(t, interpolate(object), params);
+        delegate.debug(interpolate(object), t, params);
     }
 
     @Override
     public void info(Object object, Object... params) {
-        delegate.infov(interpolate(object), params);
+        delegate.info(interpolate(object), params);
     }
 
     @Override
     public void info(Object object, Throwable t, Object... params) {
-        delegate.infov(t, interpolate(object), params);
+        delegate.info(interpolate(object), t, params);
     }
 
     @Override
     public void warn(Object object, Object... params) {
-        delegate.warnv(interpolate(object), params);
+        delegate.warn(interpolate(object), params);
     }
 
     @Override
     public void warn(Object object, Throwable t, Object... params) {
-        delegate.warnv(t, interpolate(object), params);
+        delegate.warn(interpolate(object),t, params);
     }
 
     @Override
     public void error(Object object, Object... params) {
-        delegate.errorv(interpolate(object), params);
+        delegate.error(interpolate(object), params);
     }
 
     @Override
     public void error(Object object, Throwable t, Object... params) {
-        delegate.errorv(t, interpolate(object), params);
+        delegate.error(interpolate(object),t, params);
     }
 
     @Override
     public void fatal(Object object, Object... params) {
-        delegate.fatalv(interpolate(object), params);
+        delegate.error(interpolate(object), params);
     }
 
     @Override
     public void fatal(Object object, Throwable t, Object... params) {
-        delegate.fatalv(t, interpolate(object), params);
+        delegate.error(interpolate(object), t, params);
     }
 
     /**

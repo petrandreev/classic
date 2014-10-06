@@ -10,12 +10,12 @@ import org.jboss.seam.annotations.web.RequestParameter;
 public class InjectedBean {
 
     @RequestParameter("id")
-    private long id;
+    private String id;
 
     @RequestParameter
     private String name;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 

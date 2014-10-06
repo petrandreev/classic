@@ -1,5 +1,6 @@
 package cz.muni.fi.xharting.classic.metadata;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
 
 /**
@@ -8,6 +9,7 @@ import org.jboss.seam.ScopeType;
  * @author Jozef Hartinger
  * 
  */
+@Exclude
 public class ElFactoryDescriptor extends AbstractFactoryDescriptor {
 
     private final String expression;

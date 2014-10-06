@@ -10,7 +10,6 @@ import org.jboss.seam.annotations.Scope;
 @Scope(ScopeType.APPLICATION)
 public class VoidFactoryBean {
     
-    @SuppressWarnings("unused")
     @Out(scope = ScopeType.EVENT)
     private Message hotel;
 

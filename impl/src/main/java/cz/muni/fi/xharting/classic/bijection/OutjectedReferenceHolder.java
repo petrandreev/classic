@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import javax.enterprise.util.AnnotationLiteral;
 import javax.inject.Qualifier;
 
-import org.jboss.solder.core.Veto;
+import org.apache.deltaspike.core.api.exclude.Exclude;
 
 /**
  * An implementation of a rewritable context used for emulation of push/pull context model used in Seam. This component
@@ -27,7 +27,7 @@ import org.jboss.solder.core.Veto;
  * @author Jozef Hartinger
  * 
  */
-@Veto
+@Exclude
 public class OutjectedReferenceHolder implements Serializable {
 
     private static final long serialVersionUID = -3467806759929526350L;

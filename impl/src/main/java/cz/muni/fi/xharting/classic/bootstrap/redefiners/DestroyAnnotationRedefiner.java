@@ -3,10 +3,9 @@ package cz.muni.fi.xharting.classic.bootstrap.redefiners;
 import javax.annotation.PreDestroy;
 
 import org.jboss.seam.annotations.Destroy;
-import org.jboss.solder.reflection.annotated.AnnotationBuilder;
-import org.jboss.solder.reflection.annotated.AnnotationRedefiner;
-import org.jboss.solder.reflection.annotated.RedefinitionContext;
 
+import cz.muni.fi.xharting.classic.util.deltaspike.metadata.AbstractAnnotationRedefiner;
+import cz.muni.fi.xharting.classic.util.deltaspike.metadata.RedefinitionContext;
 import cz.muni.fi.xharting.classic.util.literal.PreDestroyLiteral;
 
 /**
@@ -15,12 +14,10 @@ import cz.muni.fi.xharting.classic.util.literal.PreDestroyLiteral;
  * @author Jozef Hartinger
  * 
  */
-public class DestroyAnnotationRedefiner implements AnnotationRedefiner<Destroy> {
+public class DestroyAnnotationRedefiner extends AbstractAnnotationRedefiner<Destroy> {
 
     @Override
     public void redefine(RedefinitionContext<Destroy> ctx) {
-        AnnotationBuilder builder = ctx.getAnnotationBuilder();
-        builder.add(PreDestroyLiteral.INSTANCE);
-
+        add(PreDestroyLiteral.INSTANCE, ctx.getAnnotatedElement(), ctx.getAnnotatedTypeBuilder());
     }
 }

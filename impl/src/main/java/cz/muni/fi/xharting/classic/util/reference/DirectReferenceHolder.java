@@ -1,5 +1,7 @@
 package cz.muni.fi.xharting.classic.util.reference;
 
+import static org.jboss.solder.reflection.Reflections.cast;
+
 import java.lang.annotation.Annotation;
 import java.util.Collections;
 
@@ -9,9 +11,9 @@ import javax.enterprise.inject.UnsatisfiedResolutionException;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 
-import org.jboss.solder.literal.DefaultLiteral;
 import org.jboss.solder.reflection.Reflections;
 
+import cz.muni.fi.xharting.classic.util.literal.DefaultLiteral;
 import cz.muni.fi.xharting.classic.util.spi.AbstractBean;
 
 /**
@@ -36,7 +38,7 @@ public class DirectReferenceHolder<T> extends AbstractBean<DirectReferenceHolder
 
     @Override
     public DirectReferenceHolderImpl<T> create(CreationalContext<DirectReferenceHolderImpl<T>> ctx) {
-        T directReference = Reflections.cast(manager.getReference(getTargetBean(), Object.class, ctx));
+        T directReference = cast(manager.getReference(getTargetBean(), Object.class, ctx));
         return new DirectReferenceHolderImpl<T>(directReference);
     }
 

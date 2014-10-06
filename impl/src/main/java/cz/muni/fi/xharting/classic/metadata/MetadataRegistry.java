@@ -11,6 +11,8 @@ import java.util.Set;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -23,6 +25,7 @@ import cz.muni.fi.xharting.classic.bootstrap.ConditionalInstallationService;
  * @author Jozef Hartinger
  * 
  */
+@Exclude
 public class MetadataRegistry {
 
     // basics

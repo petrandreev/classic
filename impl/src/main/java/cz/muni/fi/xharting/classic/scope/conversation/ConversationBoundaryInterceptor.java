@@ -8,11 +8,11 @@ import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
+import org.apache.deltaspike.core.util.AnnotationUtils;
 import org.jboss.seam.annotations.Begin;
 import org.jboss.seam.annotations.ConversationBoundary;
 import org.jboss.seam.annotations.End;
 import org.jboss.seam.core.Conversation;
-import org.jboss.solder.reflection.AnnotationInspector;
 
 /**
  * Interceptor that starts/ends a long-running conversation if a {@link Begin} or {@link End} annotation is used on the
@@ -34,11 +34,11 @@ public class ConversationBoundaryInterceptor {
     Object intercept(InvocationContext ctx) throws Exception {
         Object result = ctx.proceed();
 
-        Begin begin = AnnotationInspector.getAnnotation(ctx.getMethod(), Begin.class, manager);
+        Begin begin = AnnotationUtils.extractAnnotationFromMethod(manager, ctx.getMethod(), Begin.class);
         if (begin != null && outcomeMatches(ctx.getMethod(), result, begin.ifOutcome())) {
             conversation.begin(begin.join(), begin.nested());
         }
-        End end = AnnotationInspector.getAnnotation(ctx.getMethod(), End.class, manager);
+        End end = AnnotationUtils.extractAnnotationFromMethod(manager, ctx.getMethod(), End.class);
         if (end != null && outcomeMatches(ctx.getMethod(), result, end.ifOutcome())) {
             conversation.end(end.beforeRedirect());
         }

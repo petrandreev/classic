@@ -1,5 +1,7 @@
 package cz.muni.fi.xharting.classic.intercept;
 
+import static org.jboss.solder.reflection.Reflections.invokeMethod;
+
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,8 +18,6 @@ import javax.enterprise.inject.spi.InterceptionType;
 import javax.enterprise.inject.spi.Interceptor;
 import javax.interceptor.AroundInvoke;
 import javax.interceptor.InvocationContext;
-
-import org.jboss.solder.reflection.Reflections;
 
 import cz.muni.fi.xharting.classic.util.spi.AbstractInterceptor;
 
@@ -104,7 +104,7 @@ public class ClassicInterceptor<T> extends AbstractInterceptor<T> {
             throw new IllegalStateException("Interceptor " + getBeanClass() + " should not be called for " + type + " interception type.");
         }
 
-        return Reflections.invokeMethod(method, instance, new LegacyInvocationContext(ctx));
+        return invokeMethod(method, instance, new LegacyInvocationContext(ctx));
     }
 
     @Override

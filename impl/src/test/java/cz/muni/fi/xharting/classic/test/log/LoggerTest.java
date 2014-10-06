@@ -9,9 +9,9 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.solder.el.Expressions;
-import org.jboss.solder.logging.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
 
 import cz.muni.fi.xharting.classic.log.LogImpl;
 
@@ -33,7 +33,7 @@ public class LoggerTest {
     public void testLogging() {
         bean.logSomething();
     }
-    
+
     @Test
     public void testInterpolation(Expressions expressions)
     {
@@ -42,7 +42,7 @@ public class LoggerTest {
         String result = log.interpolate(template);
         assertEquals("Creating new order for user: jharting quantity: {0} and another param {1}", result);
     }
-    
+
     // make the interpolate method visible
     @SuppressWarnings("serial")
     private static class TestableLogImpl extends LogImpl

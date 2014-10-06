@@ -1,8 +1,10 @@
 package cz.muni.fi.xharting.classic.metadata;
 
+import static org.jboss.solder.reflection.Reflections.setAccessible;
+
 import java.lang.reflect.Method;
 
-import org.jboss.solder.reflection.Reflections;
+import org.apache.deltaspike.core.api.exclude.Exclude;
 
 /**
  * Represents a legacy observer method defined on a Seam component.
@@ -10,6 +12,7 @@ import org.jboss.solder.reflection.Reflections;
  * @author Jozef Hartinger
  * 
  */
+@Exclude
 public class ObserverMethodDescriptor extends AbstractObserverMethodDescriptor {
 
     private final BeanDescriptor bean;
@@ -21,7 +24,7 @@ public class ObserverMethodDescriptor extends AbstractObserverMethodDescriptor {
         this.bean = bean;
         this.method = method;
         this.autoCreate = autoCreate;
-        Reflections.setAccessible(method);
+        setAccessible(method);
     }
 
     public ObserverMethodDescriptor(ObserverMethodDescriptor original, BeanDescriptor bean) {

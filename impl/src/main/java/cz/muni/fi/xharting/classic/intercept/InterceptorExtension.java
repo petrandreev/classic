@@ -17,7 +17,8 @@ import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.annotations.intercept.InterceptorType;
 import org.jboss.seam.annotations.intercept.Interceptors;
-import org.jboss.solder.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.muni.fi.xharting.classic.bootstrap.ScanningCompleteEvent;
 import cz.muni.fi.xharting.classic.intercept.ClassicInterceptorBinding.ClassicInterceptorBindingLiteral;
@@ -30,7 +31,7 @@ import cz.muni.fi.xharting.classic.intercept.ClassicInterceptorBinding.ClassicIn
  */
 public class InterceptorExtension implements Extension {
 
-    private Logger log = Logger.getLogger(InterceptorExtension.class);
+    private Logger log = LoggerFactory.getLogger(InterceptorExtension.class);
 
     private Set<ClassicInterceptor<?>> transformedInterceptors = new HashSet<ClassicInterceptor<?>>();
 
@@ -42,7 +43,7 @@ public class InterceptorExtension implements Extension {
             if (clazz.isAnnotation()) {
                 registerInterceptorBinding((Class<? extends Annotation>) clazz, event); // this is checked above
             } else {
-                log.warnv("@Interceptors is a meta annotation. Should only be applied on annotation but is on {0}.", clazz);
+                log.warn("@Interceptors is a meta annotation. Should only be applied on annotation but is on {}.", clazz);
             }
         }
     }
@@ -63,7 +64,7 @@ public class InterceptorExtension implements Extension {
         }
         if (interceptorClasses.length == 1) {
             Annotation binding = new ClassicInterceptorBindingLiteral(interceptorClasses[0]);
-            log.infov("Registering interceptor binding {0} for {1}.", annotationType, interceptorClasses[0]);
+            log.info("Registering interceptor binding {} for {}.", annotationType, interceptorClasses[0]);
             event.addInterceptorBinding(annotationType, binding);
         }
     }
@@ -100,13 +101,13 @@ public class InterceptorExtension implements Extension {
      */
     protected void validateInterceptorAnnotation(Interceptor interceptor, Class<?> interceptorClass) {
         if (interceptor.within().length != 0 || interceptor.around().length != 0) {
-            log.warnv("Relative interceptor ordering not supported. Ignoring for {0}.", interceptorClass);
+            log.warn("Relative interceptor ordering not supported. Ignoring for {}.", interceptorClass);
         }
         if (interceptor.stateless()) {
-            log.warnv("Stateless interceptors not supported. Ignoring for {0}.", interceptorClass);
+            log.warn("Stateless interceptors not supported. Ignoring for {}.", interceptorClass);
         }
         if (interceptor.type() == InterceptorType.CLIENT) {
-            log.warnv("Client interceptors not supported. Ignoring for {0}.", interceptorClass);
+            log.warn("Client interceptors not supported. Ignoring for {}.", interceptorClass);
         }
     }
 
@@ -114,7 +115,7 @@ public class InterceptorExtension implements Extension {
      * Register interceptor replacements
      */
     void registerInterceptors(@Observes AfterBeanDiscovery event) {
-        log.debugv("Registering {0} interceptors.", transformedInterceptors.size());
+        log.debug("Registering {} interceptors.", transformedInterceptors.size());
         for (ClassicInterceptor<?> interceptor : transformedInterceptors) {
             event.addBean(interceptor);
         }

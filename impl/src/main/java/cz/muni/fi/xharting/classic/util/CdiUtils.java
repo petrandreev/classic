@@ -78,8 +78,7 @@ public class CdiUtils {
      */
     public static boolean isContextActive(Class<? extends Annotation> scope, BeanManager manager) {
         try {
-            manager.getContext(scope);
-            return true;
+            return manager.getContext(scope).isActive();
         } catch (ContextNotActiveException e) {
             return false;
         }

@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.jboss.solder.reflection.Reflections;
+import org.apache.deltaspike.core.util.ClassUtils;
 
 import cz.muni.fi.xharting.classic.util.ClassicReflections;
 import cz.muni.fi.xharting.classic.util.Strings;
@@ -221,7 +221,7 @@ public class Conversions {
     public static class ClassConverter implements Converter<Class<?>> {
         public Class<?> toObject(PropertyValue value, Type type) {
             try {
-                return Reflections.classForName(value.getSingleValue());
+                return ClassUtils.loadClassForName(value.getSingleValue());
             } catch (ClassNotFoundException cnfe) {
                 throw new IllegalArgumentException(cnfe);
             }

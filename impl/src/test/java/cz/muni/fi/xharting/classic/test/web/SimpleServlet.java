@@ -23,7 +23,7 @@ public class SimpleServlet extends HttpServlet {
             resp.setStatus(500);
             return;
         }
-        if (12345 != injectedBean.getId())
+        if (!"12345".equals(injectedBean.getId()))
         {
             resp.setStatus(500);
             return;

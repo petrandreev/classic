@@ -20,19 +20,21 @@ import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import javax.enterprise.inject.spi.ProcessBean;
 
+import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
 import org.jboss.solder.reflection.Synthetic;
-import org.jboss.solder.reflection.annotated.AnnotatedTypeBuilder;
-import org.jboss.solder.reflection.annotated.AnnotationBuilder;
-import org.jboss.solder.reflection.annotated.AnnotationRedefiner;
-import org.jboss.solder.reflection.annotated.RedefinitionContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
 import cz.muni.fi.xharting.classic.util.Annotations;
+import cz.muni.fi.xharting.classic.util.deltaspike.metadata.AbstractAnnotationRedefiner;
+import cz.muni.fi.xharting.classic.util.deltaspike.metadata.ClassicAnnotatedTypeBuilder;
+import cz.muni.fi.xharting.classic.util.deltaspike.metadata.RedefinitionContext;
 
 /**
- * The extension scans for {@link DirectReference} occurences on bean definitions (including producer methods and fields),
+ * The extension scans for {@link DirectReference} occurencies on bean definitions (including producer methods and fields),
  * suppresses such beans by using the synthetic qualifier and register {@link DirectReferenceHolder} and
  * {@link DirectReferenceProducer} for each such bean.
  * 
@@ -40,6 +42,8 @@ import cz.muni.fi.xharting.classic.util.Annotations;
  * 
  */
 public class DirectReferenceExtension implements Extension {
+
+    private static final Logger log = LoggerFactory.getLogger(DirectReferenceExtension.class);
 
     private BeanManager manager;
     private DirectReferenceRedefiner redefiner = new DirectReferenceRedefiner();
@@ -56,7 +60,7 @@ public class DirectReferenceExtension implements Extension {
     <T> void scanDirectReferenceDeclaringTypes(@Observes ProcessAnnotatedType<T> event, BeanManager manager) {
         if (requiresDirectReference(event.getAnnotatedType())) {
             AnnotatedType<T> type = event.getAnnotatedType();
-            AnnotatedTypeBuilder<T> builder = new AnnotatedTypeBuilder<T>().readFromType(type);
+            ClassicAnnotatedTypeBuilder<T> builder = createAnnotatedTypeBuilder(type);
             builder.redefine(DirectReference.class, redefiner);
             event.setAnnotatedType(builder.create());
         }
@@ -82,24 +86,24 @@ public class DirectReferenceExtension implements Extension {
         return false;
     }
 
-    public class DirectReferenceRedefiner implements AnnotationRedefiner<DirectReference> {
+    public class DirectReferenceRedefiner extends AbstractAnnotationRedefiner<DirectReference> {
 
         public void redefine(RedefinitionContext<DirectReference> ctx) {
-            AnnotationBuilder builder = ctx.getAnnotationBuilder();
+            AnnotatedTypeBuilder<?> builder = ctx.getAnnotatedTypeBuilder();
             // process scope
             Class<? extends Annotation> scope = getScope(ctx.getAnnotatedElement());
             if (scope == null) {
                 throw new IllegalArgumentException(ctx.getAnnotatedElement() + " does not declare a normal scope.");
             }
-            builder.remove(scope);
+            remove(scope, ctx.getAnnotatedElement(), builder);
 
             // process qualifiers
             Set<Annotation> qualifiers = Annotations.getQualifiers(ctx.getAnnotatedElement(), manager);
             for (Annotation qualifier : qualifiers) {
-                builder.remove(qualifier.annotationType());
+                remove(qualifier.annotationType(), ctx.getAnnotatedElement(), builder);
             }
             Synthetic synthetic = DirectReferenceFactory.syntheticProvider.get();
-            builder.add(synthetic);
+            add(synthetic, ctx.getAnnotatedElement(), builder);
 
             scopes.put(synthetic, scope);
             DirectReferenceExtension.this.qualifiers.putAll(synthetic, qualifiers);
@@ -120,7 +124,7 @@ public class DirectReferenceExtension implements Extension {
         if (synthetic != null && DirectReferenceFactory.NAMESPACE.equals(synthetic.namespace())) {
             Bean<?> bean = event.getBean();
             beansToRegister.addAll(DirectReferenceFactory.createDirectReferenceHolder(bean.getBeanClass(), bean.getTypes(), qualifiers.get(synthetic), null, synthetic,
-                    scopes.get(synthetic), manager, true));
+                scopes.get(synthetic), manager, true));
         }
     }
 
@@ -128,5 +132,9 @@ public class DirectReferenceExtension implements Extension {
         for (Bean<?> bean : beansToRegister) {
             event.addBean(bean);
         }
+    }
+
+    private <T> ClassicAnnotatedTypeBuilder<T> createAnnotatedTypeBuilder(AnnotatedType<T> annotatedType) {
+        return (ClassicAnnotatedTypeBuilder<T>) new ClassicAnnotatedTypeBuilder<T>().readFromType(annotatedType);
     }
 }

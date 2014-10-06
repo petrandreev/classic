@@ -7,6 +7,7 @@ import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
 
 import cz.muni.fi.xharting.classic.metadata.BeanDescriptor.BeanType;
@@ -18,6 +19,7 @@ import cz.muni.fi.xharting.classic.util.Seam2Utils;
  * @author Jozef Hartinger
  * 
  */
+@Exclude
 public class RoleDescriptor {
 
     private String name;

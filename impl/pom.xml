@@ -11,37 +11,65 @@
     <packaging>jar</packaging>
     <name>Classic Implementation</name>
     <properties>
-        <arquillian.junit.version>1.0.0.CR7</arquillian.junit.version>
         <dom4j.version>1.6.1</dom4j.version>
-        <jboss.as.version>7.1.0.CR1b</jboss.as.version>
-        <jboss.logging.version>3.1.0.CR2</jboss.logging.version>
-        <jboss.osgi.version>1.0.27</jboss.osgi.version>
-        <junit.version>4.10</junit.version>
-        <reflections.version>0.9.6_jboss_errai_r2</reflections.version>
-        <shrinkwrap.resolver.version>1.0.0-beta-5</shrinkwrap.resolver.version>
-        <shrinkwrap.version>1.0.0-cr-1</shrinkwrap.version>
+        <jboss.as.version>7.1.1.Final</jboss.as.version>
+        <wildfly.version>8.1.0.Final</wildfly.version>
+        <jboss.logging.version>3.1.0.GA</jboss.logging.version>
+        <junit.version>4.11</junit.version>
+        <reflections.version>0.9.8</reflections.version>
+        <jboss-vfs.version>3.1.0.Final</jboss-vfs.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.jboss</groupId>
+            <artifactId>jboss-vfs</artifactId>
+            <version>${jboss-vfs.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>cz.muni.fi.xharting.classic</groupId>
             <artifactId>classic-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jboss.solder</groupId>
-            <artifactId>solder-impl</artifactId>
-            <scope>compile</scope>
+            <groupId>org.apache.deltaspike.core</groupId>
+            <artifactId>deltaspike-core-impl</artifactId>
+        </dependency>
+        <!-- must be added to WAR for auto-registration, see: http://deltaspike.apache.org/documentation/servlet.html -->
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-servlet-module-impl</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
             <version>${dom4j.version}</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>${reflections.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        <!-- JEE API -->
+        <!-- JavaEE API -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
             <artifactId>hibernate-jpa-2.0-api</artifactId>
@@ -81,19 +109,12 @@
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
-            <version>${arquillian.junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-impl-maven</artifactId>
-            <version>${shrinkwrap.resolver.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap</groupId>
-            <artifactId>shrinkwrap-api</artifactId>
-            <version>${shrinkwrap.version}</version>
+            <artifactId>shrinkwrap-resolver-depchain</artifactId>
+            <type>pom</type>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -103,16 +124,22 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jboss.osgi.spi</groupId>
-            <artifactId>jbosgi-spi</artifactId>
-            <version>${jboss.osgi.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.jboss.logging</groupId>
             <artifactId>jboss-logging</artifactId>
             <version>${jboss.logging.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-core</artifactId>
+            <version>1.1.4.Final</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <profiles>
@@ -123,6 +150,9 @@
                     <name>incontainer-remote</name>
                 </property>
             </activation>
+            <properties>
+                <arquillian.launch>jbossas-remote-7</arquillian.launch>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.as</groupId>
@@ -130,16 +160,24 @@
                     <version>${jboss.as.version}</version>
                     <scope>test</scope>
                 </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.protocol</groupId>
+                    <artifactId>arquillian-protocol-servlet</artifactId>
+                    <scope>test</scope>
+                </dependency>
             </dependencies>
         </profile>
         <profile>
-            <id>jbossas-managed</id>
+            <id>jbossas-managed-7</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
                 <property>
                     <name>incontainer</name>
                 </property>
             </activation>
+            <properties>
+                <arquillian.launch>jbossas-managed-7</arquillian.launch>
+            </properties>
             <dependencies>
                 <dependency>
                     <groupId>org.jboss.as</groupId>
@@ -147,10 +185,42 @@
                     <version>${jboss.as.version}</version>
                     <scope>test</scope>
                 </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.protocol</groupId>
+                    <artifactId>arquillian-protocol-servlet</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>wildfly-managed-8</id>
+            <activation>
+            </activation>
+            <properties>
+                <arquillian.launch>wildfly-managed-8</arquillian.launch>
+            </properties>
+            <dependencies>
+                <dependency>
+                    <groupId>org.wildfly</groupId>
+                    <artifactId>wildfly-arquillian-container-managed</artifactId>
+                    <version>${wildfly.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <!-- <dependency> -->
+                <!-- <groupId>org.jboss.arquillian.protocol</groupId> -->
+                <!-- <artifactId>arquillian-protocol-servlet</artifactId> -->
+                <!-- <scope>test</scope> -->
+                <!-- </dependency> -->
             </dependencies>
         </profile>
     </profiles>
     <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -167,6 +237,10 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
+                    <trimStackTrace>false</trimStackTrace>
+                    <systemProperties>
+                        <arquillian.launch>${arquillian.launch}</arquillian.launch>
+                    </systemProperties>
                     <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
                 </configuration>
             </plugin>

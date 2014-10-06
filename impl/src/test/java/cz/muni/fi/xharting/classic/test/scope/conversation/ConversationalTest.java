@@ -21,6 +21,7 @@ public class ConversationalTest {
     }
 
     @Test(expected = NoConversationException.class)
+    @Conversational
     public void testNoConversationExceptionRaised(@Named("conversationalBean") ConversationalBean bean) {
         bean.ping();
     }

@@ -1,12 +1,12 @@
 package cz.muni.fi.xharting.classic.factory;
 
+import static org.jboss.solder.reflection.Reflections.invokeMethod;
+
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.BeanManager;
-
-import org.jboss.solder.reflection.Reflections;
 
 import cz.muni.fi.xharting.classic.scope.stateless.StatelessScoped;
 import cz.muni.fi.xharting.classic.util.CdiUtils;
@@ -39,7 +39,7 @@ public class UnwrappedBean extends AbstractLegacyFactory<Object> {
         CdiUtils.ManagedBeanInstance<?> host = CdiUtils.lookupBeanByInternalName(getName(), hostType, getManager());
 
         try {
-            return Reflections.invokeMethod(true, method, type, host.getInstance());
+            return invokeMethod(true, method, type, host.getInstance());
         } finally {
             host.getCreationalContext().release();
         }

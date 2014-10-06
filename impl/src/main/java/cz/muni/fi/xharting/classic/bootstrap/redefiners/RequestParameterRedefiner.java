@@ -1,29 +1,28 @@
 package cz.muni.fi.xharting.classic.bootstrap.redefiners;
 
+import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
 import org.jboss.seam.annotations.web.RequestParameter;
-import org.jboss.solder.literal.InjectLiteral;
-import org.jboss.solder.reflection.annotated.AnnotationBuilder;
-import org.jboss.solder.reflection.annotated.AnnotationRedefiner;
-import org.jboss.solder.reflection.annotated.RedefinitionContext;
 
-import cz.muni.fi.xharting.classic.util.literal.RequestParamLiteral;
+import cz.muni.fi.xharting.classic.util.deltaspike.metadata.AbstractAnnotationRedefiner;
+import cz.muni.fi.xharting.classic.util.deltaspike.metadata.RedefinitionContext;
+import cz.muni.fi.xharting.classic.util.literal.InjectLiteral;
+import cz.muni.fi.xharting.classic.util.literal.RequestParameterLiteral;
 
 /**
- * Provides trivial syntactic transformation of {@link RequestParameter} to its counterpart in Solder.
+ * Provides trivial syntactic transformation of {@link RequestParameter} to its counterpart in Classic.
  * 
  * @author Jozef Hartinger
  * 
  */
-public class RequestParameterRedefiner implements AnnotationRedefiner<RequestParameter> {
+public class RequestParameterRedefiner extends AbstractAnnotationRedefiner<RequestParameter> {
 
     @Override
     public void redefine(RedefinitionContext<RequestParameter> ctx) {
-        AnnotationBuilder builder = ctx.getAnnotationBuilder();
-        RequestParameter requestParameter = builder.getAnnotation(RequestParameter.class);
-        RequestParamLiteral replacement = new RequestParamLiteral(requestParameter.value());
-
-        builder.remove(RequestParameter.class);
-        builder.add(replacement);
-        builder.add(InjectLiteral.INSTANCE);
+        AnnotatedTypeBuilder<?> builder = ctx.getAnnotatedTypeBuilder();
+        RequestParameter requestParameter = ctx.getAnnotatedElement().getAnnotation(RequestParameter.class);
+        RequestParameterLiteral replacement = new RequestParameterLiteral(requestParameter.value());
+        remove(RequestParameter.class, ctx.getAnnotatedElement(), builder);
+        add(replacement, ctx.getAnnotatedElement(), builder);
+        add(InjectLiteral.INSTANCE, ctx.getAnnotatedElement(), builder);
     }
 }

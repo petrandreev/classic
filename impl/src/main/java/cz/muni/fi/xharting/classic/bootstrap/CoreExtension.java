@@ -20,7 +20,8 @@ import javax.inject.Named;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Namespace;
-import org.jboss.solder.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -48,7 +49,7 @@ import cz.muni.fi.xharting.classic.metadata.NamespaceDescriptor;
  */
 public class CoreExtension implements Extension {
 
-    private static final Logger log = Logger.getLogger(CoreExtension.class);
+    private static final Logger log = LoggerFactory.getLogger(CoreExtension.class);
 
     private ClassicBeanTransformer beanTransformer;
 
@@ -68,11 +69,13 @@ public class CoreExtension implements Extension {
 
         // process found components
         Set<Class<?>> classes = event.getScanner().getTypesAnnotatedWith(Name.class);
+        log.trace("Processing {} Seam 2 components", classes.size());
         Multimap<String, BeanDescriptor> discoveredManagedBeanDescriptors = HashMultimap.create();
         for (Class<?> clazz : classes) {
             BeanDescriptor beanDescriptor = new BeanDescriptor(clazz);
             discoveredManagedBeanDescriptors.put(beanDescriptor.getImplicitRole().getName(), beanDescriptor);
         }
+        log.trace("discoveredManagedBeanDescriptors: {}", discoveredManagedBeanDescriptors);
 
         // process namespaces so that we can load XML configuration
         Set<Class<?>> namespaceAnnotations = event.getScanner().getTypesAnnotatedWith(Namespace.class);
@@ -89,11 +92,11 @@ public class CoreExtension implements Extension {
         beanTransformer = new ClassicBeanTransformer(installationService, manager);
 
         // register annotated types for managed beans
-        log.debugv("Registering {0} additional annotated types.", beanTransformer.getAdditionalAnnotatedTypes().size());
+        log.debug("Registering {} additional annotated types.", beanTransformer.getAdditionalAnnotatedTypes().size());
         for (AnnotatedType<?> annotatedType : beanTransformer.getAdditionalAnnotatedTypes()) {
             Named named = annotatedType.getAnnotation(Named.class);
             if (named != null) // entities overriden by a direct reference bean are the case
-                log.debugv("Registering {0}", named.value());
+                log.debug("Registering {}", named.value());
             event.addAnnotatedType(annotatedType);
         }
 
@@ -117,24 +120,24 @@ public class CoreExtension implements Extension {
     }
 
     void registerFactories(@Observes AfterBeanDiscovery event, BeanManager manager) {
-        log.debugv("Registering {0} factories.", beanTransformer.getFactoryMethodsToRegister().size());
+        log.debug("Registering {} factories.", beanTransformer.getFactoryMethodsToRegister().size());
         for (Bean<?> factory : beanTransformer.getFactoryMethodsToRegister()) {
-            log.debugv("Registering {0}", factory);
+            log.debug("Registering {}", factory);
             event.addBean(factory);
         }
         Set<UnwrappedBean> unwrappedBeans = beanTransformer.getUnwrappedBeansToRegister();
-        log.debugv("Registering {0} unwrapping methods.", unwrappedBeans.size());
+        log.debug("Registering {} unwrapping methods.", unwrappedBeans.size());
         for (UnwrappedBean unwrappedBean : unwrappedBeans) {
-            log.debugv("Registering {0}", unwrappedBean);
+            log.debug("Registering {}", unwrappedBean);
             event.addBean(unwrappedBean);
         }
 
     }
 
     void registerObserverMethods(@Observes AfterBeanDiscovery event, BeanManager manager) {
-        log.debugv("Registering {0} observer methods.", beanTransformer.getObserverMethodsToRegister().size());
+        log.debug("Registering {} observer methods.", beanTransformer.getObserverMethodsToRegister().size());
         for (ObserverMethod<?> observerMethod : beanTransformer.getObserverMethodsToRegister()) {
-            log.debugv("Registering {0}", observerMethod);
+            log.debug("Registering {}", observerMethod);
             event.addObserverMethod(observerMethod);
         }
     }

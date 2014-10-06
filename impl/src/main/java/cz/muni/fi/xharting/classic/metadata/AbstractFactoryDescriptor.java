@@ -4,10 +4,12 @@ import java.lang.annotation.Annotation;
 
 import javax.enterprise.context.RequestScoped;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
 
 import cz.muni.fi.xharting.classic.util.Seam2Utils;
 
+@Exclude
 public abstract class AbstractFactoryDescriptor extends AbstractManagedInstanceDescriptor {
 
     private final String name;
@@ -26,7 +28,7 @@ public abstract class AbstractFactoryDescriptor extends AbstractManagedInstanceD
     public ScopeType getScope() {
         return scope;
     }
-    
+
     /**
      * Translates Seam 2 ScopeType to matching CDI scope.
      */

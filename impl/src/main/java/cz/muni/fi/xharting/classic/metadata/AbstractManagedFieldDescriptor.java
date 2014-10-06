@@ -1,10 +1,13 @@
 package cz.muni.fi.xharting.classic.metadata;
 
+import static org.jboss.solder.reflection.Reflections.setAccessible;
+
 import java.lang.reflect.Field;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
-import org.jboss.solder.reflection.Reflections;
 
+@Exclude
 public abstract class AbstractManagedFieldDescriptor {
 
     private final String specifiedName;
@@ -20,7 +23,7 @@ public abstract class AbstractManagedFieldDescriptor {
         this.specifiedScope = specifiedScope;
         this.field = field;
         this.bean = bean;
-        Reflections.setAccessible(field);
+        setAccessible(field);
     }
 
     public String getSpecifiedName() {

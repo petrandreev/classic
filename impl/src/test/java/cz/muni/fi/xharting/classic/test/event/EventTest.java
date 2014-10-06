@@ -116,7 +116,7 @@ public class EventTest {
     }
 
     @Test
-    @Ignore // CDI-124
+    @Ignore("CDI-124")
     public void testReception() {
     	Events events = Events.instance();
         events.raiseEvent("ignoredEvent");

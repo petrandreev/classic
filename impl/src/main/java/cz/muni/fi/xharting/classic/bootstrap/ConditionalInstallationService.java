@@ -10,7 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.jboss.solder.reflection.Reflections;
+import org.apache.deltaspike.core.util.ClassUtils;
+import org.jboss.seam.annotations.Install;
 import org.jboss.solder.util.Sortable;
 
 import com.google.common.collect.HashMultimap;
@@ -18,10 +19,10 @@ import com.google.common.collect.Multimap;
 
 import cz.muni.fi.xharting.classic.metadata.AbstractFactoryDescriptor;
 import cz.muni.fi.xharting.classic.metadata.AbstractObserverMethodDescriptor;
+import cz.muni.fi.xharting.classic.metadata.BeanDescriptor;
 import cz.muni.fi.xharting.classic.metadata.ElFactoryDescriptor;
 import cz.muni.fi.xharting.classic.metadata.ElObserverMethodDescriptor;
 import cz.muni.fi.xharting.classic.metadata.FactoryDescriptor;
-import cz.muni.fi.xharting.classic.metadata.BeanDescriptor;
 import cz.muni.fi.xharting.classic.metadata.ObserverMethodDescriptor;
 import cz.muni.fi.xharting.classic.metadata.RoleDescriptor;
 
@@ -151,7 +152,7 @@ public class ConditionalInstallationService {
     private boolean checkClassDependencies(BeanDescriptor descriptor) {
         for (String dependency : descriptor.getInstallDescriptor().getClassDependencies()) {
             try {
-                Reflections.classForName(dependency);
+                ClassUtils.loadClassForName(dependency);
             } catch (ClassNotFoundException e) {
                 return false;
             }

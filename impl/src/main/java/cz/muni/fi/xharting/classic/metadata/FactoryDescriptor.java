@@ -1,13 +1,15 @@
 package cz.muni.fi.xharting.classic.metadata;
 
+import static org.jboss.solder.reflection.Reflections.setAccessible;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
-import org.jboss.solder.reflection.Reflections;
 
 import cz.muni.fi.xharting.classic.scope.stateless.StatelessScoped;
 import cz.muni.fi.xharting.classic.util.Seam2Utils;
@@ -18,6 +20,7 @@ import cz.muni.fi.xharting.classic.util.Seam2Utils;
  * @author Jozef Hartinger
  * 
  */
+@Exclude
 public class FactoryDescriptor extends AbstractFactoryDescriptor {
 
     private BeanDescriptor bean;
@@ -29,7 +32,7 @@ public class FactoryDescriptor extends AbstractFactoryDescriptor {
         this.bean = bean;
         this.method = method;
         this.productType = method.getReturnType();
-        Reflections.setAccessible(method);
+        setAccessible(method);
     }
 
     public FactoryDescriptor(FactoryDescriptor original, BeanDescriptor bean) {

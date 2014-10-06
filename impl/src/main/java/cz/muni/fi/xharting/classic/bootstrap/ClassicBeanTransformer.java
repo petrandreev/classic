@@ -17,6 +17,8 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.ObserverMethod;
 import javax.interceptor.InterceptorBinding;
 
+import org.apache.deltaspike.core.api.literal.NamedLiteral;
+import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Logger;
@@ -24,10 +26,7 @@ import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.intercept.Interceptors;
 import org.jboss.seam.annotations.web.RequestParameter;
-import org.jboss.solder.literal.DefaultLiteral;
-import org.jboss.solder.literal.NamedLiteral;
 import org.jboss.solder.reflection.Synthetic;
-import org.jboss.solder.reflection.annotated.AnnotatedTypeBuilder;
 
 import com.google.common.collect.Sets;
 
@@ -55,6 +54,8 @@ import cz.muni.fi.xharting.classic.metadata.ObserverMethodDescriptor;
 import cz.muni.fi.xharting.classic.metadata.RoleDescriptor;
 import cz.muni.fi.xharting.classic.scope.page.PageScoped;
 import cz.muni.fi.xharting.classic.util.ScopeUtils;
+import cz.muni.fi.xharting.classic.util.deltaspike.metadata.ClassicAnnotatedTypeBuilder;
+import cz.muni.fi.xharting.classic.util.literal.DefaultLiteral;
 import cz.muni.fi.xharting.classic.util.literal.SynchronizedLiteral;
 import cz.muni.fi.xharting.classic.util.reference.DirectReferenceFactory;
 
@@ -89,7 +90,7 @@ public class ClassicBeanTransformer {
     }
 
     public ClassicBeanTransformer(Set<BeanDescriptor> managedBeanDescriptors, Set<AbstractFactoryDescriptor> factoryDescriptors,
-            Set<AbstractObserverMethodDescriptor> observerMethods, BeanManager manager) {
+        Set<AbstractObserverMethodDescriptor> observerMethods, BeanManager manager) {
         this.manager = manager;
         transformBeans(managedBeanDescriptors);
         transformFactories(factoryDescriptors);
@@ -105,12 +106,11 @@ public class ClassicBeanTransformer {
                     continue;
                 }
 
-                AnnotatedTypeBuilder<?> builder = createAnnotatedTypeBuilder(bean.getJavaClass());
+                ClassicAnnotatedTypeBuilder<?> builder = createAnnotatedTypeBuilder(bean.getJavaClass());
                 // Set name
                 builder.addToClass(new Seam2ManagedBean.Seam2ManagedBeanLiteral(role.getName()));
                 builder.addToClass(DefaultLiteral.INSTANCE);
-                if (bean.hasUnwrappingMethod()) // if it has one, the name is reserved for the unwrapping method
-                {
+                if (bean.hasUnwrappingMethod()) { // if it has one, the name is reserved for the unwrapping method
                     registerUnwrappedBean(role.getName(), bean.getJavaClass(), bean.getUnwrappingMethod().getGenericReturnType(), bean.getUnwrappingMethod(), manager);
                 } else {
                     builder.addToClass(new NamedLiteral(role.getName()));
@@ -176,7 +176,7 @@ public class ClassicBeanTransformer {
     protected boolean isInterceptorBinding(Annotation annotation) {
         Class<? extends Annotation> annotationClass = annotation.annotationType();
         return annotationClass.isAnnotationPresent(InterceptorBinding.class) || annotationClass.isAnnotationPresent(Interceptors.class)
-                || annotationClass.equals(Interceptors.class);
+            || annotationClass.equals(Interceptors.class);
     }
 
     protected void transformFactories(Set<AbstractFactoryDescriptor> factoryDescriptors) {
@@ -233,16 +233,16 @@ public class ClassicBeanTransformer {
 
         // add the synthetic qualifier to the type, so that it can be picked up by the reference holder
         Synthetic synthetic = syntheticProvider.get();
-        AnnotatedTypeBuilder<T> builder = new AnnotatedTypeBuilder<T>().readFromType(javaClass).addToClass(synthetic);
+        AnnotatedTypeBuilder<T> builder = createAnnotatedTypeBuilder(javaClass).addToClass(synthetic);
         addAnnotatedType(bean, builder.create());
 
         // create entity holder beans - will be registered later
         entityHolders.addAll(DirectReferenceFactory.createDirectReferenceHolder(javaClass, Sets.<Type> newHashSet(javaClass, Object.class),
-                Collections.<Annotation> singleton(DefaultLiteral.INSTANCE), role.getName(), synthetic, role.getCdiScope(), manager, false));
+            Collections.<Annotation> singleton(DefaultLiteral.INSTANCE), role.getName(), synthetic, role.getCdiScope(), manager, false));
     }
 
-    private <T> AnnotatedTypeBuilder<T> createAnnotatedTypeBuilder(Class<T> javaClass) {
-        return new AnnotatedTypeBuilder<T>().readFromType(javaClass);
+    private <T> ClassicAnnotatedTypeBuilder<T> createAnnotatedTypeBuilder(Class<T> javaClass) {
+        return (ClassicAnnotatedTypeBuilder<T>) new ClassicAnnotatedTypeBuilder<T>().readFromType(javaClass);
     }
 
     private <T> void registerInterceptors(BeanDescriptor descriptor, RoleDescriptor role, AnnotatedTypeBuilder<T> builder) {

@@ -17,9 +17,9 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
+import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
 import org.jboss.seam.annotations.Conversational;
-import org.jboss.solder.core.Veto;
-import org.jboss.solder.reflection.annotated.AnnotatedTypeBuilder;
 
 import cz.muni.fi.xharting.classic.bijection.OutjectedReferenceHolder;
 import cz.muni.fi.xharting.classic.scope.page.PageContext;
@@ -79,7 +79,7 @@ public class ScopeExtension implements Extension {
         builder.readFromType(OutjectedReferenceHolder.class);
         builder.addToClass(ScopeUtils.getScopeLiteral(scope));
         builder.addToClass(OutjectedReferenceHolder.ScopeQualifier.ScopeQualifierLiteral.valueOf(scope));
-        builder.removeFromClass(Veto.class);
+        builder.removeFromClass(Exclude.class);
         return builder.create();
     }
 }

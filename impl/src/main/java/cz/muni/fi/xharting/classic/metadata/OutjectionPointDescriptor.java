@@ -1,14 +1,16 @@
 package cz.muni.fi.xharting.classic.metadata;
 
+import static org.jboss.solder.reflection.Reflections.getFieldValue;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Out;
-import org.jboss.solder.reflection.Reflections;
 
 import cz.muni.fi.xharting.classic.util.Seam2Utils;
 
@@ -18,6 +20,7 @@ import cz.muni.fi.xharting.classic.util.Seam2Utils;
  * @author Jozef Hartinger
  * 
  */
+@Exclude
 public class OutjectionPointDescriptor extends AbstractManagedFieldDescriptor {
 
     public OutjectionPointDescriptor(String specifiedName, boolean required, ScopeType specifiedScope, Field field, BeanDescriptor bean) {
@@ -36,7 +39,7 @@ public class OutjectionPointDescriptor extends AbstractManagedFieldDescriptor {
     }
 
     public Object get(Object target) {
-        return Reflections.getFieldValue(getField(), target);
+        return getFieldValue(getField(), target);
     }
 
     /**

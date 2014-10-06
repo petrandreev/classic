@@ -1,5 +1,7 @@
 package cz.muni.fi.xharting.classic.metadata;
 
+import static org.jboss.solder.reflection.Reflections.setAccessible;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashSet;
@@ -12,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
@@ -26,9 +29,9 @@ import org.jboss.seam.annotations.Unwrap;
 import org.jboss.seam.annotations.datamodel.DataModel;
 import org.jboss.seam.annotations.datamodel.DataModelSelection;
 import org.jboss.seam.annotations.datamodel.DataModelSelectionIndex;
-import org.jboss.solder.logging.Logger;
-import org.jboss.solder.reflection.Reflections;
 import org.jboss.solder.util.Sortable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import cz.muni.fi.xharting.classic.config.ConfiguredManagedBean;
 
@@ -38,13 +41,14 @@ import cz.muni.fi.xharting.classic.config.ConfiguredManagedBean;
  * @author Jozef Hartinger
  * 
  */
+@Exclude
 public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements Sortable {
 
     public enum BeanType {
         MANAGED_BEAN, STATELESS, STATEFUL, SINGLETON, ENTITY;
     }
 
-    private static final Logger log = Logger.getLogger(BeanDescriptor.class);
+    private static final Logger log = LoggerFactory.getLogger(BeanDescriptor.class);
 
     private final Class<?> javaClass;
     private final BeanType beanType;
@@ -208,7 +212,7 @@ public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements
                         throw new IllegalStateException("component has multiple @Unwrap methods: " + javaClass.getName());
                     }
                     unwrappingMethod = method;
-                    Reflections.setAccessible(unwrappingMethod);
+                    setAccessible(unwrappingMethod);
                 }
             }
         }

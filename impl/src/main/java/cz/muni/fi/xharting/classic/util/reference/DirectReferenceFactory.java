@@ -1,5 +1,7 @@
 package cz.muni.fi.xharting.classic.util.reference;
 
+import static org.jboss.solder.reflection.Reflections.cast;
+
 import java.io.Serializable;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -11,7 +13,6 @@ import javax.enterprise.context.Dependent;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 
-import org.jboss.solder.reflection.Reflections;
 import org.jboss.solder.reflection.Synthetic;
 
 public class DirectReferenceFactory {
@@ -52,6 +53,6 @@ public class DirectReferenceFactory {
             holder = new DirectReferenceHolder<T>(scope, qualifier, manager);
             producer = new DirectReferenceProducer<T>(holder, type, types, qualifiers, name, manager, checkScope);
         }
-        return Reflections.cast(Arrays.asList(holder, producer));
+        return cast(Arrays.asList(holder, producer));
     }
 }

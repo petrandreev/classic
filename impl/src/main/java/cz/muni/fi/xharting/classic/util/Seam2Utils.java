@@ -8,9 +8,9 @@ import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 
+import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.intercept.Interceptors;
-import org.jboss.solder.reflection.annotated.AnnotatedTypeBuilder;
 
 import cz.muni.fi.xharting.classic.intercept.ClassicInterceptorBinding;
 import cz.muni.fi.xharting.classic.scope.page.PageScoped;

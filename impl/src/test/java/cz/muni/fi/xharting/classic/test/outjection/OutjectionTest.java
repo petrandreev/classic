@@ -1,20 +1,5 @@
 package cz.muni.fi.xharting.classic.test.outjection;
 
-import static cz.muni.fi.xharting.classic.test.util.Archives.createSeamClassic;
-import static cz.muni.fi.xharting.classic.test.util.Archives.createSeamWebApp;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-
-import junit.framework.Assert;
-
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -23,6 +8,16 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.solder.el.Expressions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+
+import static cz.muni.fi.xharting.classic.test.util.Archives.createSeamWebApp;
+import static org.junit.Assert.*;
 
 @RunWith(Arquillian.class)
 public class OutjectionTest {
@@ -105,7 +100,7 @@ public class OutjectionTest {
             @Named("outjectingBeanBrokenRequiredFieldNull") OutjectingBeanBrokenRequiredFieldNull brokenOutjectingBean) {
         try {
             brokenOutjectingBean.ping();
-            Assert.fail("Expected exception not thrown");
+            fail("Expected exception not thrown");
         } catch (RequiredException e) {
             // expected
         }
