@@ -2,7 +2,7 @@ package cz.muni.fi.xharting.classic.util.reference;
 
 import java.io.Serializable;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
+import javax.enterprise.inject.Vetoed;
 
 /**
  * Simple reference carrier. It is registered as bean using {@link DirectReferenceHolder}.
@@ -11,7 +11,7 @@ import org.apache.deltaspike.core.api.exclude.Exclude;
  * 
  * @param <T> type of reference
  */
-@Exclude
+@Vetoed
 public class DirectReferenceHolderImpl<T> implements Serializable {
 
     private static final long serialVersionUID = 8143843055252632981L;

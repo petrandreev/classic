@@ -15,6 +15,7 @@ import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.ObserverMethod;
+import javax.inject.Named;
 import javax.interceptor.InterceptorBinding;
 
 import org.apache.deltaspike.core.api.literal.NamedLiteral;
@@ -23,10 +24,12 @@ import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Logger;
 import org.jboss.seam.annotations.Synchronized;
+import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.intercept.Interceptors;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.solder.reflection.Synthetic;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
@@ -37,6 +40,7 @@ import cz.muni.fi.xharting.classic.bootstrap.redefiners.CreateAnnotationRedefine
 import cz.muni.fi.xharting.classic.bootstrap.redefiners.DestroyAnnotationRedefiner;
 import cz.muni.fi.xharting.classic.bootstrap.redefiners.LoggerRedefiner;
 import cz.muni.fi.xharting.classic.bootstrap.redefiners.RequestParameterRedefiner;
+import cz.muni.fi.xharting.classic.bootstrap.redefiners.TransactionalAnnotationRedefiner;
 import cz.muni.fi.xharting.classic.event.LegacyElObserverMethod;
 import cz.muni.fi.xharting.classic.event.LegacyObserverMethod;
 import cz.muni.fi.xharting.classic.factory.LegacyElFactory;
@@ -52,7 +56,6 @@ import cz.muni.fi.xharting.classic.metadata.ElObserverMethodDescriptor;
 import cz.muni.fi.xharting.classic.metadata.FactoryDescriptor;
 import cz.muni.fi.xharting.classic.metadata.ObserverMethodDescriptor;
 import cz.muni.fi.xharting.classic.metadata.RoleDescriptor;
-import cz.muni.fi.xharting.classic.scope.page.PageScoped;
 import cz.muni.fi.xharting.classic.util.ScopeUtils;
 import cz.muni.fi.xharting.classic.util.deltaspike.metadata.ClassicAnnotatedTypeBuilder;
 import cz.muni.fi.xharting.classic.util.literal.DefaultLiteral;
@@ -61,15 +64,15 @@ import cz.muni.fi.xharting.classic.util.reference.DirectReferenceFactory;
 
 /**
  * This class is responsible for transforming metadata gathered during the scanning phase to CDI SPI objects.
- * 
+ *
  * The annotated types representing class components are modified directly.
- * 
+ *
  * {@link Bean} instances are created for factory methods, unwrapping methods and JPA entities.
- * 
+ *
  * {@link ObserverMethod} instances are created for observer methods.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class ClassicBeanTransformer {
 
@@ -123,6 +126,8 @@ public class ClassicBeanTransformer {
                 // Lifecycle event interceptor methods
                 builder.redefine(Create.class, new CreateAnnotationRedefiner());
                 builder.redefine(Destroy.class, new DestroyAnnotationRedefiner());
+                // transaction attributes
+                builder.redefine(Transactional.class, new TransactionalAnnotationRedefiner());
                 // Special injection points
                 builder.redefine(RequestParameter.class, new RequestParameterRedefiner());
                 builder.redefine(Logger.class, new LoggerRedefiner());
@@ -248,9 +253,9 @@ public class ClassicBeanTransformer {
     private <T> void registerInterceptors(BeanDescriptor descriptor, RoleDescriptor role, AnnotatedTypeBuilder<T> builder) {
         // support for injection/outjection
         builder.addToClass(BijectionInterceptor.Bijected.BijectedLiteral.INSTANCE);
-        // session, conversation and page scoped components are synchronized automatically
+        // session, conversation and view scoped components are synchronized automatically
         Class<? extends Annotation> scope = role.getCdiScope();
-        if (!descriptor.getJavaClass().isAnnotationPresent(Synchronized.class) && SessionScoped.class.equals(scope) || PageScoped.class.equals(scope)) {
+        if (!descriptor.getJavaClass().isAnnotationPresent(Synchronized.class) && SessionScoped.class.equals(scope)) {
             builder.addToClass(SynchronizedLiteral.DEFAULT_INSTANCE);
         }
     }

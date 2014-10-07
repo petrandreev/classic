@@ -3,6 +3,7 @@ package cz.muni.fi.xharting.classic.test.scope.page;
 import static cz.muni.fi.xharting.classic.test.util.Archives.createSeamWebApp;
 import static org.junit.Assert.assertEquals;
 
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
@@ -12,7 +13,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import cz.muni.fi.xharting.classic.metadata.MetadataRegistry;
-import cz.muni.fi.xharting.classic.scope.page.PageScoped;
 
 @RunWith(Arquillian.class)
 public class PageScopeTest {
@@ -27,7 +27,7 @@ public class PageScopeTest {
 
     @Test
     public void testScope() {
-        assertEquals(PageScoped.class, registry.getManagedBeanDescriptorByName("foo").getImplicitRole().getCdiScope());
+        assertEquals(ViewScoped.class, registry.getManagedBeanDescriptorByName("foo").getImplicitRole().getCdiScope());
     }
 
     // TODO expand

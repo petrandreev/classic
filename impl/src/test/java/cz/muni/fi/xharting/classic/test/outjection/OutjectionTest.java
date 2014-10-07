@@ -1,23 +1,27 @@
 package cz.muni.fi.xharting.classic.test.outjection;
 
-import org.jboss.arquillian.container.test.api.Deployment;
-import org.jboss.arquillian.container.test.api.RunAsClient;
-import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.seam.RequiredException;
-import org.jboss.shrinkwrap.api.spec.WebArchive;
-import org.jboss.solder.el.Expressions;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import static cz.muni.fi.xharting.classic.test.util.Archives.createSeamWebApp;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import javax.inject.Inject;
-import javax.inject.Named;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-import static cz.muni.fi.xharting.classic.test.util.Archives.createSeamWebApp;
-import static org.junit.Assert.*;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.jboss.arquillian.container.test.api.Deployment;
+import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.test.api.ArquillianResource;
+import org.jboss.seam.RequiredException;
+import org.jboss.shrinkwrap.api.spec.WebArchive;
+import org.jboss.solder.el.Expressions;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
 public class OutjectionTest {
@@ -28,16 +32,6 @@ public class OutjectionTest {
     private OutjectingBean outjectingBean;
     @Inject
     private Expressions expressions;
-    // @ArquillianResource
-    private URL contextPath;
-
-    public OutjectionTest() {
-        try {
-            contextPath = new URL("http://localhost:8080");
-        } catch (Throwable e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     @Deployment
     public static WebArchive getDeployment() {
@@ -97,7 +91,7 @@ public class OutjectionTest {
 
     @Test
     public void testRequiredValidation(
-            @Named("outjectingBeanBrokenRequiredFieldNull") OutjectingBeanBrokenRequiredFieldNull brokenOutjectingBean) {
+        @Named("outjectingBeanBrokenRequiredFieldNull") OutjectingBeanBrokenRequiredFieldNull brokenOutjectingBean) {
         try {
             brokenOutjectingBean.ping();
             fail("Expected exception not thrown");
@@ -113,8 +107,8 @@ public class OutjectionTest {
 
     @Test
     @RunAsClient
-    public void testOutjectedValuesAccessibleFromJsf() throws Exception {
-        String homepage = doGet("/test/home.jsf");
+    public void testOutjectedValuesAccessibleFromJsf(@ArquillianResource URL contextPath) throws Exception {
+        String homepage = doGet(contextPath, "/test/home.jsf");
         assertTrue(verifyValue(homepage, "alpha", "alpha"));
         assertTrue(verifyValue(homepage, "bravo", "bravo"));
         assertTrue(verifyValue(homepage, "charlie", "charlie"));
@@ -128,7 +122,7 @@ public class OutjectionTest {
         return content.contains(key + ":" + value);
     }
 
-    private String doGet(String path) throws IOException {
+    private String doGet(URL contextPath, String path) throws IOException {
         BufferedReader reader = null;
         try {
             URL homepage = new URL(contextPath, path);

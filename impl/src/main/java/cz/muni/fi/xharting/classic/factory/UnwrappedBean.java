@@ -8,6 +8,11 @@ import java.lang.reflect.Type;
 import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.BeanManager;
 
+import org.jboss.weld.bean.BeanIdentifiers;
+import org.jboss.weld.bean.StringBeanIdentifier;
+import org.jboss.weld.serialization.spi.BeanIdentifier;
+
+import cz.muni.fi.xharting.classic.metadata.FactoryDescriptor;
 import cz.muni.fi.xharting.classic.scope.stateless.StatelessScoped;
 import cz.muni.fi.xharting.classic.util.CdiUtils;
 
@@ -31,6 +36,11 @@ public class UnwrappedBean extends AbstractLegacyFactory<Object> {
         this.hostType = hostType;
         this.type = method.getReturnType();
         addTypes(Object.class, genericBeanType);
+        identifier = createId(this);
+    }
+
+    private static BeanIdentifier createId(UnwrappedBean attributes) {
+        return new StringBeanIdentifier(BeanIdentifiers.forSyntheticBean(attributes, attributes.hostType));
     }
 
     @Override

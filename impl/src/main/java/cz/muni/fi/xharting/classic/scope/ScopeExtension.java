@@ -11,19 +11,18 @@ import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.enterprise.event.Observes;
+import javax.enterprise.inject.Vetoed;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
+import javax.faces.view.ViewScoped;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
 import org.jboss.seam.annotations.Conversational;
 
 import cz.muni.fi.xharting.classic.bijection.OutjectedReferenceHolder;
-import cz.muni.fi.xharting.classic.scope.page.PageContext;
-import cz.muni.fi.xharting.classic.scope.page.PageScoped;
 import cz.muni.fi.xharting.classic.scope.stateless.StatelessContext;
 import cz.muni.fi.xharting.classic.scope.stateless.StatelessScoped;
 import cz.muni.fi.xharting.classic.util.ScopeUtils;
@@ -42,7 +41,7 @@ public class ScopeExtension implements Extension {
         List<Class<? extends Annotation>> statefulScopesBuilder = new LinkedList<Class<? extends Annotation>>();
         statefulScopesBuilder = new ArrayList<Class<? extends Annotation>>();
         statefulScopesBuilder.add(RequestScoped.class);
-        statefulScopesBuilder.add(PageScoped.class);
+        statefulScopesBuilder.add(ViewScoped.class);
         statefulScopesBuilder.add(ConversationScoped.class);
         statefulScopesBuilder.add(SessionScoped.class);
         statefulScopesBuilder.add(ApplicationScoped.class);
@@ -53,19 +52,16 @@ public class ScopeExtension implements Extension {
         return statefulScopes;
     }
 
-    void registerConversational(@Observes BeforeBeanDiscovery event)
-    {
+    void registerConversational(@Observes BeforeBeanDiscovery event) {
         event.addInterceptorBinding(Conversational.class);
     }
-    
+
     void registerScopes(@Observes BeforeBeanDiscovery event) {
         event.addScope(StatelessScoped.class, true, false);
-        event.addScope(PageScoped.class, true, true);
     }
 
     void registerContexts(@Observes AfterBeanDiscovery event, BeanManager manager) {
         event.addContext(new StatelessContext());
-        event.addContext(new PageContext());
     }
 
     void registerOutjectedReferenceHolders(@Observes BeforeBeanDiscovery event, BeanManager manager) {
@@ -79,7 +75,7 @@ public class ScopeExtension implements Extension {
         builder.readFromType(OutjectedReferenceHolder.class);
         builder.addToClass(ScopeUtils.getScopeLiteral(scope));
         builder.addToClass(OutjectedReferenceHolder.ScopeQualifier.ScopeQualifierLiteral.valueOf(scope));
-        builder.removeFromClass(Exclude.class);
+        builder.removeFromClass(Vetoed.class);
         return builder.create();
     }
 }

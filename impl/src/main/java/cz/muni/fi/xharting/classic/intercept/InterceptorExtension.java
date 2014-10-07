@@ -13,6 +13,7 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
+import javax.enterprise.inject.spi.WithAnnotations;
 
 import org.jboss.seam.annotations.intercept.Interceptor;
 import org.jboss.seam.annotations.intercept.InterceptorType;
@@ -60,7 +61,7 @@ public class InterceptorExtension implements Extension {
         }
         if (interceptorClasses.length > 1) {
             throw new IllegalArgumentException(
-                    "Legacy interceptor bindings that bind to multiple interceptors are not supported. Sorry");
+                "Legacy interceptor bindings that bind to multiple interceptors are not supported. Sorry");
         }
         if (interceptorClasses.length == 1) {
             Annotation binding = new ClassicInterceptorBindingLiteral(interceptorClasses[0]);
@@ -79,21 +80,19 @@ public class InterceptorExtension implements Extension {
     /**
      * Scan for legacy interceptors.
      */
-    <T> void registerInterceptors(@Observes ProcessAnnotatedType<T> event, BeanManager manager) {
-        if (event.getAnnotatedType().isAnnotationPresent(Interceptor.class)) {
-            AnnotatedType<T> type = event.getAnnotatedType();
+    <T> void registerInterceptors(@Observes @WithAnnotations(Interceptor.class) ProcessAnnotatedType<T> event, BeanManager manager) {
+        AnnotatedType<T> type = event.getAnnotatedType();
 
-            validateInterceptorAnnotation(type.getAnnotation(Interceptor.class), type.getJavaClass());
+        validateInterceptorAnnotation(type.getAnnotation(Interceptor.class), type.getJavaClass());
 
-            ClassicInterceptor<T> interceptor = null;
-            if (Serializable.class.isAssignableFrom(type.getJavaClass())) {
-                interceptor = new PassivationCapableClassicInterceptor<T>(type, manager);
-            } else {
-                interceptor = new ClassicInterceptor<T>(event.getAnnotatedType(), manager);
-            }
-            transformedInterceptors.add(interceptor);
-            event.veto();
+        ClassicInterceptor<T> interceptor = null;
+        if (Serializable.class.isAssignableFrom(type.getJavaClass())) {
+            interceptor = new PassivationCapableClassicInterceptor<T>(type, manager);
+        } else {
+            interceptor = new ClassicInterceptor<T>(event.getAnnotatedType(), manager);
         }
+        transformedInterceptors.add(interceptor);
+        event.veto();
     }
 
     /**

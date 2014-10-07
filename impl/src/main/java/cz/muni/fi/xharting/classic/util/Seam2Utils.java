@@ -7,13 +7,13 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 
 import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.intercept.Interceptors;
 
 import cz.muni.fi.xharting.classic.intercept.ClassicInterceptorBinding;
-import cz.muni.fi.xharting.classic.scope.page.PageScoped;
 import cz.muni.fi.xharting.classic.scope.stateless.StatelessScoped;
 
 public class Seam2Utils {
@@ -33,7 +33,7 @@ public class Seam2Utils {
             case EVENT:
                 return RequestScoped.class;
             case PAGE:
-                return PageScoped.class;
+                return ViewScoped.class;
             case CONVERSATION:
                 return ConversationScoped.class;
             case SESSION:
@@ -70,7 +70,7 @@ public class Seam2Utils {
                         builder.removeFromMethod(method, legacyMetaAnnotation.annotationType());
                         for (Class<?> interceptorClass : legacyMetaAnnotation.value()) {
                             builder.addToMethod(method, new ClassicInterceptorBinding.ClassicInterceptorBindingLiteral(
-                                    interceptorClass));
+                                interceptorClass));
                         }
                     }
                 }

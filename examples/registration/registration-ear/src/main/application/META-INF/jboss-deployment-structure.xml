@@ -3,14 +3,7 @@
     <ear-subdeployments-isolated>false</ear-subdeployments-isolated>
     <deployment>
         <dependencies>
-            <module name="org.jboss.as.web" />
+            <module name="org.jboss.as.web" export="true" />
         </dependencies>
     </deployment>
-    
-    <!-- TODO temporary workaround -->
-    <sub-deployment name="registration-ejb.jar">
-        <dependencies>
-            <module name="org.jboss.as.web" />
-        </dependencies>
-    </sub-deployment>
 </jboss-deployment-structure>

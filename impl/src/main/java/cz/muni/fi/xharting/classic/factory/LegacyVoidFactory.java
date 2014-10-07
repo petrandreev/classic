@@ -2,9 +2,13 @@ package cz.muni.fi.xharting.classic.factory;
 
 import java.lang.annotation.Annotation;
 
+import javax.enterprise.inject.spi.BeanAttributes;
 import javax.enterprise.inject.spi.BeanManager;
 
 import org.jboss.solder.reflection.HierarchyDiscovery;
+import org.jboss.weld.bean.BeanIdentifiers;
+import org.jboss.weld.bean.StringBeanIdentifier;
+import org.jboss.weld.serialization.spi.BeanIdentifier;
 
 import cz.muni.fi.xharting.classic.bijection.RewritableContextManager;
 import cz.muni.fi.xharting.classic.metadata.FactoryDescriptor;
@@ -30,6 +34,11 @@ public class LegacyVoidFactory extends LegacyFactory {
         field = findMatchingField(descriptor);
         scope = field.getCdiScope();
         initType(descriptor);
+        identifier = createId(descriptor, this);
+    }
+
+    private static BeanIdentifier createId(FactoryDescriptor descriptor, LegacyVoidFactory attributes) {
+        return new StringBeanIdentifier(BeanIdentifiers.forSyntheticBean(attributes, attributes.field.getType()));
     }
 
     private OutjectionPointDescriptor findMatchingField(FactoryDescriptor factory) {

@@ -1,21 +1,22 @@
 <arquillian xmlns="http://jboss.org/schema/arquillian" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
+    xsi:schemaLocation="
         http://jboss.org/schema/arquillian
         http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
-<!-- 	<defaultProtocol type="Servlet 3.0" /> -->
-	<engine>
-		<property name="deploymentExportPath">target/deployment</property>
-	</engine>
-	<container qualifier="wildfly-managed-8">
-		<configuration>
-			<property name="jbossHome">${wildfly.home}</property>
-			<property name="javaVmArguments">-Xms256m -Xmx1024m -XX:MaxPermSize=256m -server -Dorg.jboss.weld.nonPortableMode=true -Djava.util.logging.manager=org.jboss.logmanager.LogManager</property>
-		</configuration>
-	</container>
-	<container qualifier="jbossas-managed-7" default="true">
-		<configuration>
-			<property name="jbossHome">${jboss.home}</property>
-			<property name="javaVmArguments">-Xms256m -Xmx1024m -XX:MaxPermSize=256m -server -Djava.util.logging.manager=org.jboss.logmanager.LogManager</property>
-		</configuration>
-	</container>
+    <!-- <defaultProtocol type="Servlet 3.0" /> -->
+    <engine>
+        <property name="deploymentExportPath">target/deployment</property>
+    </engine>
+    <container qualifier="wildfly-managed-8" default="true">
+        <configuration>
+            <property name="jbossHome">${wildfly.home}</property>
+            <!-- -Dorg.jboss.weld.nonPortableMode=true -->
+            <property name="javaVmArguments">-Xms256m -Xmx1024m -XX:MaxPermSize=256m -server -Djava.util.logging.manager=org.jboss.logmanager.LogManager</property>
+        </configuration>
+    </container>
+    <extension qualifier="transaction">
+        <property name="manager">${arquillian.transaction.manager}</property>
+    </extension>
+    <extension qualifier="webdriver-phantomjs">
+        <property name="browser">phantomjs</property>
+    </extension>
 </arquillian>

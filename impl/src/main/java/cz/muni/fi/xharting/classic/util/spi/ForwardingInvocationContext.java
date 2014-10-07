@@ -1,5 +1,6 @@
 package cz.muni.fi.xharting.classic.util.spi;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Map;
 
@@ -18,6 +19,11 @@ public abstract class ForwardingInvocationContext implements InvocationContext {
     @Override
     public Object getTarget() {
         return getDelegate().getTarget();
+    }
+
+    @Override
+    public Constructor<?> getConstructor() {
+        return getDelegate().getConstructor();
     }
 
     @Override

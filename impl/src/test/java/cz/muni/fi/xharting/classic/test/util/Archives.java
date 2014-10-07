@@ -59,7 +59,7 @@ public class Archives {
         if (bundleSeamClassic) {
             war.addAsLibrary(createSeamClassic()).addAsLibraries(DELTASPIKE_CORE, DELTASPIKE_MODULE_SERVLET, REFLECTIONS);
         }
-        // log.trace(war.toString(true));
+        log.trace(war.toString(true));
         return war;
     }
 

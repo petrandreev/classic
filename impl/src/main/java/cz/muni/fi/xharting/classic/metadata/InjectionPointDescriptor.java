@@ -4,17 +4,16 @@ import static org.jboss.solder.reflection.Reflections.setFieldValue;
 
 import java.lang.reflect.Field;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.In;
 
 /**
  * Represents a field annotated with the {@link In} annotation.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
-@Exclude
+
 public class InjectionPointDescriptor extends AbstractManagedFieldDescriptor {
 
     private final boolean create;

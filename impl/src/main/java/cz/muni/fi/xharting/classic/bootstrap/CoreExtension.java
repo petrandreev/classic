@@ -16,10 +16,12 @@ import javax.enterprise.inject.spi.InjectionTarget;
 import javax.enterprise.inject.spi.ObserverMethod;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import javax.enterprise.inject.spi.ProcessInjectionTarget;
+import javax.enterprise.inject.spi.WithAnnotations;
 import javax.inject.Named;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Namespace;
+import org.jboss.seam.annotations.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,7 +89,7 @@ public class CoreExtension implements Extension {
 
         // process conditional installation
         ConditionalInstallationService installationService = new ConditionalInstallationService(managedBeanDescriptors.values(), configuration.getFactories(),
-                configuration.getObserverMethods());
+            configuration.getObserverMethods());
         installationService.filterInstallableComponents();
         beanTransformer = new ClassicBeanTransformer(installationService, manager);
 
@@ -107,15 +109,14 @@ public class CoreExtension implements Extension {
     /**
      * We cannot simply veto all beans and register our ones since that does not work for EJBs.
      */
-    <T> void modifyAnnotatedTypes(@Observes ProcessAnnotatedType<T> event) {
-        if (event.getAnnotatedType().isAnnotationPresent(Name.class)) {
-            AnnotatedType<T> type = event.getAnnotatedType();
-            AnnotatedType<T> modifiedType = beanTransformer.getModifiedAnnotatedType(type.getJavaClass());
-            if (modifiedType != null) {
-                event.setAnnotatedType(modifiedType);
-            } else {
-                event.veto();
-            }
+    <T> void modifyAnnotatedTypes(@Observes @WithAnnotations(Name.class) ProcessAnnotatedType<T> event) {
+        AnnotatedType<T> type = event.getAnnotatedType();
+        AnnotatedType<T> modifiedType = beanTransformer.getModifiedAnnotatedType(type.getJavaClass());
+        if (modifiedType != null) {
+            log.trace("modifyAnnotatedTypes({})->{}", type.getJavaClass(), modifiedType.getAnnotation(Named.class));
+            event.setAnnotatedType(modifiedType);
+        } else {
+            event.veto();
         }
     }
 

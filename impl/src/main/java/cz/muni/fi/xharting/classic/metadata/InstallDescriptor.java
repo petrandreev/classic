@@ -2,16 +2,15 @@ package cz.muni.fi.xharting.classic.metadata;
 
 import java.util.Arrays;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.annotations.Install;
 
 /**
  * Holds information read from the {@link Install} annotation.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
-@Exclude
+
 public class InstallDescriptor {
 
     private final boolean installed;

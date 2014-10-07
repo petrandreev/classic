@@ -1,15 +1,21 @@
 package cz.muni.fi.xharting.classic.util.spi;
 
+import java.util.List;
 import java.util.Map;
+
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.metamodel.Metamodel;
 
 /**
@@ -221,5 +227,62 @@ public abstract class ForwardingEntityManager implements EntityManager {
     @Override
     public Object getDelegate() {
         return getEntityManagerDelegate().getDelegate();
+    }
+
+    //JPA 2.1 stuff
+    
+    @Override
+    public Query createQuery(CriteriaUpdate updateQuery) {
+        return getEntityManagerDelegate().createQuery(updateQuery);
+    }
+
+    @Override
+    public Query createQuery(CriteriaDelete deleteQuery) {
+        return getEntityManagerDelegate().createQuery(deleteQuery);
+    }
+
+    @Override
+    public StoredProcedureQuery createNamedStoredProcedureQuery(String name) {
+        return getEntityManagerDelegate().createNamedStoredProcedureQuery(name);
+    }
+
+    @Override
+    public StoredProcedureQuery createStoredProcedureQuery(String procedureName) {
+        return getEntityManagerDelegate().createStoredProcedureQuery(procedureName);
+    }
+
+    @Override
+    public StoredProcedureQuery createStoredProcedureQuery(String procedureName, Class... resultClasses) {
+        return getEntityManagerDelegate().createStoredProcedureQuery(procedureName, resultClasses);
+    }
+
+    @Override
+    public StoredProcedureQuery createStoredProcedureQuery(String procedureName, String... resultSetMappings) {
+        return getEntityManagerDelegate().createStoredProcedureQuery(procedureName, resultSetMappings);
+    }
+
+    @Override
+    public boolean isJoinedToTransaction() {
+        return getEntityManagerDelegate().isJoinedToTransaction();
+    }
+
+    @Override
+    public <T> EntityGraph<T> createEntityGraph(Class<T> rootType) {
+        return getEntityManagerDelegate().createEntityGraph(rootType);
+    }
+
+    @Override
+    public EntityGraph<?> createEntityGraph(String graphName) {
+        return getEntityManagerDelegate().createEntityGraph(graphName);
+    }
+
+    @Override
+    public EntityGraph<?> getEntityGraph(String graphName) {
+        return getEntityManagerDelegate().getEntityGraph(graphName);
+    }
+
+    @Override
+    public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> entityClass) {
+        return getEntityManagerDelegate().getEntityGraphs(entityClass);
     }
 }

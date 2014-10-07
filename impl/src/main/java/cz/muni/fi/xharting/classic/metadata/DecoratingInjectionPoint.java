@@ -7,16 +7,14 @@ import java.lang.reflect.Field;
 
 import javax.persistence.PersistenceContext;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
-
 /**
  * Represents an EE injected field that can be decorated, e.g. {@link PersistenceContext} field.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  * @param <T> type of field
  */
-@Exclude
+
 public class DecoratingInjectionPoint<T> {
 
     private Field field;

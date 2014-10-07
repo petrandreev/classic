@@ -1,15 +1,14 @@
 package cz.muni.fi.xharting.classic.metadata;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
 
 /**
  * Represents a factory method configured in the component descriptor file.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
-@Exclude
+
 public class ElFactoryDescriptor extends AbstractFactoryDescriptor {
 
     private final String expression;

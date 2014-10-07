@@ -7,16 +7,16 @@ import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 
 import org.apache.deltaspike.core.api.literal.ApplicationScopedLiteral;
 import org.apache.deltaspike.core.api.literal.ConversationScopedLiteral;
-import org.apache.deltaspike.core.api.literal.DefaultLiteral;
 import org.apache.deltaspike.core.api.literal.DependentScopeLiteral;
 import org.apache.deltaspike.core.api.literal.RequestScopedLiteral;
 import org.apache.deltaspike.core.api.literal.SessionScopeLiteral;
 
-import cz.muni.fi.xharting.classic.scope.page.PageScoped;
 import cz.muni.fi.xharting.classic.scope.stateless.StatelessScoped;
+import cz.muni.fi.xharting.classic.util.literal.ViewScopedLiteral;
 
 public class ScopeUtils {
 
@@ -52,8 +52,8 @@ public class ScopeUtils {
         if (StatelessScoped.class.equals(clazz)) {
             return StatelessScoped.StatelessScopedLiteral.INSTANCE;
         }
-        if (PageScoped.class.equals(clazz)) {
-            return PageScoped.PageScopedLiteral.INSTANCE;
+        if (ViewScoped.class.equals(clazz)) {
+            return ViewScopedLiteral.INSTANCE;
         }
         throw new IllegalArgumentException("Unknown scope: " + clazz.getName());
     }

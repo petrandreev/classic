@@ -10,22 +10,27 @@ import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionPoint;
+import javax.enterprise.inject.spi.PassivationCapable;
 
 import org.apache.deltaspike.core.api.literal.NamedLiteral;
+import org.jboss.weld.serialization.spi.BeanIdentifier;
+
+import cz.muni.fi.xharting.classic.metadata.FactoryDescriptor;
 
 /**
  * Common operations for a legacy factory.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  * @param <T>
  */
-public abstract class AbstractLegacyFactory<T> implements Bean<T> {
+public abstract class AbstractLegacyFactory<T> implements Bean<T>, PassivationCapable {
 
     private final String name;
     private final Class<? extends Annotation> scope;
     private final BeanManager manager;
     private final Set<Type> types = new HashSet<Type>();
+    protected BeanIdentifier identifier;
 
     public AbstractLegacyFactory(String name, Class<? extends Annotation> scope, BeanManager manager) {
         this.name = name;
@@ -86,6 +91,21 @@ public abstract class AbstractLegacyFactory<T> implements Bean<T> {
     @Override
     public void destroy(T instance, CreationalContext<T> creationalContext) {
         creationalContext.release();
+    }
+
+    @Override
+    public int hashCode() {
+        return identifier.hashCode();
+    }
+
+    @Override
+    public String getId() {
+        return identifier.asString();
+    }
+
+    @Override
+    public String toString() {
+        return getId();
     }
 
     protected BeanManager getManager() {

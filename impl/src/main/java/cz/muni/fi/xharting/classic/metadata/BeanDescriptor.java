@@ -14,7 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Factory;
 import org.jboss.seam.annotations.In;
@@ -37,15 +36,19 @@ import cz.muni.fi.xharting.classic.config.ConfiguredManagedBean;
 
 /**
  * Represents a class-based Seam 2 component (managed bean or session bean).
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
-@Exclude
+
 public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements Sortable {
 
     public enum BeanType {
-        MANAGED_BEAN, STATELESS, STATEFUL, SINGLETON, ENTITY;
+        MANAGED_BEAN,
+        STATELESS,
+        STATEFUL,
+        SINGLETON,
+        ENTITY;
     }
 
     private static final Logger log = LoggerFactory.getLogger(BeanDescriptor.class);
@@ -82,7 +85,6 @@ public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements
         startup = javaClass.isAnnotationPresent(Startup.class);
         startupDependencies = processStartupDependencies(javaClass);
 
-
         // Register the implicit role - @Name + @Scope
         String implicitRoleName = javaClass.getAnnotation(Name.class).value();
         ScopeType implicitRoleScope = ScopeType.UNSPECIFIED;
@@ -107,9 +109,9 @@ public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements
         this.beanType = determineBeanType();
         install = new InstallDescriptor(javaClass, configuredManagedBean.getInstalled(), configuredManagedBean.getPrecedence());
         startup = (configuredManagedBean.getStartup() != null) ? configuredManagedBean.getStartup() : javaClass
-                .isAnnotationPresent(Startup.class);
+            .isAnnotationPresent(Startup.class);
         startupDependencies = (configuredManagedBean.getStartupDependends() != null) ? configuredManagedBean
-                .getStartupDependends() : processStartupDependencies(javaClass);
+            .getStartupDependends() : processStartupDependencies(javaClass);
 
         String implicitRoleName = configuredManagedBean.getName();
         ScopeType implicitRoleScope = ScopeType.UNSPECIFIED;
@@ -128,17 +130,17 @@ public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements
     public BeanDescriptor(ConfiguredManagedBean configuredManagedBean, BeanDescriptor managedBeanDescriptor) {
         super(configuredManagedBean.getAutoCreate(), managedBeanDescriptor.getJavaClass());
         if (configuredManagedBean.getClazz() != null
-                && !configuredManagedBean.getClazz().equals(managedBeanDescriptor.getJavaClass())) {
+            && !configuredManagedBean.getClazz().equals(managedBeanDescriptor.getJavaClass())) {
             throw new IllegalStateException("Cannot redefine metadata for a different class");
         }
         this.javaClass = managedBeanDescriptor.getJavaClass();
         this.beanType = determineBeanType();
         this.install = new InstallDescriptor(managedBeanDescriptor.getInstallDescriptor(),
-                configuredManagedBean.getInstalled(), configuredManagedBean.getPrecedence());
+            configuredManagedBean.getInstalled(), configuredManagedBean.getPrecedence());
         startup = (configuredManagedBean.getStartup() != null) ? configuredManagedBean.getStartup() : managedBeanDescriptor
-                .isStartup();
+            .isStartup();
         startupDependencies = (configuredManagedBean.getStartupDependends() != null) ? configuredManagedBean
-                .getStartupDependends() : managedBeanDescriptor.getStartupDependencies();
+            .getStartupDependends() : managedBeanDescriptor.getStartupDependencies();
 
         // copy roles
         String implicitRoleName = configuredManagedBean.getName();
@@ -231,7 +233,7 @@ public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements
                     outjectionPoints.add(new OutjectionPointDescriptor(out, field, this));
                 }
                 if (field.isAnnotationPresent(DataModel.class) || field.isAnnotationPresent(DataModelSelection.class)
-                        || field.isAnnotationPresent(DataModelSelectionIndex.class)) {
+                    || field.isAnnotationPresent(DataModelSelectionIndex.class)) {
                     log.warn("DataModels are not supported. " + field);
                 }
                 if (field.isAnnotationPresent(PersistenceContext.class) && EntityManager.class.equals(field.getType())) {
@@ -315,7 +317,7 @@ public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements
 
     @Override
     public String toString() {
-        return "ManagedBeanDescriptor [javaClass=" + javaClass + ", implicitRole=" + implicitRole + "]";
+        return "ManagedBeanDescriptor [javaClass=" + javaClass + ", implicitRole=" + implicitRole + ", roles=" + roles + "]";
     }
 
     @Override
@@ -326,7 +328,7 @@ public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements
     /**
      * Returns true if and only if the component is define by the {@link Name} annotation - as oposed to being configured in XML
      * with explicit class declaration where the class does not contain {@link Name}.
-     * 
+     *
      * @return
      */
     public boolean isDefinedByClass() {

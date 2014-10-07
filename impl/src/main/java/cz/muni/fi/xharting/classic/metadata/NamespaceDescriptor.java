@@ -3,16 +3,15 @@ package cz.muni.fi.xharting.classic.metadata;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.annotations.Namespace;
 
 /**
  * Represents a namespace definition read from the {@link Namespace} annotation.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
-@Exclude
+
 public class NamespaceDescriptor {
     private final String namespace;
     private final Set<String> packageNames = new HashSet<String>();

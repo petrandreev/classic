@@ -2,9 +2,13 @@ package cz.muni.fi.xharting.classic.factory;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.spi.BeanAttributes;
 import javax.enterprise.inject.spi.BeanManager;
 
 import org.jboss.solder.el.Expressions;
+import org.jboss.weld.bean.BeanIdentifiers;
+import org.jboss.weld.bean.StringBeanIdentifier;
+import org.jboss.weld.serialization.spi.BeanIdentifier;
 
 import cz.muni.fi.xharting.classic.metadata.ElFactoryDescriptor;
 import cz.muni.fi.xharting.classic.util.CdiUtils;
@@ -26,6 +30,11 @@ public class LegacyElFactory extends AbstractLegacyFactory<Object> {
         this.expression = descriptor.getExpression();
         this.valueExpression = descriptor.isValueExpression();
         addTypes(Object.class);
+        this.identifier = createId(descriptor, this);
+    }
+
+    private static BeanIdentifier createId(ElFactoryDescriptor descriptor, BeanAttributes<Object> attributes) {
+        return new StringBeanIdentifier(BeanIdentifiers.forSyntheticBean(attributes, Object.class));
     }
 
     @Override

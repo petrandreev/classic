@@ -25,7 +25,7 @@ public abstract class AbstractBean<T> implements Bean<T> {
     private final boolean nullable;
 
     public AbstractBean(Class<T> beanClass, Set<Type> types, Class<? extends Annotation> scope, String name,
-            boolean alternative, boolean nullable, Set<Annotation> qualifiers) {
+        boolean alternative, boolean nullable, Set<Annotation> qualifiers) {
         this.beanClass = beanClass;
         this.types = types;
         this.scope = scope;
@@ -33,24 +33,25 @@ public abstract class AbstractBean<T> implements Bean<T> {
         this.alternative = alternative;
         this.nullable = nullable;
         if (qualifiers.isEmpty()) {
-            this.qualifiers = Collections.<Annotation>singleton(DefaultLiteral.INSTANCE);
+            this.qualifiers = Collections.<Annotation> singleton(DefaultLiteral.INSTANCE);
         } else {
             this.qualifiers = qualifiers;
         }
-        
+
     }
+
     public AbstractBean(Class<T> beanClass, Class<?> types, Class<? extends Annotation> scope, String name,
-            boolean alternative, boolean nullable, Set<Annotation> qualifiers) {
+        boolean alternative, boolean nullable, Set<Annotation> qualifiers) {
         this(beanClass, new HierarchyDiscovery(types).getTypeClosure(), scope, name, alternative, nullable, qualifiers);
     }
 
     public AbstractBean(Class<T> beanClass, Class<?> types, Class<? extends Annotation> scope, String name,
-            boolean alternative, boolean nullable, Annotation... qualifiers) {
+        boolean alternative, boolean nullable, Annotation... qualifiers) {
         this(beanClass, types, scope, name, alternative, nullable, new HashSet<Annotation>(Arrays.asList(qualifiers)));
     }
 
     public AbstractBean(Class<T> beanClass, Class<? extends Annotation> scope, String name, boolean alternative,
-            boolean nullable, Annotation... qualifiers) {
+        boolean nullable, Annotation... qualifiers) {
         this(beanClass, beanClass, scope, name, alternative, nullable, qualifiers);
     }
 

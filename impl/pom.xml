@@ -12,14 +12,20 @@
     <name>Classic Implementation</name>
     <properties>
         <dom4j.version>1.6.1</dom4j.version>
-        <jboss.as.version>7.1.1.Final</jboss.as.version>
         <wildfly.version>8.1.0.Final</wildfly.version>
-        <jboss.logging.version>3.1.0.GA</jboss.logging.version>
+        <jboss.logging.version>3.1.4.GA</jboss.logging.version>
         <junit.version>4.11</junit.version>
-        <reflections.version>0.9.8</reflections.version>
-        <jboss-vfs.version>3.1.0.Final</jboss-vfs.version>
+        <reflections.version>0.9.9-RC2</reflections.version>
+        <jboss-vfs.version>3.2.5.Final</jboss-vfs.version>
+        <weld.version>2.1.2.Final</weld.version>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.jboss</groupId>
             <artifactId>jboss-vfs</artifactId>
@@ -64,15 +70,19 @@
                     <artifactId>guava</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>javassist</groupId>
+                    <groupId>org.javassist</groupId>
                     <artifactId>javassist</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.google.code.findbugs</groupId>
+                    <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
         <!-- JavaEE API -->
         <dependency>
             <groupId>org.hibernate.javax.persistence</groupId>
-            <artifactId>hibernate-jpa-2.0-api</artifactId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -81,34 +91,69 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
+            <groupId>org.jboss.spec.javax.transaction</groupId>
+            <artifactId>jboss-transaction-api_1.2_spec</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.jboss.spec.javax.ejb</groupId>
-            <artifactId>jboss-ejb-api_3.1_spec</artifactId>
+            <artifactId>jboss-ejb-api_3.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.interceptor</groupId>
-            <artifactId>jboss-interceptors-api_1.1_spec</artifactId>
+            <artifactId>jboss-interceptors-api_1.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.el</groupId>
-            <artifactId>jboss-el-api_2.2_spec</artifactId>
+            <artifactId>jboss-el-api_3.0_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
-            <artifactId>jboss-servlet-api_3.0_spec</artifactId>
+            <artifactId>jboss-servlet-api_3.1_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.jboss.spec.javax.faces</groupId>
-            <artifactId>jboss-jsf-api_2.0_spec</artifactId>
+            <artifactId>jboss-jsf-api_2.2_spec</artifactId>
             <scope>provided</scope>
         </dependency>
         <!-- Test dependencies -->
         <dependency>
             <groupId>org.jboss.arquillian.junit</groupId>
             <artifactId>arquillian-junit-container</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-transaction-jta</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- Arquillian Drone Extension Implementation -->
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-drone-webdriver-depchain</artifactId>
+            <type>pom</type>
+            <scope>test</scope>
+            <exclusions>
+                <!-- removes old xercesImpl dependency -->
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <!-- removes old xalan dependency -->
+                <exclusion>
+                    <groupId>xalan</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.jboss.arquillian.graphene</groupId>
+            <artifactId>graphene-webdriver</artifactId>
+            <type>pom</type>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -138,66 +183,19 @@
         <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-core</artifactId>
-            <version>1.1.4.Final</version>
+            <version>${weld.version}</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>
     <profiles>
         <profile>
-            <id>jbossas-remote-7</id>
-            <activation>
-                <property>
-                    <name>incontainer-remote</name>
-                </property>
-            </activation>
-            <properties>
-                <arquillian.launch>jbossas-remote-7</arquillian.launch>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.as</groupId>
-                    <artifactId>jboss-as-arquillian-container-remote</artifactId>
-                    <version>${jboss.as.version}</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jboss.arquillian.protocol</groupId>
-                    <artifactId>arquillian-protocol-servlet</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
-            <id>jbossas-managed-7</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-                <property>
-                    <name>incontainer</name>
-                </property>
-            </activation>
-            <properties>
-                <arquillian.launch>jbossas-managed-7</arquillian.launch>
-            </properties>
-            <dependencies>
-                <dependency>
-                    <groupId>org.jboss.as</groupId>
-                    <artifactId>jboss-as-arquillian-container-managed</artifactId>
-                    <version>${jboss.as.version}</version>
-                    <scope>test</scope>
-                </dependency>
-                <dependency>
-                    <groupId>org.jboss.arquillian.protocol</groupId>
-                    <artifactId>arquillian-protocol-servlet</artifactId>
-                    <scope>test</scope>
-                </dependency>
-            </dependencies>
-        </profile>
-        <profile>
             <id>wildfly-managed-8</id>
             <activation>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <arquillian.launch>wildfly-managed-8</arquillian.launch>
+                <arquillian.transaction.manager>java:comp/UserTransaction</arquillian.transaction.manager>
             </properties>
             <dependencies>
                 <dependency>
@@ -206,11 +204,11 @@
                     <version>${wildfly.version}</version>
                     <scope>test</scope>
                 </dependency>
-                <!-- <dependency> -->
-                <!-- <groupId>org.jboss.arquillian.protocol</groupId> -->
-                <!-- <artifactId>arquillian-protocol-servlet</artifactId> -->
-                <!-- <scope>test</scope> -->
-                <!-- </dependency> -->
+                <dependency>
+                    <groupId>org.jboss.arquillian.protocol</groupId>
+                    <artifactId>arquillian-protocol-servlet</artifactId>
+                    <scope>test</scope>
+                </dependency>
             </dependencies>
         </profile>
     </profiles>

@@ -3,10 +3,14 @@ package cz.muni.fi.xharting.classic.factory;
 import java.lang.reflect.Method;
 
 import javax.enterprise.context.spi.CreationalContext;
+import javax.enterprise.inject.spi.BeanAttributes;
 import javax.enterprise.inject.spi.BeanManager;
 
 import org.apache.deltaspike.core.util.HierarchyDiscovery;
 import org.jboss.solder.reflection.Reflections;
+import org.jboss.weld.bean.BeanIdentifiers;
+import org.jboss.weld.bean.StringBeanIdentifier;
+import org.jboss.weld.serialization.spi.BeanIdentifier;
 
 import cz.muni.fi.xharting.classic.metadata.FactoryDescriptor;
 import cz.muni.fi.xharting.classic.util.CdiUtils;
@@ -31,6 +35,11 @@ public class LegacyFactory extends AbstractLegacyFactory<Object> {
         this.hostType = descriptor.getBean().getJavaClass();
         this.beanClass = descriptor.getMethod().getReturnType();
         initType(descriptor);
+        this.identifier = createId(descriptor, this);
+    }
+
+    private static BeanIdentifier createId(FactoryDescriptor descriptor, BeanAttributes<Object> attributes) {
+        return new StringBeanIdentifier(BeanIdentifiers.forSyntheticBean(attributes, descriptor.getMethod().getReturnType()));
     }
 
     protected void initType(FactoryDescriptor descriptor) {

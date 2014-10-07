@@ -4,10 +4,9 @@ import static org.jboss.solder.reflection.Reflections.setAccessible;
 
 import java.lang.reflect.Field;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
 import org.jboss.seam.ScopeType;
 
-@Exclude
+
 public abstract class AbstractManagedFieldDescriptor {
 
     private final String specifiedName;

@@ -4,15 +4,13 @@ import static org.jboss.solder.reflection.Reflections.setAccessible;
 
 import java.lang.reflect.Method;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
-
 /**
  * Represents a legacy observer method defined on a Seam component.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
-@Exclude
+
 public class ObserverMethodDescriptor extends AbstractObserverMethodDescriptor {
 
     private final BeanDescriptor bean;

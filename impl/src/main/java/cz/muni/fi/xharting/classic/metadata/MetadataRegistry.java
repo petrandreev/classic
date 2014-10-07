@@ -11,8 +11,6 @@ import java.util.Set;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 
-import org.apache.deltaspike.core.api.exclude.Exclude;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
@@ -21,11 +19,11 @@ import cz.muni.fi.xharting.classic.bootstrap.ConditionalInstallationService;
 /**
  * The central point that stores metadata about beans, factories and observer methods. The registry is available for CDI
  * injection.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
-@Exclude
+
 public class MetadataRegistry {
 
     // basics

@@ -12,10 +12,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.enterprise.inject.Vetoed;
 import javax.enterprise.util.AnnotationLiteral;
 import javax.inject.Qualifier;
-
-import org.apache.deltaspike.core.api.exclude.Exclude;
 
 /**
  * An implementation of a rewritable context used for emulation of push/pull context model used in Seam. This component
@@ -27,7 +26,7 @@ import org.apache.deltaspike.core.api.exclude.Exclude;
  * @author Jozef Hartinger
  * 
  */
-@Exclude
+@Vetoed
 public class OutjectedReferenceHolder implements Serializable {
 
     private static final long serialVersionUID = -3467806759929526350L;

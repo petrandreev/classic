@@ -13,6 +13,7 @@ import org.reflections.Configuration;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ConfigurationBuilder;
 import org.reflections.vfs.Vfs;
@@ -31,7 +32,8 @@ public class ReflectionsScanner extends AbstractScanner {
     public ReflectionsScanner(ClassLoader loader) {
         Collection<URL> urls = getSeamArchives(loader);
         Vfs.addDefaultURLTypes(new JBoss7UrlType());
-        Configuration configuration = new ConfigurationBuilder().setUrls(urls).setScanners(new ResourcesScanner(), new TypeAnnotationsScanner(), new MethodAnnotationsScanner())
+        Configuration configuration =
+            new ConfigurationBuilder().setUrls(urls).setScanners(new ResourcesScanner(), new SubTypesScanner(), new TypeAnnotationsScanner(), new MethodAnnotationsScanner())
                 .setExecutorService(executorService);
         reflections = new Reflections(configuration);
         executorService.shutdown();
@@ -49,7 +51,8 @@ public class ReflectionsScanner extends AbstractScanner {
 
     @SuppressWarnings("unchecked")
     // checked with isAnnotation
-    public Set<Class<?>> getNonAnnotationTypesAnnotatedWithMetaAnnotation(Class<? extends Annotation> annotation) {
+        public
+        Set<Class<?>> getNonAnnotationTypesAnnotatedWithMetaAnnotation(Class<? extends Annotation> annotation) {
         Set<Class<?>> nonAnnotationTypes = new HashSet<Class<?>>();
         for (Class<?> type : getTypesAnnotatedWith(annotation)) {
             if (type.isAnnotation()) {

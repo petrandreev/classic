@@ -1,24 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cz.muni.fi.xharting.classic</groupId>
         <artifactId>classic-parent</artifactId>
         <version>1.1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-
     <artifactId>legacy-setup</artifactId>
     <packaging>jar</packaging>
-
     <name>Seam 2 Legacy Test Setup</name>
-
+    <properties>
+        <org.jboss.seam.embedded.version>beta3.SP15</org.jboss.seam.embedded.version>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.jboss.seam.embedded</groupId>
             <artifactId>jboss-embedded-all</artifactId>
-            <version>beta3.SP10</version>
+            <version>${org.jboss.seam.embedded.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.jboss.microcontainer</groupId>
@@ -33,23 +32,23 @@
         <dependency>
             <groupId>org.jboss.seam.embedded</groupId>
             <artifactId>thirdparty-all</artifactId>
-            <version>beta3.SP10</version>
+            <version>${org.jboss.seam.embedded.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam.embedded</groupId>
             <artifactId>hibernate-all</artifactId>
-            <version>beta3.SP10</version>
+            <version>${org.jboss.seam.embedded.version}</version>
         </dependency>
         <dependency>
             <groupId>org.jboss.seam</groupId>
             <artifactId>jboss-seam</artifactId>
             <type>ejb</type>
-            <version>2.2.2.Final</version>
+            <version>2.3.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>javax.faces</groupId>
             <artifactId>jsf-api</artifactId>
-            <version>1.2_12</version>
+            <version>2.1</version>
         </dependency>
         <dependency>
             <groupId>javax.el</groupId>
@@ -59,15 +58,15 @@
         <dependency>
             <groupId>org.jboss.el</groupId>
             <artifactId>jboss-el</artifactId>
-            <version>1.0_02.CR5</version>
+            <version>1.0_02.CR7-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
+            <version>5.11</version>
             <classifier>jdk15</classifier>
         </dependency>
     </dependencies>
-
     <build>
         <testResources>
             <testResource>
@@ -77,16 +76,14 @@
         </testResources>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <skipTests>false</skipTests>
-                    <argLine>-Dsun.lang.ClassLoader.allowArraySyntax=true -Xms512m -Xmx800m -Dfoo</argLine>
+                    <argLine>-Xms512m -Xmx800m -Dfoo</argLine>
                     <additionalClasspathElements>
                         <additionalClasspathElement>${project.build.directory}/bootstrap</additionalClasspathElement>
                     </additionalClasspathElements>
                 </configuration>
-
                 <executions>
                     <execution>
                         <id>surefire-it</id>
@@ -100,9 +97,7 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>

@@ -19,8 +19,10 @@ import cz.muni.fi.xharting.classic.util.spi.ForwardingEntityManager;
  */
 public class InterpolatingEntityManagerDecorator extends ForwardingEntityManager implements Serializable {
 
-    private static final long serialVersionUID = 1564517413855191126L;
+    private static final long serialVersionUID = 1655982080633036417L;
+
     private EntityManager delegate;
+    
     private Interpolator interpolator;
 
     public InterpolatingEntityManagerDecorator(EntityManager delegate) {
