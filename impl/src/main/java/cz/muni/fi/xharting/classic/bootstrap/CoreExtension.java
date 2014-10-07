@@ -21,7 +21,6 @@ import javax.inject.Named;
 
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Namespace;
-import org.jboss.seam.annotations.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -100,6 +99,7 @@ public class CoreExtension implements Extension {
             if (named != null) // entities overriden by a direct reference bean are the case
                 log.debug("Registering {}", named.value());
             event.addAnnotatedType(annotatedType);
+            log.debug("Registered {}", annotatedType);
         }
 
         // make metamodel accessible at runtime
@@ -113,7 +113,6 @@ public class CoreExtension implements Extension {
         AnnotatedType<T> type = event.getAnnotatedType();
         AnnotatedType<T> modifiedType = beanTransformer.getModifiedAnnotatedType(type.getJavaClass());
         if (modifiedType != null) {
-            log.trace("modifyAnnotatedTypes({})->{}", type.getJavaClass(), modifiedType.getAnnotation(Named.class));
             event.setAnnotatedType(modifiedType);
         } else {
             event.veto();

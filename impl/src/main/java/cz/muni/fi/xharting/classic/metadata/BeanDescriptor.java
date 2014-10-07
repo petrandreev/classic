@@ -5,6 +5,7 @@ import static org.jboss.solder.reflection.Reflections.setAccessible;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.ejb.Singleton;
@@ -60,8 +61,8 @@ public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements
     private final boolean startup;
     private final String[] startupDependencies;
 
-    // roles
-    private final Set<RoleDescriptor> roles = new HashSet<RoleDescriptor>();
+    // roles: we want to preserve the order so the implicit role remains at the first place
+    private final Set<RoleDescriptor> roles = new LinkedHashSet<RoleDescriptor>();
     private final RoleDescriptor implicitRole;
 
     private final Set<FactoryDescriptor> factories = new HashSet<FactoryDescriptor>();
@@ -326,8 +327,8 @@ public class BeanDescriptor extends AbstractManagedInstanceDescriptor implements
     }
 
     /**
-     * Returns true if and only if the component is define by the {@link Name} annotation - as oposed to being configured in XML
-     * with explicit class declaration where the class does not contain {@link Name}.
+     * Returns true if and only if the component is define by the {@link Name} annotation - as opposed to being configured in
+     * XML with explicit class declaration where the class does not contain {@link Name}.
      *
      * @return
      */

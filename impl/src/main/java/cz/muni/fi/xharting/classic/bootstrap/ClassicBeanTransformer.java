@@ -15,7 +15,6 @@ import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.ObserverMethod;
-import javax.inject.Named;
 import javax.interceptor.InterceptorBinding;
 
 import org.apache.deltaspike.core.api.literal.NamedLiteral;
@@ -23,13 +22,13 @@ import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
 import org.jboss.seam.annotations.Create;
 import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Logger;
+import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Synchronized;
 import org.jboss.seam.annotations.Transactional;
 import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.intercept.Interceptors;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.solder.reflection.Synthetic;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
@@ -140,17 +139,20 @@ public class ClassicBeanTransformer {
                 else {
                     registerInterceptors(bean, role, builder);
                 }
-                addAnnotatedType(bean, builder.create());
+                addAnnotatedType(bean, builder);
             }
         }
     }
 
-    private void addAnnotatedType(BeanDescriptor descriptor, AnnotatedType<?> type) {
+    private void addAnnotatedType(BeanDescriptor descriptor, AnnotatedTypeBuilder<?> builder) {
         // We need the latter check since multiple xml-configured beans could share the same class
-        if (!modifiedAnnotatedTypes.containsKey(type.getJavaClass()) && descriptor.isDefinedByClass()) {
-            modifiedAnnotatedTypes.put(descriptor.getJavaClass(), type);
+        if (!modifiedAnnotatedTypes.containsKey(builder.getJavaClass()) && descriptor.isDefinedByClass()) {
+            modifiedAnnotatedTypes.put(descriptor.getJavaClass(), builder.create());
         } else {
-            additionalAnnotatedTypes.add(type);
+            // in the case case we have multiple roles- remove the @Name annotation for additional type- we`ll be notified
+            // multiple times about in CoreExtension otherwise an it would lead to naming conflicts during deployment
+            builder.removeFromClass(Name.class);
+            additionalAnnotatedTypes.add(builder.create());
         }
     }
 
@@ -239,7 +241,7 @@ public class ClassicBeanTransformer {
         // add the synthetic qualifier to the type, so that it can be picked up by the reference holder
         Synthetic synthetic = syntheticProvider.get();
         AnnotatedTypeBuilder<T> builder = createAnnotatedTypeBuilder(javaClass).addToClass(synthetic);
-        addAnnotatedType(bean, builder.create());
+        addAnnotatedType(bean, builder);
 
         // create entity holder beans - will be registered later
         entityHolders.addAll(DirectReferenceFactory.createDirectReferenceHolder(javaClass, Sets.<Type> newHashSet(javaClass, Object.class),

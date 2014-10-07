@@ -56,6 +56,7 @@
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
             <version>${reflections.version}</version>
+            <!-- we slim down the dependencies and utilize ones provided by WildFly (to be checked for the rest of JavaEE7 AS`) -->
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>

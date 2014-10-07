@@ -37,6 +37,9 @@ public class ScopeUtils {
         if (RequestScoped.class.equals(clazz)) {
             return REQUEST_SCOPED_LITERAL_INSTANCE;
         }
+        if (ViewScoped.class.equals(clazz)) {
+            return ViewScopedLiteral.INSTANCE;
+        }
         if (ConversationScoped.class.equals(clazz)) {
             return CONVERSATION_SCOPED_LITERAL_INSTANCE;
         }
@@ -51,9 +54,6 @@ public class ScopeUtils {
         }
         if (StatelessScoped.class.equals(clazz)) {
             return StatelessScoped.StatelessScopedLiteral.INSTANCE;
-        }
-        if (ViewScoped.class.equals(clazz)) {
-            return ViewScopedLiteral.INSTANCE;
         }
         throw new IllegalArgumentException("Unknown scope: " + clazz.getName());
     }

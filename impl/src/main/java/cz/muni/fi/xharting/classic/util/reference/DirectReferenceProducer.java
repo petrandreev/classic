@@ -16,6 +16,7 @@ import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionPoint;
+import javax.faces.view.ViewScoped;
 
 import cz.muni.fi.xharting.classic.util.spi.AbstractBean;
 
@@ -92,6 +93,7 @@ public class DirectReferenceProducer<T> extends AbstractBean<T> {
         private ScopeComparator() {
             scopes = new ArrayList<Class<? extends Annotation>>();
             scopes.add(RequestScoped.class);
+            scopes.add(ViewScoped.class);
             scopes.add(ConversationScoped.class);
             scopes.add(SessionScoped.class);
             scopes.add(ApplicationScoped.class);
