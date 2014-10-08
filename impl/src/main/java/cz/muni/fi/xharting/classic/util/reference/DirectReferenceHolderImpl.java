@@ -14,7 +14,7 @@ import javax.enterprise.inject.Vetoed;
 @Vetoed
 public class DirectReferenceHolderImpl<T> implements Serializable {
 
-    private static final long serialVersionUID = 8143843055252632981L;
+    private static final long serialVersionUID = 7589341795506176847L;
 
     private final T reference;
 

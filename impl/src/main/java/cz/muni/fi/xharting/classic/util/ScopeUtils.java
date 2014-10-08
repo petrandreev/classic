@@ -1,12 +1,14 @@
 package cz.muni.fi.xharting.classic.util;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.ConversationScoped;
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.enterprise.inject.spi.BeanManager;
 import javax.faces.view.ViewScoped;
 
 import org.apache.deltaspike.core.api.literal.ApplicationScopedLiteral;
@@ -56,5 +58,14 @@ public class ScopeUtils {
             return StatelessScoped.StatelessScopedLiteral.INSTANCE;
         }
         throw new IllegalArgumentException("Unknown scope: " + clazz.getName());
+    }
+
+    public static Class<? extends Annotation> getScope(AnnotatedElement annotated, BeanManager beanManager) {
+        for (Annotation annotation : annotated.getAnnotations()) {
+            if (beanManager.isNormalScope(annotation.annotationType())) {
+                return annotation.annotationType();
+            }
+        }
+        return null;
     }
 }

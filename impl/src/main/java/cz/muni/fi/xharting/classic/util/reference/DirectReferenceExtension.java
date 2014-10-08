@@ -1,7 +1,8 @@
 package cz.muni.fi.xharting.classic.util.reference;
 
+import static cz.muni.fi.xharting.classic.util.ScopeUtils.getScope;
+
 import java.lang.annotation.Annotation;
-import java.lang.reflect.AnnotatedElement;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,8 +11,6 @@ import java.util.Set;
 
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
-import javax.enterprise.inject.spi.AnnotatedField;
-import javax.enterprise.inject.spi.AnnotatedMethod;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
@@ -19,6 +18,7 @@ import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessAnnotatedType;
 import javax.enterprise.inject.spi.ProcessBean;
+import javax.enterprise.inject.spi.WithAnnotations;
 
 import org.apache.deltaspike.core.util.metadata.builder.AnnotatedTypeBuilder;
 import org.jboss.solder.reflection.Synthetic;
@@ -34,7 +34,7 @@ import cz.muni.fi.xharting.classic.util.deltaspike.metadata.ClassicAnnotatedType
 import cz.muni.fi.xharting.classic.util.deltaspike.metadata.RedefinitionContext;
 
 /**
- * The extension scans for {@link DirectReference} occurencies on bean definitions (including producer methods and fields),
+ * The extension scans for {@link DirectReference} occurrences on bean definitions (including producer methods and fields),
  * suppresses such beans by using the synthetic qualifier and register {@link DirectReferenceHolder} and
  * {@link DirectReferenceProducer} for each such bean.
  * 
@@ -51,39 +51,36 @@ public class DirectReferenceExtension implements Extension {
     private final SetMultimap<Synthetic, Annotation> qualifiers = HashMultimap.create();
     private final Map<Synthetic, Class<? extends Annotation>> scopes = new HashMap<Synthetic, Class<? extends Annotation>>();
 
-    public List<Bean<?>> beansToRegister = new LinkedList<Bean<?>>();
+    private final List<Bean<?>> beansToRegister = new LinkedList<Bean<?>>();
 
     void getManager(@Observes BeforeBeanDiscovery event, BeanManager manager) {
         this.manager = manager;
     }
 
-    <T> void scanDirectReferenceDeclaringTypes(@Observes ProcessAnnotatedType<T> event, BeanManager manager) {
-        if (requiresDirectReference(event.getAnnotatedType())) {
-            AnnotatedType<T> type = event.getAnnotatedType();
-            ClassicAnnotatedTypeBuilder<T> builder = createAnnotatedTypeBuilder(type);
-            builder.redefine(DirectReference.class, redefiner);
-            event.setAnnotatedType(builder.create());
+    <T> void scanDirectReferenceDeclaringTypes(@Observes @WithAnnotations(DirectReference.class) ProcessAnnotatedType<T> event, BeanManager manager) {
+        ClassicAnnotatedTypeBuilder<T> builder = createAnnotatedTypeBuilder(event.getAnnotatedType());
+        builder.redefine(DirectReference.class, redefiner);
+        event.setAnnotatedType(builder.create());
+    }
+
+    <T> void processDirectReferenceBeans(@Observes ProcessBean<T> event) {
+        Bean<T> bean = event.getBean();
+        Synthetic synthetic = Annotations.getAnnotation(bean.getQualifiers(), Synthetic.class);
+        if (synthetic != null && DirectReferenceFactory.NAMESPACE.equals(synthetic.namespace())) {
+            beansToRegister.addAll(DirectReferenceFactory.createDirectReferenceHolder(bean.getBeanClass(), bean.getTypes(), qualifiers.get(synthetic), null, synthetic,
+                scopes.get(synthetic), manager, true));
         }
     }
 
-    /**
-     * Performance optimalization.
-     */
-    public boolean requiresDirectReference(AnnotatedType<?> type) {
-        if (type.isAnnotationPresent(DirectReference.class)) {
-            return true;
+    void registerHoldersAndProducers(@Observes AfterBeanDiscovery event) {
+        for (Bean<?> bean : beansToRegister) {
+            log.trace("adding: {} ({})", bean, bean.getClass().getName());
+            event.addBean(bean);
         }
-        for (AnnotatedField<?> field : type.getFields()) {
-            if (field.isAnnotationPresent(DirectReference.class)) {
-                return true;
-            }
-        }
-        for (AnnotatedMethod<?> method : type.getMethods()) {
-            if (method.isAnnotationPresent(DirectReference.class)) {
-                return true;
-            }
-        }
-        return false;
+    }
+
+    private <T> ClassicAnnotatedTypeBuilder<T> createAnnotatedTypeBuilder(AnnotatedType<T> annotatedType) {
+        return (ClassicAnnotatedTypeBuilder<T>) new ClassicAnnotatedTypeBuilder<T>().readFromType(annotatedType);
     }
 
     public class DirectReferenceRedefiner extends AbstractAnnotationRedefiner<DirectReference> {
@@ -91,7 +88,7 @@ public class DirectReferenceExtension implements Extension {
         public void redefine(RedefinitionContext<DirectReference> ctx) {
             AnnotatedTypeBuilder<?> builder = ctx.getAnnotatedTypeBuilder();
             // process scope
-            Class<? extends Annotation> scope = getScope(ctx.getAnnotatedElement());
+            Class<? extends Annotation> scope = getScope(ctx.getAnnotatedElement(), manager);
             if (scope == null) {
                 throw new IllegalArgumentException(ctx.getAnnotatedElement() + " does not declare a normal scope.");
             }
@@ -108,33 +105,5 @@ public class DirectReferenceExtension implements Extension {
             scopes.put(synthetic, scope);
             DirectReferenceExtension.this.qualifiers.putAll(synthetic, qualifiers);
         }
-
-        private Class<? extends Annotation> getScope(AnnotatedElement annotated) {
-            for (Annotation annotation : annotated.getAnnotations()) {
-                if (manager.isNormalScope(annotation.annotationType())) {
-                    return annotation.annotationType();
-                }
-            }
-            return null;
-        }
-    }
-
-    void processDirectReferenceBeans(@Observes ProcessBean<?> event) {
-        Synthetic synthetic = Annotations.getAnnotation(event.getBean().getQualifiers(), Synthetic.class);
-        if (synthetic != null && DirectReferenceFactory.NAMESPACE.equals(synthetic.namespace())) {
-            Bean<?> bean = event.getBean();
-            beansToRegister.addAll(DirectReferenceFactory.createDirectReferenceHolder(bean.getBeanClass(), bean.getTypes(), qualifiers.get(synthetic), null, synthetic,
-                scopes.get(synthetic), manager, true));
-        }
-    }
-
-    public void registerHoldersAndProducers(@Observes AfterBeanDiscovery event) {
-        for (Bean<?> bean : beansToRegister) {
-            event.addBean(bean);
-        }
-    }
-
-    private <T> ClassicAnnotatedTypeBuilder<T> createAnnotatedTypeBuilder(AnnotatedType<T> annotatedType) {
-        return (ClassicAnnotatedTypeBuilder<T>) new ClassicAnnotatedTypeBuilder<T>().readFromType(annotatedType);
     }
 }

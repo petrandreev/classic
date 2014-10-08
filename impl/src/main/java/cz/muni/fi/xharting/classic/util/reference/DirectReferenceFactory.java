@@ -39,18 +39,17 @@ public class DirectReferenceFactory {
      *        is performed at run time.
      * @return a list containing {@link DirectReferenceHolder} and {@link DirectReferenceProducer}
      */
-    @SuppressWarnings("unchecked")
     public static <T> List<Bean<T>> createDirectReferenceHolder(Class<T> type, Set<Type> types, Set<Annotation> qualifiers, String name, Annotation qualifier,
-            Class<? extends Annotation> scope, BeanManager manager, boolean checkScope) {
+        Class<? extends Annotation> scope, BeanManager manager, boolean checkScope) {
         boolean serializable = type.isPrimitive() || Serializable.class.isAssignableFrom(type);
         DirectReferenceHolder<T> holder;
         DirectReferenceProducer<T> producer;
 
         if (serializable) {
-            holder = new PassivationCapableDirectReferenceHolder<T>(scope, qualifier, manager);
+            holder = new PassivationCapableDirectReferenceHolder<T>(type, scope, qualifier, manager);
             producer = new PassivationCapableDirectReferenceProducer<T>(holder, type, types, qualifiers, name, manager, checkScope);
         } else {
-            holder = new DirectReferenceHolder<T>(scope, qualifier, manager);
+            holder = new DirectReferenceHolder<T>(type, scope, qualifier, manager);
             producer = new DirectReferenceProducer<T>(holder, type, types, qualifiers, name, manager, checkScope);
         }
         return cast(Arrays.asList(holder, producer));

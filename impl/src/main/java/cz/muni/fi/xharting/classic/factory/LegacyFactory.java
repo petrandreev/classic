@@ -6,7 +6,7 @@ import javax.enterprise.context.spi.CreationalContext;
 import javax.enterprise.inject.spi.BeanAttributes;
 import javax.enterprise.inject.spi.BeanManager;
 
-import org.apache.deltaspike.core.util.HierarchyDiscovery;
+import org.jboss.solder.reflection.HierarchyDiscovery;
 import org.jboss.solder.reflection.Reflections;
 import org.jboss.weld.bean.BeanIdentifiers;
 import org.jboss.weld.bean.StringBeanIdentifier;

@@ -34,7 +34,6 @@ public class Alpha implements Serializable {
      */
     @Transactional
     public int required() throws SystemException {
-        new Exception().printStackTrace();
         return transactionSynchronizationRegistry.getTransactionStatus();
     }
 

@@ -12,8 +12,8 @@ import javax.enterprise.inject.spi.PassivationCapable;
  */
 public class PassivationCapableDirectReferenceHolder<T> extends DirectReferenceHolder<T> implements PassivationCapable {
 
-    public PassivationCapableDirectReferenceHolder(Class<? extends Annotation> scope, Annotation qualifier, BeanManager manager) {
-        super(scope, qualifier, manager);
+    public PassivationCapableDirectReferenceHolder(Class<T> type, Class<? extends Annotation> scope, Annotation qualifier, BeanManager manager) {
+        super(type, scope, qualifier, manager);
     }
 
     @Override

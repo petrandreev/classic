@@ -35,7 +35,7 @@ public class DirectReferenceProducer<T> extends AbstractBean<T> {
     private Bean<?> ip;
 
     public DirectReferenceProducer(DirectReferenceHolder<T> directReferenceHolder, Class<T> clazz, Set<Type> types, Set<Annotation> qualifiers, String name, BeanManager manager,
-            boolean checkScope) {
+        boolean checkScope) {
         super(clazz, types, Dependent.class, name, false, false, qualifiers);
         this.directReferenceHolder = directReferenceHolder;
         this.manager = manager;
@@ -48,7 +48,7 @@ public class DirectReferenceProducer<T> extends AbstractBean<T> {
 
         checkInjectionPoint(creationalContext);
 
-        DirectReferenceHolderImpl<T> holder = (DirectReferenceHolderImpl<T>) manager.getReference(directReferenceHolder, DirectReferenceHolderImpl.class, creationalContext);
+        DirectReferenceHolderImpl<T> holder = (DirectReferenceHolderImpl<T>) manager.getReference(directReferenceHolder, directReferenceHolder.getType(), creationalContext);
         return holder.getReference();
     }
 

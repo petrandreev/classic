@@ -1,9 +1,13 @@
 package cz.muni.fi.xharting.classic.util.reference;
 
+import static cz.muni.fi.xharting.classic.util.reference.DirectReferenceUtils.getOrCreateConcreteClass;
 import static org.jboss.solder.reflection.Reflections.cast;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.Collections;
+import java.util.Iterator;
 
 import javax.enterprise.context.Dependent;
 import javax.enterprise.context.spi.CreationalContext;
@@ -30,16 +34,33 @@ public class DirectReferenceHolder<T> extends AbstractBean<DirectReferenceHolder
     private final Annotation qualifier;
     private Bean<?> bean;
 
-    public DirectReferenceHolder(Class<? extends Annotation> scope, Annotation qualifier, BeanManager manager) {
-        super(Reflections.<Class<DirectReferenceHolderImpl<T>>> cast(DirectReferenceHolderImpl.class), scope, Collections.<Annotation> singleton(DefaultLiteral.INSTANCE));
+    public DirectReferenceHolder(Class<T> type, Class<? extends Annotation> scope, Annotation qualifier, BeanManager manager) {
+        super(getOrCreateConcreteClass(Reflections.<Class<DirectReferenceHolderImpl<T>>> cast(DirectReferenceHolderImpl.class), type), scope, Collections
+            .<Annotation> singleton(DefaultLiteral.INSTANCE));
         this.qualifier = qualifier;
         this.manager = manager;
+        // the Weld complains `about ParameterizedType types
+        enableNonDependentScopes();
+    }
+
+    /**
+     * Removes all <code>ParameterizedType</code>s from the types set since we`ve already added the concrete subclass of the
+     * holder to it
+     */
+    private void enableNonDependentScopes() {
+        Iterator<Type> types = getTypes().iterator();
+        while (types.hasNext()) {
+            Type type = types.next();
+            if (type instanceof ParameterizedType) {
+                types.remove();
+            }
+        }
     }
 
     @Override
     public DirectReferenceHolderImpl<T> create(CreationalContext<DirectReferenceHolderImpl<T>> ctx) {
         T directReference = cast(manager.getReference(getTargetBean(), Object.class, ctx));
-        return new DirectReferenceHolderImpl<T>(directReference);
+        return DirectReferenceUtils.<T> createDirectReferenceHolder(getType(), directReference);
     }
 
     @Override

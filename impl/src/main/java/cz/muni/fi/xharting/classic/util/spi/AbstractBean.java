@@ -10,7 +10,7 @@ import java.util.Set;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.InjectionPoint;
 
-import org.apache.deltaspike.core.util.HierarchyDiscovery;
+import org.jboss.solder.reflection.HierarchyDiscovery;
 
 import cz.muni.fi.xharting.classic.util.literal.DefaultLiteral;
 
@@ -61,6 +61,10 @@ public abstract class AbstractBean<T> implements Bean<T> {
 
     public AbstractBean(Class<T> beanClass, Class<? extends Annotation> scope, Set<Annotation> qualifiers) {
         this(beanClass, beanClass, scope, null, false, false, qualifiers);
+    }
+
+    public Class<T> getType() {
+        return beanClass;
     }
 
     @Override
