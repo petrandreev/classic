@@ -9,6 +9,7 @@ import static org.junit.Assert.fail;
 import javax.inject.Inject;
 import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
+import javax.transaction.TransactionalException;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
@@ -18,64 +19,80 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Tests the transactional behavior of migrated Seam 2 beans.
+ * Tests the transactional behavior of migrated Seam 2 beans while mixing them with native CDI beans.
  *
  * @author pan
  *
  */
 @RunWith(Arquillian.class)
-public class TransactionalTest {
+public class TransactionalWithNativeTest {
 
     @Deployment
     public static WebArchive getDeployment() {
-        return createSeamWebApp("test.war", true, false, TransactionalBean.class).addAsWebInfResource("cz/muni/fi/xharting/classic/test/transaction/beans.xml", "beans.xml");
+        return createSeamWebApp("test.war", Alpha.class, Bravo.class, Charlie.class, Delta.class);
     }
 
     @Inject
-    private TransactionalBean transactionalBean;
+    private Alpha alpha;
+
+    @Inject
+    private Delta delta;
 
     @Test
     public void requred() throws SystemException {
-        int status = transactionalBean.required();
+        int status = alpha.required();
+        assertEquals("the transaction must be active!", STATUS_ACTIVE, status);
+    }
+
+    @Test
+    @Inject
+    public void requiredTypeLevel(Charlie charlie) throws SystemException {
+        int status = charlie.required();
+        assertEquals("the transaction must be active!", STATUS_ACTIVE, status);
+    }
+
+    @Test
+    public void nativeRequred() throws SystemException {
+        int status = delta.required();
         assertEquals("the transaction must be active!", STATUS_ACTIVE, status);
     }
 
     @Test
     public void supportsNotTx() throws SystemException {
-        int status = transactionalBean.supports();
+        int status = alpha.supports();
         assertEquals("the transaction must not be running!", STATUS_NO_TRANSACTION, status);
     }
 
     @Test
     @Transactional
     public void supportsWithTx() throws SystemException {
-        int status = transactionalBean.supports();
+        int status = alpha.supports();
         assertEquals("the transaction must be active!", STATUS_ACTIVE, status);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = TransactionalException.class)
     public void mandatoryNoTx() throws SystemException {
-        transactionalBean.mandatory();
+        alpha.mandatory();
         fail("an existing transaction must be enforced!");
     }
 
     @Test
     @Transactional
     public void mandatoryWithTx() throws SystemException, NotSupportedException {
-        int status = transactionalBean.mandatory();
+        int status = alpha.mandatory();
         assertEquals("the transaction must be active!", STATUS_ACTIVE, status);
     }
 
     @Test
     public void neverNoTx() throws SystemException {
-        int status = transactionalBean.never();
+        int status = alpha.never();
         assertEquals("the transaction must not be running!", STATUS_NO_TRANSACTION, status);
     }
 
-    @Test(expected = IllegalStateException.class)
+    @Test(expected = TransactionalException.class)
     @Transactional
     public void neverWithTx() throws SystemException, NotSupportedException {
-        transactionalBean.never();
+        alpha.never();
         fail("no running transaction must be accepted!");
     }
 }

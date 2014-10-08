@@ -1,6 +1,7 @@
 package cz.muni.fi.xharting.classic.test.bootstrap.scan;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
@@ -39,10 +40,11 @@ public abstract class ScanTest {
     @Test
     public void testAnnotationScanning() {
         Set<Class<?>> classes = scanner.getTypesAnnotatedWith(Name.class);
-        assertEquals(3, classes.size());
+        assertEquals(4, classes.size());
         assertTrue(classes.contains(Alpha.class));
         assertTrue(classes.contains(Bravo.class));
         assertTrue(classes.contains(Charlie.class));
+        assertTrue(classes.contains(Delta.class));
     }
 
     @Test

@@ -16,8 +16,6 @@
         <javaee.spec.version>1.0.1.Final</javaee.spec.version>
         <arquillian-core.version>1.1.5.Final</arquillian-core.version>
         <arquillian-transaction.version>1.0.1.Final</arquillian-transaction.version>
-        <arquillian-drone.version>2.0.0.Alpha2</arquillian-drone.version>
-        <arquillian-graphene.version>2.1.0.Alpha1</arquillian-graphene.version>
         <shrinkwrap-resolver.version>2.1.1</shrinkwrap-resolver.version>
         <slf4j.version>1.7.2</slf4j.version>
         <!-- maven-compiler-plugin -->
@@ -55,21 +53,6 @@
                 <version>${arquillian-transaction.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-            </dependency>
-            <!-- Arquillian Drone and Selenium dependencies -->
-            <dependency>
-                <groupId>org.jboss.arquillian.extension</groupId>
-                <artifactId>arquillian-drone-bom</artifactId>
-                <version>${arquillian-drone.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.jboss.arquillian.graphene</groupId>
-                <artifactId>graphene-webdriver</artifactId>
-                <version>${arquillian-graphene.version}</version>
-                <type>pom</type>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.jboss.shrinkwrap.resolver</groupId>

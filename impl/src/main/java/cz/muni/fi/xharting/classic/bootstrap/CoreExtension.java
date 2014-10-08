@@ -73,8 +73,11 @@ public class CoreExtension implements Extension {
         log.trace("Processing {} Seam 2 components", classes.size());
         Multimap<String, BeanDescriptor> discoveredManagedBeanDescriptors = HashMultimap.create();
         for (Class<?> clazz : classes) {
-            BeanDescriptor beanDescriptor = new BeanDescriptor(clazz);
-            discoveredManagedBeanDescriptors.put(beanDescriptor.getImplicitRole().getName(), beanDescriptor);
+            //we do not consider inherited @Name annotations
+            if (clazz.isAnnotationPresent(Name.class)) {
+                BeanDescriptor beanDescriptor = new BeanDescriptor(clazz);
+                discoveredManagedBeanDescriptors.put(beanDescriptor.getImplicitRole().getName(), beanDescriptor);
+            }
         }
         log.trace("discoveredManagedBeanDescriptors: {}", discoveredManagedBeanDescriptors);
 

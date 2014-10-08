@@ -36,6 +36,7 @@ public class EarTest extends ScanTest {
         ear.addAsLibrary(createSeamJar("alpha.jar", Alpha.class, ScanTest.class, EarTest.class).addPackage(
             AlphaJet.class.getPackage())); // EAR lib
         ear.addAsModule(createSeamJar("bravo.jar", Bravo.class, Foo.class, Bar.class)); // EAR module
+        ear.addAsLibrary(createSeamJar("charlie-delta.jar", Charlie.class, Delta.class));
         ear.addAsLibraries(DELTASPIKE_CORE, REFLECTIONS);
         ear.addAsLibrary(createSeamClassic());
         ear.setApplicationXML("cz/muni/fi/xharting/classic/test/bootstrap/scan/application.xml");
@@ -50,6 +51,6 @@ public class EarTest extends ScanTest {
     @Test
     public void testAnnotationScanning() {
         Set<Class<?>> classes = scanner.getTypesAnnotatedWith(Name.class);
-        assertEquals(2, classes.size());
+        assertEquals(4, classes.size());
     }
 }

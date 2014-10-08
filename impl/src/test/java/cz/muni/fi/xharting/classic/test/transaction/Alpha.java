@@ -1,5 +1,9 @@
 package cz.muni.fi.xharting.classic.test.transaction;
 
+import static org.jboss.seam.annotations.TransactionPropagationType.MANDATORY;
+import static org.jboss.seam.annotations.TransactionPropagationType.NEVER;
+import static org.jboss.seam.annotations.TransactionPropagationType.SUPPORTS;
+
 import java.io.Serializable;
 
 import javax.annotation.Resource;
@@ -7,18 +11,18 @@ import javax.transaction.SystemException;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.TransactionPropagationType;
 import org.jboss.seam.annotations.Transactional;
 
 /**
- * A test component for transactional tests.
+ * Seam2 component for transactional tests.
  *
  * @author pandreev
  *
  */
-@Name("transactionalBean")
-public class TransactionalBean implements Serializable {
-
+@Name("alpha")
+public class Alpha implements Serializable {
+    private static final long serialVersionUID = -2579343717564002446L;
+    
     @Resource(lookup = "java:comp/TransactionSynchronizationRegistry")
     private TransactionSynchronizationRegistry transactionSynchronizationRegistry;
 
@@ -40,7 +44,7 @@ public class TransactionalBean implements Serializable {
      * @return current transaction status
      * @throws SystemException
      */
-    @Transactional(TransactionPropagationType.SUPPORTS)
+    @Transactional(SUPPORTS)
     public int supports() throws SystemException {
         return transactionSynchronizationRegistry.getTransactionStatus();
     }
@@ -51,7 +55,7 @@ public class TransactionalBean implements Serializable {
      * @return current transaction status
      * @throws SystemException
      */
-    @Transactional(TransactionPropagationType.MANDATORY)
+    @Transactional(MANDATORY)
     public int mandatory() throws SystemException {
         return transactionSynchronizationRegistry.getTransactionStatus();
     }
@@ -62,7 +66,7 @@ public class TransactionalBean implements Serializable {
      * @return current transaction status
      * @throws SystemException
      */
-    @Transactional(TransactionPropagationType.NEVER)
+    @Transactional(NEVER)
     public int never() throws SystemException {
         return transactionSynchronizationRegistry.getTransactionStatus();
     }

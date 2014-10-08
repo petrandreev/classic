@@ -25,8 +25,8 @@ public class WarTest extends ScanTest {
         WebArchive war = createSeamWebApp("test.war", Alpha.class, ScanTest.class, WarTest.class).addPackage(AlphaJet.class.getPackage());
         war.addAsLibrary(createSeamJar("bravo.jar", Bravo.class, Foo.class, Bar.class));
         war.addAsLibrary(createSeamJar("charlie.jar", Charlie.class));
+        war.addAsLibrary(createSeamJar("delta.jar", Delta.class));
         war.addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml");
-        //log.trace(war.toString(true));
         return war;
     }
 }

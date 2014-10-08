@@ -16,7 +16,4 @@
     <extension qualifier="transaction">
         <property name="manager">${arquillian.transaction.manager}</property>
     </extension>
-    <extension qualifier="webdriver-phantomjs">
-        <property name="browser">phantomjs</property>
-    </extension>
 </arquillian>

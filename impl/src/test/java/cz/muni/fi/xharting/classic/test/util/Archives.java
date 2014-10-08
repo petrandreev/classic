@@ -1,6 +1,7 @@
 package cz.muni.fi.xharting.classic.test.util;
 
-import static cz.muni.fi.xharting.classic.test.util.Dependencies.*;
+import static cz.muni.fi.xharting.classic.test.util.Dependencies.DELTASPIKE_CORE;
+import static cz.muni.fi.xharting.classic.test.util.Dependencies.DELTASPIKE_MODULE_SERVLET;
 import static cz.muni.fi.xharting.classic.test.util.Dependencies.REFLECTIONS;
 
 import javax.enterprise.inject.spi.Extension;
@@ -59,7 +60,7 @@ public class Archives {
         if (bundleSeamClassic) {
             war.addAsLibrary(createSeamClassic()).addAsLibraries(DELTASPIKE_CORE, DELTASPIKE_MODULE_SERVLET, REFLECTIONS);
         }
-        //log.trace(war.toString(true));
+        // log.trace(war.toString(true));
         return war;
     }
 
