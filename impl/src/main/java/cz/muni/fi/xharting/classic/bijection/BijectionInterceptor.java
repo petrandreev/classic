@@ -9,7 +9,6 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -62,17 +61,13 @@ public class BijectionInterceptor implements Serializable {
     private ScopeExtension extension;
 
     private BeanDescriptor descriptor;
+
     private Object target;
 
-    // This is a workaround for WELD-1016 - the state of the interceptor is not kept since multiple interceptors instances are
-    // used per target instance.
-    // Otherwise, a boolean field would be enough for us.
-    private static ThreadLocal<Set<Object>> injected = new ThreadLocal<Set<Object>>() {
-        @Override
-        protected Set<Object> initialValue() {
-            return new HashSet<Object>();
-        }
-    };
+    /**
+     * We use a simple boolean filed for WELD-1016 is fixed since 1.1.6.Final
+     */
+    private boolean injected = false;
 
     protected BijectionInterceptor() {
     }
@@ -108,7 +103,7 @@ public class BijectionInterceptor implements Serializable {
 
     @AroundInvoke
     public Object aroundInvoke(InvocationContext ctx) throws Exception {
-        if (injected.get().contains(ctx.getTarget())) {
+        if (injected) {
             return ctx.proceed(); // reentrant method calls
         }
 
@@ -117,7 +112,7 @@ public class BijectionInterceptor implements Serializable {
         }
 
         inject(true);
-        injected.get().add(target);
+        injected = true;
 
         try {
             Object result = ctx.proceed();
@@ -128,7 +123,7 @@ public class BijectionInterceptor implements Serializable {
             return result;
 
         } finally {
-            injected.get().remove(target);
+            injected = false;
         }
     }
 
