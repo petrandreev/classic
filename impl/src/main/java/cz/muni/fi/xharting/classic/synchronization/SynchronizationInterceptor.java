@@ -25,13 +25,14 @@ import org.jboss.seam.core.LockTimeoutException;
 public class SynchronizationInterceptor implements Serializable {
 
     private static final long serialVersionUID = -5701898667462097519L;
+
     private ReentrantLock lock = new ReentrantLock(true);
 
     @Inject
     private Conversation conversation;
 
     @AroundInvoke
-    public Object intercept(InvocationContext ctx) throws Exception {
+    public Object aroundInvoke(InvocationContext ctx) throws Exception {
         long timeout = getTimeout(ctx.getTarget().getClass(), ctx.getMethod());
         if (lock.tryLock(timeout, TimeUnit.MILLISECONDS)) {
             try {
