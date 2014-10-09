@@ -1,23 +1,26 @@
 package cz.muni.fi.xharting.classic.test.bootstrap;
 
-import org.jboss.seam.ScopeType;
-import org.jboss.seam.annotations.Create;
-import org.jboss.seam.annotations.Destroy;
-import org.jboss.seam.annotations.Name;
-import org.jboss.seam.annotations.Scope;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import javax.enterprise.context.RequestScoped;
 
-@Name("alpha")
-@Scope(ScopeType.EVENT)
-public class Alpha {
+/**
+ * Native CDI bean for functionality comparison.
+ * 
+ * @author pan
+ *
+ */
+@RequestScoped
+public class Foxtrot {
 
     private boolean initCalled = false;
 
     private static boolean destroyCalled = false;
 
-    public Alpha() {
+    public Foxtrot() {
     }
 
-    @Create
+    @PostConstruct
     public void init() {
         initCalled = true;
     }
@@ -29,7 +32,7 @@ public class Alpha {
     public void ping() {
     }
 
-    @Destroy
+    @PreDestroy
     public void destroy() {
         destroyCalled = true;
     }

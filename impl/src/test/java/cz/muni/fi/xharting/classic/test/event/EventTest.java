@@ -40,7 +40,7 @@ public class EventTest {
 
     @Test
     public void testEventsDispatched() {
-    	Events events = Events.instance();
+        Events events = Events.instance();
         observingBean.reset();
         events.raiseEvent("foo");
         assertEquals(1, observingBean.getFooObserverCalled());
@@ -77,7 +77,7 @@ public class EventTest {
         assertEquals(1, observingBean.getFooObserverCalled());
         assertEquals(1, observingBean.getFooBarObserverCalled());
         assertEquals(0, observingBean.getBarObserverCalled());
-        
+
         observingBean.reset();
         bean.fooBar();
         assertEquals(1, observingBean.getFooObserverCalled());
@@ -100,10 +100,10 @@ public class EventTest {
         assertEquals(0, observingBean.getFooBarObserverCalled());
         assertEquals(0, observingBean.getBarObserverCalled());
     }
-    
+
     @Test
     public void testEventParameters() {
-    	Events events = Events.instance();
+        Events events = Events.instance();
         String string = "Jozef";
         Integer integer = 13;
         Collection<?> collection = new LinkedList<Object>();
@@ -118,15 +118,15 @@ public class EventTest {
     @Test
     @Ignore("CDI-124")
     public void testReception() {
-    	Events events = Events.instance();
+        Events events = Events.instance();
         events.raiseEvent("ignoredEvent");
         assertFalse(NonInitializedObservingBean.isObserverCalled());
     }
-    
+
     @Test
     public void testAsynchronousEvent()
     {
-    	Events events = Events.instance();
+        Events events = Events.instance();
         observingBean.reset();
         assertEquals(0, observingBean.getAsyncObserverCalled());
         events.raiseAsynchronousEvent("asynchronous");
@@ -138,11 +138,11 @@ public class EventTest {
         }
         assertEquals(1, observingBean.getAsyncObserverCalled());
     }
-    
+
     @Test
     public void testTimedEvent()
     {
-    	Events events = Events.instance();
+        Events events = Events.instance();
         observingBean.reset();
         assertEquals(0, observingBean.getTimedEventObserverCalled());
         events.raiseTimedEvent("timed", new Schedule(1000l), "bang!");
@@ -155,21 +155,21 @@ public class EventTest {
         assertEquals(1, observingBean.getTimedEventObserverCalled());
         assertEquals("bang!", observingBean.getTimedEventPayload());
     }
-    
+
     @Test
     public void testObserverResolution(BeanManager manager)
     {
         EventPayload payload = new EventPayload("");
         assertEquals(2, manager.resolveObserverMethods(payload, new EventQualifier.EventQualifierLiteral("foo", TransactionPhase.IN_PROGRESS)).size());
         assertEquals(1, manager.resolveObserverMethods(payload, new EventQualifier.EventQualifierLiteral("ignoredEvent", TransactionPhase.IN_PROGRESS)).size());
-        
+
         assertEquals(2, manager.resolveObserverMethods(payload, new EventQualifier.EventQualifierLiteral("foo", TransactionPhase.AFTER_COMPLETION)).size());
         assertEquals(1, manager.resolveObserverMethods(payload, new EventQualifier.EventQualifierLiteral("ignoredEvent", TransactionPhase.AFTER_COMPLETION)).size());
-        
+
         assertEquals(2, manager.resolveObserverMethods(payload, new EventQualifier.EventQualifierLiteral("foo", TransactionPhase.AFTER_SUCCESS)).size());
         assertEquals(1, manager.resolveObserverMethods(payload, new EventQualifier.EventQualifierLiteral("ignoredEvent", TransactionPhase.AFTER_SUCCESS)).size());
     }
-    
+
     @Test
     public void testRuntimeExceptionInObserver() {
         try {
@@ -180,7 +180,7 @@ public class EventTest {
             assertNull(e.getCause());
         }
     }
-    
+
     @Test
     public void testCheckedExceptionInObserver() {
         try {

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import org.jboss.seam.ScopeType;
 import org.jboss.seam.annotations.Create;
+import org.jboss.seam.annotations.Destroy;
 import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Role;
 import org.jboss.seam.annotations.Roles;
@@ -17,6 +18,11 @@ public class Bravo implements Serializable {
 
     private boolean initCalled = false;
 
+    private static boolean destroyCalled = false;
+
+    public Bravo() {
+    }
+
     @Create
     public void init() {
         initCalled = true;
@@ -27,5 +33,14 @@ public class Bravo implements Serializable {
     }
 
     public void ping() {
+    }
+
+    @Destroy
+    public void destroy() {
+        destroyCalled = true;
+    }
+
+    public static boolean isDestroyCalled() {
+        return destroyCalled;
     }
 }

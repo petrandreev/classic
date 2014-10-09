@@ -13,6 +13,7 @@ import javax.inject.Named;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.junit.InSequence;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +24,7 @@ public class BeanRegistrationTest {
     @Deployment
     public static WebArchive getDeployment() {
         return createSeamWebApp("test.war", Alpha.class, Bravo.class, Charlie.class, Delta.class, DeltaFactory.class,
-                Echo.class, EchoLocal.class);
+            Echo.class, EchoLocal.class, Foxtrot.class);
     }
 
     @Test
@@ -37,11 +38,17 @@ public class BeanRegistrationTest {
     }
 
     @Test
-    public void testInitializers(@Named("alpha") Alpha alpha, @Named("b1") Bravo b1) {
+    public void testInitializers(@Named("alpha") Alpha alpha, @Named("bravo") Bravo bravo, @Named("b1") Bravo b1, @Named("b2") Bravo b2, Foxtrot foxtrot) {
+        foxtrot.ping();
         alpha.ping();
+        bravo.ping();
         b1.ping();
+        b2.ping();
+        assertTrue(foxtrot.isInitCalled());
         assertTrue(alpha.isInitCalled());
+        assertTrue(bravo.isInitCalled());
         assertTrue(b1.isInitCalled());
+        assertTrue(b2.isInitCalled());
     }
 
     @Test
@@ -56,5 +63,13 @@ public class BeanRegistrationTest {
         assertEquals("d1", d1.getName());
         assertEquals("d2", d2.getName());
         assertEquals("d3", d3.getName());
+    }
+
+    @Test
+    @InSequence(1000)
+    public void testDesctructors() {
+        assertTrue(Foxtrot.isDestroyCalled());
+        assertTrue(Alpha.isDestroyCalled());
+        assertTrue(Bravo.isDestroyCalled());
     }
 }
