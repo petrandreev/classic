@@ -18,6 +18,6 @@ public class CreateAnnotationRedefiner extends AbstractAnnotationRedefiner<Creat
 
     @Override
     public void redefine(RedefinitionContext<Create> ctx) {
-        add(PostConstructLiteral.INSTANCE, ctx.getAnnotatedElement(), ctx.getAnnotatedTypeBuilder());
+        replace(Create.class, PostConstructLiteral.INSTANCE, ctx.getAnnotatedElement(), ctx.getAnnotatedTypeBuilder());
     }
 }

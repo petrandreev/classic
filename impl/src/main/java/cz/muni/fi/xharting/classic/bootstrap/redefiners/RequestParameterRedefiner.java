@@ -21,8 +21,7 @@ public class RequestParameterRedefiner extends AbstractAnnotationRedefiner<Reque
         AnnotatedTypeBuilder<?> builder = ctx.getAnnotatedTypeBuilder();
         RequestParameter requestParameter = ctx.getAnnotatedElement().getAnnotation(RequestParameter.class);
         RequestParameterLiteral replacement = new RequestParameterLiteral(requestParameter.value());
-        remove(RequestParameter.class, ctx.getAnnotatedElement(), builder);
-        add(replacement, ctx.getAnnotatedElement(), builder);
+        replace(RequestParameter.class, replacement, ctx.getAnnotatedElement(), builder);
         add(InjectLiteral.INSTANCE, ctx.getAnnotatedElement(), builder);
     }
 }

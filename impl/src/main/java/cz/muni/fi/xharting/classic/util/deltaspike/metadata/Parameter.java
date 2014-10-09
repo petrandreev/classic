@@ -45,7 +45,7 @@ public abstract class Parameter<X> implements AnnotatedElement {
         }
     }
 
-    private static class MethodParameter<X> extends Parameter<X> {
+    public static class MethodParameter<X> extends Parameter<X> {
 
         private final Method declaringMethod;
 
@@ -78,7 +78,7 @@ public abstract class Parameter<X> implements AnnotatedElement {
 
     }
 
-    private static class ConstructorParameter<X> extends Parameter<X> {
+    public static class ConstructorParameter<X> extends Parameter<X> {
 
         private final Constructor<X> declaringConstructor;
 

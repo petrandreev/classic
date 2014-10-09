@@ -89,4 +89,8 @@ public class RedefinitionContext<A extends Annotation> {
         return elementName;
     }
 
+    @Override
+    public String toString() {
+        return "RedefinitionContext [annotatedElement=" + annotatedElement + ", baseType=" + baseType + ", elementName=" + elementName + "]";
+    }
 }

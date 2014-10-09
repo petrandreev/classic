@@ -18,6 +18,6 @@ public class DestroyAnnotationRedefiner extends AbstractAnnotationRedefiner<Dest
 
     @Override
     public void redefine(RedefinitionContext<Destroy> ctx) {
-        add(PreDestroyLiteral.INSTANCE, ctx.getAnnotatedElement(), ctx.getAnnotatedTypeBuilder());
+        replace(Destroy.class, PreDestroyLiteral.INSTANCE, ctx.getAnnotatedElement(), ctx.getAnnotatedTypeBuilder());
     }
 }
