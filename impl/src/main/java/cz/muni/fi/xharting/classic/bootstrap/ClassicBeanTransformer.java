@@ -15,6 +15,7 @@ import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.ObserverMethod;
+import javax.faces.view.ViewScoped;
 import javax.interceptor.InterceptorBinding;
 
 import org.apache.deltaspike.core.api.literal.NamedLiteral;
@@ -29,6 +30,7 @@ import org.jboss.seam.annotations.intercept.BypassInterceptors;
 import org.jboss.seam.annotations.intercept.Interceptors;
 import org.jboss.seam.annotations.web.RequestParameter;
 import org.jboss.solder.reflection.Synthetic;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
@@ -74,6 +76,8 @@ import cz.muni.fi.xharting.classic.util.reference.DirectReferenceFactory;
  *
  */
 public class ClassicBeanTransformer {
+
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(ClassicBeanTransformer.class);
 
     // a special handling is required for entities using direct reference holder - this a specific qualifier
     private static final String NAMESPACE = "cz.muni.fi.xharting.classic";
@@ -134,9 +138,7 @@ public class ClassicBeanTransformer {
                 // @BypassInterceptors
                 if (builder.getJavaClass().isAnnotationPresent(BypassInterceptors.class)) {
                     removeInterceptorBindings(builder);
-                }
-                // Register interceptors
-                else {
+                } else {// Register interceptors
                     registerInterceptors(bean, role, builder);
                 }
                 addAnnotatedType(bean, builder);
@@ -255,10 +257,38 @@ public class ClassicBeanTransformer {
     private <T> void registerInterceptors(BeanDescriptor descriptor, RoleDescriptor role, AnnotatedTypeBuilder<T> builder) {
         // support for injection/outjection
         builder.addToClass(BijectionInterceptor.Bijected.BijectedLiteral.INSTANCE);
-        // session, conversation and view scoped components are synchronized automatically
+        registerSynchronized(descriptor, role, builder);
+    }
+
+    /**
+     * Taken over from Seam 2.3 and adapted to Classic.
+     */
+    private <T> void registerSynchronized(BeanDescriptor descriptor, RoleDescriptor role, AnnotatedTypeBuilder<T> builder) {
         Class<? extends Annotation> scope = role.getCdiScope();
-        if (!descriptor.getJavaClass().isAnnotationPresent(Synchronized.class) && SessionScoped.class.equals(scope)) {
-            builder.addToClass(SynchronizedLiteral.DEFAULT_INSTANCE);
+        boolean hasAnnotation = descriptor.getJavaClass().isAnnotationPresent(Synchronized.class);
+        if (hasAnnotation && BeanType.STATEFUL == descriptor.getBeanType()) {
+            builder.removeFromClass(Synchronized.class);
+            hasAnnotation = false;
+            log.warn("Seam synchronization interceptor is disabled for @Synchronized @Stateful component - Seam synchronization will be disabled for: {} of {}", role.getName(),
+                descriptor.getJavaClass().getName());
+        }
+        // Technically, we don't need to synchronize page-scoped components if StateManager#isSavingStateInClient(FacesContext)
+        // is true
+        boolean synchronize = (SessionScoped.class.equals(scope) || ViewScoped.class.equals(scope) || hasAnnotation) && BeanType.STATEFUL != descriptor.getBeanType();
+        validateSynchronized(descriptor, role, synchronize);
+        if (synchronize) {
+            if (!hasAnnotation) {
+                builder.addToClass(SynchronizedLiteral.DEFAULT_INSTANCE);
+            }
+        }
+    }
+
+    /**
+     * Taken over from Seam 2.3 and adapted to Classic.
+     */
+    protected void validateSynchronized(BeanDescriptor descriptor, RoleDescriptor role, boolean synchronize) {
+        if (BeanType.STATELESS == descriptor.getBeanType() && synchronize) {
+            throw new IllegalArgumentException("@Synchronized not meaningful for stateless components: " + role.getName());
         }
     }
 
