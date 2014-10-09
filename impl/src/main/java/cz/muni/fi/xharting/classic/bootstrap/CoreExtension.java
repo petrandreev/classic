@@ -73,7 +73,7 @@ public class CoreExtension implements Extension {
         log.trace("Processing {} Seam 2 components", classes.size());
         Multimap<String, BeanDescriptor> discoveredManagedBeanDescriptors = HashMultimap.create();
         for (Class<?> clazz : classes) {
-            //we do not consider inherited @Name annotations
+            // we do not consider inherited @Name annotations
             if (clazz.isAnnotationPresent(Name.class)) {
                 BeanDescriptor beanDescriptor = new BeanDescriptor(clazz);
                 discoveredManagedBeanDescriptors.put(beanDescriptor.getImplicitRole().getName(), beanDescriptor);
@@ -99,10 +99,10 @@ public class CoreExtension implements Extension {
         log.debug("Registering {} additional annotated types.", beanTransformer.getAdditionalAnnotatedTypes().size());
         for (AnnotatedType<?> annotatedType : beanTransformer.getAdditionalAnnotatedTypes()) {
             Named named = annotatedType.getAnnotation(Named.class);
-            if (named != null) // entities overriden by a direct reference bean are the case
-                log.debug("Registering {}", named.value());
+            if (named != null) { // entities overriden by a direct reference bean are the case
+                log.debug("Registering additional: {}->{}", named.value(), annotatedType.getJavaClass());
+            }
             event.addAnnotatedType(annotatedType);
-            log.debug("Registered {}", annotatedType);
         }
 
         // make metamodel accessible at runtime
@@ -116,6 +116,12 @@ public class CoreExtension implements Extension {
         AnnotatedType<T> type = event.getAnnotatedType();
         AnnotatedType<T> modifiedType = beanTransformer.getModifiedAnnotatedType(type.getJavaClass());
         if (modifiedType != null) {
+            if (log.isDebugEnabled()) {
+                Named named = modifiedType.getAnnotation(Named.class);
+                if (named != null) {
+                    log.debug("Registering modified: {}->{}", named.value(), modifiedType.getJavaClass());
+                }
+            }
             event.setAnnotatedType(modifiedType);
         } else {
             event.veto();
