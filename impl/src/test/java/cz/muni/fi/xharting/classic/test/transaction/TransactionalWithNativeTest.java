@@ -45,7 +45,6 @@ public class TransactionalWithNativeTest {
     }
 
     @Test
-    @Inject
     public void requiredTypeLevel(Charlie charlie) throws SystemException {
         int status = charlie.required();
         assertEquals("the transaction must be active!", STATUS_ACTIVE, status);
