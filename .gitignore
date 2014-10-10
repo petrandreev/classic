@@ -2,6 +2,8 @@ bin
 .classpath
 .project
 .settings
+.tern-project
 target
 test-output
+phantomjsdriver.log
 
