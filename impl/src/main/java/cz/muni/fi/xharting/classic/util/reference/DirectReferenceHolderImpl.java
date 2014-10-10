@@ -6,9 +6,9 @@ import javax.enterprise.inject.Vetoed;
 
 /**
  * Simple reference carrier. It is registered as bean using {@link DirectReferenceHolder}.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  * @param <T> type of reference
  */
 @Vetoed

@@ -24,19 +24,17 @@ import javax.el.FunctionMapper;
 
 /**
  * <p>
- * A dummy function mapper that is installed by default. It is not capable of
- * mapping any functions.
+ * A dummy function mapper that is installed by default. It is not capable of mapping any functions.
  * </p>
  * <p/>
  * <p>
- * Other modules (such as the Faces Module) may install a bean that
- * overrides this and provides function mapping.
+ * Other modules (such as the Faces Module) may install a bean that overrides this and provides function mapping.
  * </p>
  *
  * @author Pete Muir
  * @author Stuart Douglas
  */
-//@DefaultBean(FunctionMapper.class)
+// @DefaultBean(FunctionMapper.class)
 @Mapper
 public class DummyFunctionMapper extends FunctionMapper {
 

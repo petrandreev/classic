@@ -39,8 +39,8 @@ import org.jboss.solder.literal.ResolverLiteral;
 
 /**
  * <p>
- * Creates the composite EL Resolver which contains the default EL resolvers,
- * the CDI EL resolver and any user registered resolvers.
+ * Creates the composite EL Resolver which contains the default EL resolvers, the CDI EL resolver and any user registered
+ * resolvers.
  * </p>
  *
  * @author Stuart Douglas

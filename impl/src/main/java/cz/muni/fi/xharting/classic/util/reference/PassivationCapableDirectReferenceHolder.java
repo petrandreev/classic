@@ -7,7 +7,7 @@ import javax.enterprise.inject.spi.PassivationCapable;
 
 /**
  * Passivation capable version of {@link DirectReferenceHolder}.
- * 
+ *
  * @author Jozef Hartinger
  */
 public class PassivationCapableDirectReferenceHolder<T> extends DirectReferenceHolder<T> implements PassivationCapable {

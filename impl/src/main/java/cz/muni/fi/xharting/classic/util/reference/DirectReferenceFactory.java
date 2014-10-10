@@ -26,7 +26,7 @@ public class DirectReferenceFactory {
     /**
      * Creates a pair of {@link DirectReferenceHolder} and {@link DirectReferenceProducer} based on the parameters, which
      * represent a bean.
-     * 
+     *
      * @param type the java type of the bean
      * @param types java types of the bean
      * @param qualifiers qualifiers of the bean

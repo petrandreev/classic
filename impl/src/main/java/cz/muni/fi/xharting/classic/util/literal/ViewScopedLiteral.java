@@ -5,7 +5,7 @@ import javax.faces.view.ViewScoped;
 
 /**
  * JSF 2.2 {@link ViewScoped} literal.
- * 
+ *
  * @author pan
  *
  */

@@ -10,28 +10,26 @@ import javax.inject.Inject;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
-import org.jboss.seam.servlet.SeamListener;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(Arquillian.class)
-public class StartupTest {
+public class ApplicationScopeStartupTest {
 
     @Inject
     private StartupEventListener listener;
 
     @Deployment
     public static WebArchive getDeployment() {
-        return createSeamWebApp("test.war", Alpha.class, Bravo.class, Charlie.class, Delta.class, Echo.class,
-                StartupEventListener.class, Superclass.class, SeamListener.class);
+        return createSeamWebApp("test.war", Alpha.class, Bravo.class, Charlie.class, Delta.class, Echo.class, StartupEventListener.class, Superclass.class);
     }
 
     @Test
-    public void testStartupWithDependencies() {
+    public void testApplicationScopedStartupWithDependencies() {
         List<String> startedComponents = listener.getStartedComponents();
         for (String component : new String[] { "alpha", "bravo", "delta", "echo" }) {
-            assertTrue(startedComponents.contains(component));
+            assertTrue(component + " not started", startedComponents.contains(component));
             startedComponents.remove(component);
         }
         // charlie/foxtrot observed twice due to role

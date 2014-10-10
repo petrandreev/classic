@@ -41,9 +41,9 @@ import cz.muni.fi.xharting.classic.util.reference.DirectReferenceProducer;
 
 /**
  * This interceptor handles injection and outjection for legacy components.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Interceptor
 @BijectionInterceptor.Bijected

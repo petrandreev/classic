@@ -14,14 +14,14 @@ import javax.enterprise.util.AnnotationLiteral;
 /**
  * Indicates that a direct reference to the given bean instance should always be injected instead of a client proxy. Using
  * direct reference has several implications:
- * 
+ *
  * Firstly, it is not allowed to inject A into B using direct reference if the scope of A is narrower that the scope of B.
- * 
+ *
  * Secondly, if A is injected into B and B declares a passivating scope, A must be passivation capable (as defined in the CDI
  * spec).
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Target({ TYPE, METHOD, FIELD })
 @Retention(RUNTIME)

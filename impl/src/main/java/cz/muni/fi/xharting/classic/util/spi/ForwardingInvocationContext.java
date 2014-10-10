@@ -8,9 +8,9 @@ import javax.interceptor.InvocationContext;
 
 /**
  * Utility class for supporting the legacy InvocationContext interface.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public abstract class ForwardingInvocationContext implements InvocationContext {
 

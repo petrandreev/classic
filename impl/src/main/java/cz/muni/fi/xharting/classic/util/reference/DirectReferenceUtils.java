@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Javassist utilities for <code>DirectReferenceHolder</code>.
- * 
+ *
  * @author pan
  *
  */

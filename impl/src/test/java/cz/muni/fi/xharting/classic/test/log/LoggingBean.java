@@ -18,9 +18,9 @@ public class LoggingBean implements Serializable {
     private Log log1;
     @Logger
     private Log log2;
-    
+
     private Log log3 = Logging.getLog("foo.bar");
-    
+
     public void logSomething()
     {
         log1.info("Creating new order for user: #{user.username} quantity: #0", 13);

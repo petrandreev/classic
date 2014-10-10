@@ -14,9 +14,9 @@ import javax.inject.Qualifier;
 
 /**
  * A qualifier used for identifying Seam components for internal purposes.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Qualifier
 @Target({ TYPE, METHOD, PARAMETER, FIELD })

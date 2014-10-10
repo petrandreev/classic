@@ -9,7 +9,7 @@ import org.apache.deltaspike.core.api.common.DeltaSpike;
 
 /**
  * Produces the replacement for the Solder <code>RequestParam</code> using CDI-style one.
- * 
+ *
  * @author pan
  * @see <a
  *      href="http://docs.jboss.org/weld/reference/latest/en-US/html/injection.html#_the_literal_injectionpoint_literal_object">4.11.
@@ -21,7 +21,6 @@ public class HttpServletRequestParameterProducer {
     @DeltaSpike
     private HttpServletRequest request;
 
-    // TODO: it only works in JSF environment
     @Produces
     @RequestParameter
     public String getParamValue(InjectionPoint injectionPoint) {

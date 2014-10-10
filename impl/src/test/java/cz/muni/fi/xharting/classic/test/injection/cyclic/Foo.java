@@ -10,13 +10,13 @@ public class Foo {
 
     @In
     private Bar bar;
-    
+
     // invoked from the test
     public void a() {
         bar.b(); // cause reentrant call
         bar.d(); // verify that Foo is in consistent state
     }
-    
+
     // reentrant method call
     public void c() {
         System.out.println();

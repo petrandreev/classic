@@ -29,9 +29,9 @@ import cz.muni.fi.xharting.classic.util.ScopeUtils;
 
 /**
  * Registers scopes and extensions provided by Classic.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class ScopeExtension implements Extension {
 

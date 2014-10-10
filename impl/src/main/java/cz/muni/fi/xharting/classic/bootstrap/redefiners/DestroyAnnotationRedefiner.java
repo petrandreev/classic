@@ -10,9 +10,9 @@ import cz.muni.fi.xharting.classic.util.literal.PreDestroyLiteral;
 
 /**
  * Provides trivial syntactic transformation of {@link Destroy} to {@link PreDestroy}.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class DestroyAnnotationRedefiner extends AbstractAnnotationRedefiner<Destroy> {
 

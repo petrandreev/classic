@@ -1,12 +1,16 @@
 package cz.muni.fi.xharting.classic.bootstrap;
 
+import static cz.muni.fi.xharting.classic.util.StartupUtils.startup;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
+import javax.enterprise.inject.spi.AfterDeploymentValidation;
 import javax.enterprise.inject.spi.AnnotatedType;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
@@ -38,15 +42,15 @@ import cz.muni.fi.xharting.classic.metadata.NamespaceDescriptor;
 
 /**
  * This extension coordinates the bootstrap of the Classic module.
- * 
+ *
  * Firstly, the extension initiates scanning during which legacy components are discovered. The result of the scan is made
  * available to other extension. The {@link ScanningCompleteEvent} is used for this purpose.
- * 
+ *
  * Based on the scanning result, the extension reads XML descriptors and component definitions, processes conditional
  * installation and transforms component definitions using {@link ClassicBeanTransformer}.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class CoreExtension implements Extension {
 
@@ -168,6 +172,11 @@ public class CoreExtension implements Extension {
             InjectionTarget<T> replacement = new ConfiguringInjectionTarget<T>(configuration.getInitialValueMap().get(named.value()), delegate, annotatedType, named.value());
             event.setInjectionTarget(replacement);
         }
+    }
+
+    void afterDeploymentValidation(@Observes AfterDeploymentValidation event, BeanManager manager) {
+        // start-up @ApplicationScoped @Startup beans
+        startup(registry, ApplicationScoped.class, manager);
     }
 
     protected Map<String, NamespaceDescriptor> registerNamespaces(Collection<Class<?>> packages) {

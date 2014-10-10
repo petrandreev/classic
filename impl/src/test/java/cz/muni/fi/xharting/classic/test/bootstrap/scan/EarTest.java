@@ -44,7 +44,7 @@ public class EarTest extends ScanTest {
 
         WebArchive war = createSeamWebApp("test.war", false, false, Alpha.class);
         ear.addAsModule(war);
-        //log.trace(ear.toString(true));
+        // log.trace(ear.toString(true));
         return ear;
     }
 

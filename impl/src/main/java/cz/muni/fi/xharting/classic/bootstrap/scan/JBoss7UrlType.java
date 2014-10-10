@@ -12,7 +12,7 @@ import org.reflections.vfs.Vfs.UrlType;
 import org.reflections.vfs.ZipDir;
 
 /**
- * 
+ *
  * @author pan
  * @see <a href="https://code.google.com/p/reflections/wiki/JBossIntegration">JBoss vfs integration</a>
  */

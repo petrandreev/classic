@@ -27,7 +27,7 @@ public class Bravo implements Serializable {
 
     /**
      * TX mandatory.
-     * 
+     *
      * @return current transaction status
      * @throws SystemException
      */

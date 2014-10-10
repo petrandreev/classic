@@ -20,9 +20,9 @@ import javax.persistence.metamodel.Metamodel;
 
 /**
  * Utility implementation of {@link EntityManager} which delegates all method calls to the underlying delegate instance.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public abstract class ForwardingEntityManager implements EntityManager {
 
@@ -229,8 +229,8 @@ public abstract class ForwardingEntityManager implements EntityManager {
         return getEntityManagerDelegate().getDelegate();
     }
 
-    //JPA 2.1 stuff
-    
+    // JPA 2.1 stuff
+
     @Override
     public Query createQuery(CriteriaUpdate updateQuery) {
         return getEntityManagerDelegate().createQuery(updateQuery);

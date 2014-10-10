@@ -9,9 +9,9 @@ import javax.enterprise.inject.spi.BeanManager;
 
 /**
  * Various annotation-related utilities
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class Annotations {
 
@@ -20,7 +20,7 @@ public class Annotations {
 
     /**
      * Searches a given set of annotations for an instance of a given annotation.
-     * 
+     *
      * @param annotations set of annotations to search
      * @param expectedAnnotationType annotation type to look for
      * @return the first found instance of a given type in the set of annotation or null if matching annotation is not found

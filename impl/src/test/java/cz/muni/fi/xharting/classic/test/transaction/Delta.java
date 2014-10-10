@@ -27,7 +27,7 @@ public class Delta implements Serializable {
 
     /**
      * TX required by default.
-     * 
+     *
      * @return current transaction status
      * @throws SystemException
      */
@@ -38,7 +38,7 @@ public class Delta implements Serializable {
 
     /**
      * TX supported.
-     * 
+     *
      * @return current transaction status
      * @throws SystemException
      */
@@ -49,7 +49,7 @@ public class Delta implements Serializable {
 
     /**
      * TX mandatory.
-     * 
+     *
      * @return current transaction status
      * @throws SystemException
      */
@@ -60,7 +60,7 @@ public class Delta implements Serializable {
 
     /**
      * TX never.
-     * 
+     *
      * @return current transaction status
      * @throws SystemException
      */

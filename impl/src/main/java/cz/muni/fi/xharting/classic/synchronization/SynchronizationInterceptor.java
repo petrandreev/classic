@@ -16,7 +16,7 @@ import org.jboss.seam.core.LockTimeoutException;
 
 /**
  * Serializes calls to a component.
- * 
+ *
  * @author Gavin King
  * @author Jozef Hartinger
  */

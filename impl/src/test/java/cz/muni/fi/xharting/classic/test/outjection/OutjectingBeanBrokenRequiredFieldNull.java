@@ -12,9 +12,9 @@ public class OutjectingBeanBrokenRequiredFieldNull {
     @SuppressWarnings("unused")
     @Out
     private String foo;
-    
+
     public void ping()
     {
     }
-    
+
 }

@@ -12,7 +12,7 @@ public class Book {
 
     private static final AtomicInteger identifier = new AtomicInteger();
     private static volatile int lastDestroyed = 0;
-    
+
     private volatile int id;
 
     public Book() {
@@ -21,13 +21,13 @@ public class Book {
     public int getId() {
         return id;
     }
-    
+
     @PostConstruct
     public void postConstruct()
     {
         this.id = identifier.getAndIncrement();
     }
-    
+
     @PreDestroy
     public void preDestroy()
     {

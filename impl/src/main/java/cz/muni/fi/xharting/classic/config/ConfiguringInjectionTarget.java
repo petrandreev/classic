@@ -33,9 +33,9 @@ import cz.muni.fi.xharting.classic.util.ClassicReflections;
 
 /**
  * {@link InjectionTarget} implementation which performs Seam static injection of initial values.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  * @param <T>
  */
 public class ConfiguringInjectionTarget<T> extends ForwardingInjectionTarget<T> {

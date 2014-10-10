@@ -32,16 +32,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * <p>
- * Qualifies the {@link FunctionMapper} and {@link VariableMapper} beans used to
- * create an {@link ELContext} for use in {@link Expressions}.
+ * Qualifies the {@link FunctionMapper} and {@link VariableMapper} beans used to create an {@link ELContext} for use in
+ * {@link Expressions}.
  * </p>
  * <p/>
  * <p>
- * Solder will inject a {@link FunctionMapper} and
- * {@link VariableMapper} for each instantiation of an {@link ELContext} (and
- * hence for each instantiation of {@link Expressions}); any overrides of these
- * beans should ensure that obtaining the bean instance is a lightweight
- * operation.
+ * Solder will inject a {@link FunctionMapper} and {@link VariableMapper} for each instantiation of an {@link ELContext} (and
+ * hence for each instantiation of {@link Expressions}); any overrides of these beans should ensure that obtaining the bean
+ * instance is a lightweight operation.
  * </p>
  *
  * @author Stuart Douglas
@@ -49,7 +47,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Qualifier
 @Retention(RUNTIME)
-@Target({TYPE, FIELD, METHOD, PARAMETER})
+@Target({ TYPE, FIELD, METHOD, PARAMETER })
 public @interface Mapper {
 
 }

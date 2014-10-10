@@ -25,7 +25,7 @@ public class Charlie implements Serializable {
 
     /**
      * TX required by default.
-     * 
+     *
      * @return current transaction status
      * @throws SystemException
      */

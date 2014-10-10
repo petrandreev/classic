@@ -6,10 +6,10 @@ import java.util.StringTokenizer;
 
 /**
  * Copied from Seam 2.
- * 
+ *
  * @author Gavin King
  * @author Jozef Hartinger
- * 
+ *
  */
 public class QueryParser {
     private List<String> parameterValueExpressions = new ArrayList<String>();
@@ -44,7 +44,7 @@ public class QueryParser {
                 } else {
                     String expression = token + expressionToken + tokens.nextToken();
                     ejbqlBuilder.append(':').append(
-                            getParameterName(startingParameterNumber + parameterValueExpressions.size()));
+                        getParameterName(startingParameterNumber + parameterValueExpressions.size()));
                     parameterValueExpressions.add(expression);
                 }
             } else {

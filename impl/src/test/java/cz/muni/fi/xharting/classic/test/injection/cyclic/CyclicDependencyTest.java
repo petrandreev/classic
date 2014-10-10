@@ -12,9 +12,9 @@ import org.junit.runner.RunWith;
 
 /**
  * Verifies that a cyclic dependency is allowed and reentrant method calls are handled properly.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @RunWith(Arquillian.class)
 public class CyclicDependencyTest {

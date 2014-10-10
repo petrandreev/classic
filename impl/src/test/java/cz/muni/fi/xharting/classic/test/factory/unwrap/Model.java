@@ -23,7 +23,7 @@ public class Model {
     public List<Object> getObjects() {
         return objects;
     }
-    
+
     public void addObject()
     {
         objects.add(new Object());

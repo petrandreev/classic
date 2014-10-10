@@ -12,16 +12,15 @@ import org.jboss.weld.bean.BeanIdentifiers;
 import org.jboss.weld.bean.StringBeanIdentifier;
 import org.jboss.weld.serialization.spi.BeanIdentifier;
 
-import cz.muni.fi.xharting.classic.metadata.FactoryDescriptor;
 import cz.muni.fi.xharting.classic.scope.stateless.StatelessScoped;
 import cz.muni.fi.xharting.classic.util.CdiUtils;
 
 /**
  * Represents a Seam unwrapping method. The stateless scope is used to force the container to create a proxy and thus the
  * per-method-invocation behavior is achieved.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class UnwrappedBean extends AbstractLegacyFactory<Object> {
 

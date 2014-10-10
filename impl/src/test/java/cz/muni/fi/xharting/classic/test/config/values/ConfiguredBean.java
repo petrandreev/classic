@@ -15,7 +15,10 @@ import org.jboss.seam.annotations.Scope;
 public class ConfiguredBean {
 
     public enum PhoneticAlphabet {
-        ALPHA, BRAVO, CHARLIE, DELTA;
+        ALPHA,
+        BRAVO,
+        CHARLIE,
+        DELTA;
     }
 
     protected String string;

@@ -16,4 +16,10 @@
     <extension qualifier="transaction">
         <property name="manager">${arquillian.transaction.manager}</property>
     </extension>
+    <extension qualifier="drone">
+        <property name="instantiationTimeoutInSeconds">0</property>
+    </extension>
+    <extension qualifier="webdriver">
+        <property name="browser">${browser}</property>
+    </extension>
 </arquillian>

@@ -1,6 +1,5 @@
 package cz.muni.fi.xharting.classic.metadata;
 
-
 public abstract class AbstractObserverMethodDescriptor {
 
     private String type;

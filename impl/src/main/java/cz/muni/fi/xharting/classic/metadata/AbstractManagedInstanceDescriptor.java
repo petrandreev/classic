@@ -2,7 +2,6 @@ package cz.muni.fi.xharting.classic.metadata;
 
 import org.jboss.seam.annotations.AutoCreate;
 
-
 public abstract class AbstractManagedInstanceDescriptor {
 
     private final boolean autoCreate;
@@ -25,7 +24,7 @@ public abstract class AbstractManagedInstanceDescriptor {
 
     private boolean parseAutoCreate(Class<?> javaClass) {
         return javaClass.isAnnotationPresent(AutoCreate.class)
-                || (javaClass.getPackage() != null && javaClass.getPackage().isAnnotationPresent(AutoCreate.class));
+            || (javaClass.getPackage() != null && javaClass.getPackage().isAnnotationPresent(AutoCreate.class));
     }
 
     public boolean isAutoCreate() {

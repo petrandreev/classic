@@ -71,7 +71,7 @@ public class InstallDescriptor {
     @Override
     public String toString() {
         return "InstallDescriptor [installed=" + installed + ", dependencies=" + Arrays.toString(dependencies) + ", genericDependencies=" + Arrays.toString(genericDependencies)
-                + ", classDependencies=" + Arrays.toString(classDependencies) + ", precedence=" + precedence + "]";
+            + ", classDependencies=" + Arrays.toString(classDependencies) + ", precedence=" + precedence + "]";
     }
 
 }

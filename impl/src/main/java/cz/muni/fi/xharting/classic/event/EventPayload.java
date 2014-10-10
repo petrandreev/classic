@@ -5,9 +5,9 @@ import java.util.Arrays;
 
 /**
  * Represents the payload of Seam 2 event. {@link #parameters} are passed as method parameters to the receiving method.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class EventPayload implements Serializable {
 

@@ -34,8 +34,8 @@ public class InterceptorTest {
     @Deployment
     public static WebArchive getDeployment() {
         return createSeamWebApp("test.war", true, false, BooleanInterceptor.class, IntegerInterceptor.class,
-                InterceptedBean.class, InterceptorBindings.class, NotInterceptedBean.class).addAsWebInfResource(
-                "cz/muni/fi/xharting/classic/test/intercept/beans.xml", "beans.xml");
+            InterceptedBean.class, InterceptorBindings.class, NotInterceptedBean.class).addAsWebInfResource(
+            "cz/muni/fi/xharting/classic/test/intercept/beans.xml", "beans.xml");
     }
 
     @Test
@@ -46,7 +46,7 @@ public class InterceptorTest {
 
     private boolean isPassivationCapable(Class<?> clazz) {
         List<Interceptor<?>> interceptors = manager.resolveInterceptors(InterceptionType.AROUND_INVOKE,
-                new ClassicInterceptorBinding.ClassicInterceptorBindingLiteral(clazz));
+            new ClassicInterceptorBinding.ClassicInterceptorBindingLiteral(clazz));
         assertEquals(1, interceptors.size());
         return interceptors.get(0) instanceof PassivationCapable;
     }

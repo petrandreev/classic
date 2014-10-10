@@ -25,7 +25,7 @@ public class InitialValueTest {
     @Deployment
     public static WebArchive getDeployment() {
         return createSeamWebApp("test.war", ConfiguredBean.class, ConfiguredBeanWithSetters.class).addAsResource(
-                "cz/muni/fi/xharting/classic/test/config/values/initial-value-components.xml", "META-INF/components.xml");
+            "cz/muni/fi/xharting/classic/test/config/values/initial-value-components.xml", "META-INF/components.xml");
     }
 
     @Test

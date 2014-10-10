@@ -79,7 +79,7 @@ public class InjectionTest {
     public void testClassHierarchy() {
         alpha.getHotelSubclass().checkInjection(); // will throw AssertionError if injection does not work
     }
-    
+
     @Test
     public void testInjectionOfEjbAndIntoEjb()
     {

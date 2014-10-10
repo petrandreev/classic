@@ -14,7 +14,7 @@ public class ObservingBean {
     public void alpha() {
         alpha++;
     }
-    
+
     public void bravo()
     {
         bravo++;

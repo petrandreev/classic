@@ -8,7 +8,6 @@ import org.jboss.seam.ScopeType;
 
 import cz.muni.fi.xharting.classic.util.Seam2Utils;
 
-
 public abstract class AbstractFactoryDescriptor extends AbstractManagedInstanceDescriptor {
 
     private final String name;

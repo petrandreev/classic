@@ -19,7 +19,7 @@ public class ConversationTest {
 
     @Inject
     private Wizzard wizzard;
-    
+
     @Deployment
     public static WebArchive getDeployment() {
         return createSeamWebApp("test.war").addClass(Wizzard.class);
@@ -44,7 +44,7 @@ public class ConversationTest {
             // expected
         }
     }
-    
+
     @Test
     public void testInterceptor() {
         assertFalse(wizzard.getConversation().isLongRunning());

@@ -2,7 +2,6 @@ package cz.muni.fi.xharting.classic.factory;
 
 import java.lang.annotation.Annotation;
 
-import javax.enterprise.inject.spi.BeanAttributes;
 import javax.enterprise.inject.spi.BeanManager;
 
 import org.jboss.solder.reflection.HierarchyDiscovery;
@@ -19,9 +18,9 @@ import cz.muni.fi.xharting.classic.util.CdiUtils.ManagedBeanInstance;
 
 /**
  * Represents a Seam 2 factory method with void return type. Special handling is necessary.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class LegacyVoidFactory extends LegacyFactory {
 

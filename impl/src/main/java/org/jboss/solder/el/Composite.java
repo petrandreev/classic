@@ -33,8 +33,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * <p>
- * Qualifier used to identify a {@link ELResolver} that contains the default EL
- * resolvers and any user registered el resolvers
+ * Qualifier used to identify a {@link ELResolver} that contains the default EL resolvers and any user registered el resolvers
  * </p>
  * <p/>
  * <p>
@@ -47,7 +46,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  */
 @Qualifier
 @Retention(RUNTIME)
-@Target({TYPE, FIELD, METHOD, PARAMETER})
+@Target({ TYPE, FIELD, METHOD, PARAMETER })
 @Documented
 public @interface Composite {
 

@@ -12,10 +12,10 @@ import org.jboss.seam.annotations.Unwrap;
 @Name("objects")
 @Scope(ScopeType.APPLICATION)
 public class Objects {
-    
+
     @In("model")
     private Model model;
-    
+
     @Unwrap
     public List<Object> getObjects()
     {

@@ -6,7 +6,6 @@ import java.lang.reflect.Field;
 
 import org.jboss.seam.ScopeType;
 
-
 public abstract class AbstractManagedFieldDescriptor {
 
     private final String specifiedName;
@@ -16,7 +15,7 @@ public abstract class AbstractManagedFieldDescriptor {
     private final BeanDescriptor bean;
 
     public AbstractManagedFieldDescriptor(String specifiedName, boolean required, ScopeType specifiedScope, Field field,
-            BeanDescriptor bean) {
+        BeanDescriptor bean) {
         this.specifiedName = specifiedName;
         this.required = required;
         this.specifiedScope = specifiedScope;
@@ -63,7 +62,7 @@ public abstract class AbstractManagedFieldDescriptor {
     @Override
     public String toString() {
         return "AbstractManagedFieldDescriptor [name=" + getName() + ", required=" + required + ", specifiedScope="
-                + specifiedScope + ", field=" + field + "]";
+            + specifiedScope + ", field=" + field + "]";
     }
 
 }

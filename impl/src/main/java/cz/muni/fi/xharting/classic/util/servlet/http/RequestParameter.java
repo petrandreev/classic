@@ -15,7 +15,7 @@ import javax.inject.Qualifier;
 
 /**
  * Replaces the Solder <code>RequestParam</code>s by CDI-style ones.
- * 
+ *
  * @author pan
  * @see <a
  *      href="http://docs.jboss.org/weld/reference/latest/en-US/html/injection.html#_the_literal_injectionpoint_literal_object">4.11.

@@ -17,9 +17,9 @@ import org.jboss.seam.core.Events;
 
 /**
  * Stateless session bean that handles asynchronous delivery of events.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Stateless
 public class AsynchronousEventsImpl {
@@ -43,19 +43,19 @@ public class AsynchronousEventsImpl {
         if (schedule instanceof TimerSchedule) {
             TimerSchedule ts = (TimerSchedule) schedule;
             if (ts.getDuration() != null && ts.getExpiration() == null && ts.getFinalExpiration() == null
-                    && ts.getIntervalDuration() == null) {
+                && ts.getIntervalDuration() == null) {
                 timerService.createSingleActionTimer(ts.getDuration(), timerConfig);
                 return;
             } else if (ts.getDuration() == null && ts.getExpiration() != null && ts.getFinalExpiration() == null
-                    && ts.getIntervalDuration() == null) {
+                && ts.getIntervalDuration() == null) {
                 timerService.createSingleActionTimer(ts.getExpiration(), timerConfig);
                 return;
             } else if (ts.getDuration() != null && ts.getExpiration() == null && ts.getFinalExpiration() == null
-                    && ts.getIntervalDuration() != null) {
+                && ts.getIntervalDuration() != null) {
                 timerService.createIntervalTimer(ts.getDuration(), ts.getIntervalDuration(), timerConfig);
                 return;
             } else if (ts.getDuration() == null && ts.getExpiration() != null && ts.getFinalExpiration() == null
-                    && ts.getIntervalDuration() != null) {
+                && ts.getIntervalDuration() != null) {
                 timerService.createIntervalTimer(ts.getExpiration(), ts.getIntervalDuration(), timerConfig);
                 return;
             }
@@ -64,7 +64,7 @@ public class AsynchronousEventsImpl {
                 timerService.createSingleActionTimer(schedule.getDuration(), timerConfig);
                 return;
             } else if (schedule.getDuration() == null && schedule.getExpiration() != null
-                    && schedule.getFinalExpiration() == null) {
+                && schedule.getFinalExpiration() == null) {
                 timerService.createSingleActionTimer(schedule.getExpiration(), timerConfig);
                 return;
             }
@@ -77,7 +77,7 @@ public class AsynchronousEventsImpl {
         if (timer.getInfo() instanceof EventPayload) {
             EventPayload payload = (EventPayload) timer.getInfo();
             event.select(new EventQualifier.EventQualifierLiteral(payload.getName(), TransactionPhase.IN_PROGRESS)).fire(
-                    payload);
+                payload);
         }
     }
 }

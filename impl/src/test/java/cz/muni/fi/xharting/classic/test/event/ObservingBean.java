@@ -38,7 +38,7 @@ public class ObservingBean {
     public void barObserver() {
         barObserverCalled++;
     }
-    
+
     @Observer("baz")
     public void bazObserver()
     {
@@ -99,7 +99,7 @@ public class ObservingBean {
     public Collection<?> getP3() {
         return p3;
     }
-    
+
     public String getTimedEventPayload() {
         return timedEventPayload;
     }

@@ -11,9 +11,9 @@ import cz.muni.fi.xharting.classic.util.CdiUtils;
 
 /**
  * An {@link ObserverMethod} implementation representing an observer method configured in the component descriptor file.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class LegacyElObserverMethod extends AbstractLegacyObserverMethod {
 

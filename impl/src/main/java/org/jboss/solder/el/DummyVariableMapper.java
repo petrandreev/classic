@@ -23,19 +23,17 @@ import javax.el.VariableMapper;
 
 /**
  * <p>
- * A dummy variable mapper that is installed by default. It is not capable of
- * mapping any variables.
+ * A dummy variable mapper that is installed by default. It is not capable of mapping any variables.
  * </p>
  * <p/>
  * <p>
- * Other modules (such as the Faces Module) may install a bean that
- * overrides this and provides variable mapping.
+ * Other modules (such as the Faces Module) may install a bean that overrides this and provides variable mapping.
  * </p>
  *
  * @author Stuart Douglas
  * @author Pete Muir
  */
-//@DefaultBean(VariableMapper.class)
+// @DefaultBean(VariableMapper.class)
 @Mapper
 public class DummyVariableMapper extends VariableMapper {
     @Override

@@ -11,7 +11,7 @@ import org.jboss.seam.annotations.Startup;
 @Name("echo")
 @Scope(ScopeType.APPLICATION)
 @Startup
-public class Echo extends  Superclass {
+public class Echo extends Superclass {
 
     @Inject
     void initialize(@Started Event<String> event) {

@@ -26,13 +26,13 @@ import cz.muni.fi.xharting.classic.util.XML;
 
 /**
  * Represents a components.xml file.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class ComponentsDotXml {
 
-    public static final String COMPONENT_NAMESPACE = "http://jboss.com/products/seam/components";
+    public static final String COMPONENT_NAMESPACE = "http://jboss.org/schema/seam/components";
 
     private final Map<String, NamespaceDescriptor> namespaces;
     private final Properties replacements;
@@ -277,7 +277,7 @@ public class ComponentsDotXml {
                     initialValuesForComponent.put(qualifiedPropName, propValue);
                 } catch (Exception ex) {
                     throw new IllegalArgumentException(String.format("Exception setting property %s on component %s.  Expression %s evaluated to %s.", qualifiedPropName,
-                            componentName, prop.getValue(), propValue), ex);
+                        componentName, prop.getValue(), propValue), ex);
 
                 }
             }

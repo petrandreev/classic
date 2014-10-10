@@ -12,17 +12,17 @@ import cz.muni.fi.xharting.classic.util.spi.ForwardingEntityManager;
 
 /**
  * Decorates {@link EntityManager} in order to support EL expressions in JPA queries.
- * 
+ *
  * @author Jozef Hartinger
- * 
- * 
+ *
+ *
  */
 public class InterpolatingEntityManagerDecorator extends ForwardingEntityManager implements Serializable {
 
     private static final long serialVersionUID = 1655982080633036417L;
 
     private EntityManager delegate;
-    
+
     private Interpolator interpolator;
 
     public InterpolatingEntityManagerDecorator(EntityManager delegate) {

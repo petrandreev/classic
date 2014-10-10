@@ -2,9 +2,9 @@ package cz.muni.fi.xharting.classic;
 
 /**
  * Thrown when a definition error is detected.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class DefinitionException extends RuntimeException {
 

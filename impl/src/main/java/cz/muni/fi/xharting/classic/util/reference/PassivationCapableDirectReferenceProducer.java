@@ -14,7 +14,7 @@ import org.jboss.weld.serialization.spi.BeanIdentifier;
 
 /**
  * Passivation capable version of {@link DirectReferenceProducer}.
- * 
+ *
  * @author Jozef Hartinger
  */
 public class PassivationCapableDirectReferenceProducer<T> extends DirectReferenceProducer<T> implements PassivationCapable {

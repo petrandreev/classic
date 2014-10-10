@@ -12,9 +12,9 @@ import cz.muni.fi.xharting.classic.util.literal.TransactionalLiteral;
 /**
  * Provides a trivial syntactic transformation of Seam 2 {@link Transactional} to its counterpart in JTA 1.2
  * {@link javax.transaction.Transactional}.
- * 
+ *
  * @author pan
- * 
+ *
  */
 public class TransactionalAnnotationRedefiner extends AbstractAnnotationRedefiner<Transactional> {
 

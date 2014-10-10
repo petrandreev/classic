@@ -22,9 +22,9 @@ import cz.muni.fi.xharting.classic.util.spi.AbstractBean;
 
 /**
  * Makes the direct reference stored in {@link DirectReferenceHolderImpl} available for injection.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  * @param <T> type of the entity
  */
 public class DirectReferenceProducer<T> extends AbstractBean<T> {

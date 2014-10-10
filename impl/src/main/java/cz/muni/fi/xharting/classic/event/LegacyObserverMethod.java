@@ -13,9 +13,9 @@ import cz.muni.fi.xharting.classic.util.CdiUtils;
 
 /**
  * Represents a Seam 2 observer method.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class LegacyObserverMethod extends AbstractLegacyObserverMethod {
 

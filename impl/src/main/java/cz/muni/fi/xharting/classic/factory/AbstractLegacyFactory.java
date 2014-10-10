@@ -15,8 +15,6 @@ import javax.enterprise.inject.spi.PassivationCapable;
 import org.apache.deltaspike.core.api.literal.NamedLiteral;
 import org.jboss.weld.serialization.spi.BeanIdentifier;
 
-import cz.muni.fi.xharting.classic.metadata.FactoryDescriptor;
-
 /**
  * Common operations for a legacy factory.
  *

@@ -30,9 +30,9 @@ import cz.muni.fi.xharting.classic.metadata.RoleDescriptor;
  * Filter for the {@link Install} conditional installation. Beans that are either explicitly disabled or their dependencies are
  * not met are filtered out from further processing. Moreover, bean precedence is taken into account if more than one bean
  * exists for a given name.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class ConditionalInstallationService {
 
@@ -49,7 +49,7 @@ public class ConditionalInstallationService {
     private final Set<AbstractObserverMethodDescriptor> observerMethods = new HashSet<AbstractObserverMethodDescriptor>();
 
     public ConditionalInstallationService(Collection<BeanDescriptor> incommingDescriptors,
-            Set<ElFactoryDescriptor> configuredFactories, Set<ElObserverMethodDescriptor> configuredObserverMethods) {
+        Set<ElFactoryDescriptor> configuredFactories, Set<ElObserverMethodDescriptor> configuredObserverMethods) {
         this.descriptors = createLookupMap(incommingDescriptors);
         for (ElFactoryDescriptor descriptor : configuredFactories) {
             this.configuredFactories.put(descriptor.getName(), descriptor);
@@ -123,7 +123,7 @@ public class ConditionalInstallationService {
 
     /**
      * Register a bean.
-     * 
+     *
      * @return true if all bean's dependencies (including transitive) have been met.
      */
     private boolean installImplementation(String name, BeanDescriptor descriptor) {
@@ -198,11 +198,11 @@ public class ConditionalInstallationService {
 
     /**
      * Populates the map passed as the first parameter with entries from the map passed as the second parameter.
-     * 
+     *
      * @throws IllegalStateException if the first-parameter map already contains a key from the second-parameter map
      */
     private Map<String, BeanDescriptor> mergeDescriptorMaps(Map<String, BeanDescriptor> map1,
-            Map<String, BeanDescriptor> map2) {
+        Map<String, BeanDescriptor> map2) {
         for (Map.Entry<String, BeanDescriptor> entry : map2.entrySet()) {
             if (map1.containsKey(entry.getKey())) {
                 throw new IllegalStateException("Map already contains key " + entry.getKey());

@@ -16,7 +16,7 @@ public class CdiUtils {
 
     private CdiUtils() {
     }
-    
+
     public static <T> ManagedBeanInstance<T> lookupBean(Class<T> clazz, BeanManager manager) {
         Set<Bean<?>> beans = manager.getBeans(clazz);
         return lookupBean(beans, clazz, manager);
@@ -72,7 +72,7 @@ public class CdiUtils {
             }
         }
     }
-    
+
     /**
      * Determines whether a given scope is active or not.
      */

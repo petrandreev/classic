@@ -19,7 +19,7 @@ public class Wizzard {
     public String nonMatchingBegin() {
         return "bar";
     }
-    
+
     @Begin
     public void begin() {
     }

@@ -19,7 +19,7 @@ public class MultipleUnwrapMethodsOnBeanTest {
     public static WebArchive getDeployment() {
         return createSeamWebApp("test.war", BrokenBean.class);
     }
-    
+
     @Test
     public void testMultipleUnwrapMethodsNotAllowedOnBean()
     {

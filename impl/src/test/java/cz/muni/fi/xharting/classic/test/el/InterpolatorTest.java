@@ -22,6 +22,6 @@ public class InterpolatorTest {
     public void testStringInterpolation() {
         Interpolator interpolator = Interpolator.instance();
         assertEquals("The quick brown fox jumps over the lazy dog",
-                interpolator.interpolate("The quick brown #{quick.kind} jumps over the lazy #{lazy.kind}"));
+            interpolator.interpolate("The quick brown #{quick.kind} jumps over the lazy #{lazy.kind}"));
     }
 }

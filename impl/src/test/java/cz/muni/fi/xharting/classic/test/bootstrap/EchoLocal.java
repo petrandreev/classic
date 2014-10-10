@@ -6,5 +6,5 @@ import javax.ejb.Local;
 public interface EchoLocal {
 
     public void ping();
-    
+
 }

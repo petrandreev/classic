@@ -10,7 +10,7 @@ public class UltimatePigeon extends Pigeon {
     public Number getFoo() {
         return 0;
     }
-    
+
     @Observer("bar")
     public void observeBar()
     {

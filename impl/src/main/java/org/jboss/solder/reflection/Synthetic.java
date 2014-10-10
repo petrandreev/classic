@@ -27,8 +27,7 @@ import javax.inject.Qualifier;
 
 /**
  * <p>
- * A synthetic qualifier that can be used to replace other user-supplied
- * configuration at deployment.
+ * A synthetic qualifier that can be used to replace other user-supplied configuration at deployment.
  * </p>
  * <p/>
  * <p/>
@@ -91,8 +90,7 @@ public @interface Synthetic {
         }
 
         /**
-         * Get a synthetic qualifier. The provided annotation is used to map the
-         * generated qualifier, allowing later retrieval.
+         * Get a synthetic qualifier. The provided annotation is used to map the generated qualifier, allowing later retrieval.
          *
          * @param annotation
          * @return
@@ -108,8 +106,7 @@ public @interface Synthetic {
         }
 
         /**
-         * Get a synthetic qualifier. The qualifier will not be stored for later
-         * retrieval.
+         * Get a synthetic qualifier. The qualifier will not be stored for later retrieval.
          *
          * @return
          */

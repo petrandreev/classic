@@ -20,18 +20,19 @@ import cz.muni.fi.xharting.classic.bijection.RewritableContextAwareElResolver;
 
 /**
  * Modified version of {@link ElResolverProducer}. This version places plugin resolver into the beginning of the resolver chain.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
-//@Alternative
+// @Alternative
 public class ElResolverProducer extends ELResolverProducer {
 
     @Produces
     @Composite
     @ApplicationScoped
-//    @Alternative
-    public ELResolver getELResolver(@Resolver Instance<ELResolver> resolvers, BeanManager beanManager, RewritableContextAwareElResolver classicResolver) {
+    // @Alternative
+        public
+        ELResolver getELResolver(@Resolver Instance<ELResolver> resolvers, BeanManager beanManager, RewritableContextAwareElResolver classicResolver) {
         // Create the default el resolvers
         CompositeELResolver compositeResolver = new CompositeELResolver();
 
@@ -41,7 +42,7 @@ public class ElResolverProducer extends ELResolverProducer {
         }
 
         compositeResolver.add(classicResolver);
-//        compositeResolver.add(beanManager.getELResolver());
+        // compositeResolver.add(beanManager.getELResolver());
         compositeResolver.add(new MapELResolver());
         compositeResolver.add(new ListELResolver());
         compositeResolver.add(new ArrayELResolver());

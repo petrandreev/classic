@@ -37,9 +37,9 @@ import cz.muni.fi.xharting.classic.util.deltaspike.metadata.RedefinitionContext;
  * The extension scans for {@link DirectReference} occurrences on bean definitions (including producer methods and fields),
  * suppresses such beans by using the synthetic qualifier and register {@link DirectReferenceHolder} and
  * {@link DirectReferenceProducer} for each such bean.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class DirectReferenceExtension implements Extension {
 

@@ -24,9 +24,9 @@ import cz.muni.fi.xharting.classic.metadata.NamespaceDescriptor;
 
 /**
  * Provides common operations over a set of component descriptor files.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class ConfigurationService {
 
@@ -126,7 +126,7 @@ public class ConfigurationService {
     /**
      * Apply configuration of managed beans ({@link #getConfiguredManagedBeans()}) to descriptors of managed beans passed as
      * parameter.
-     * 
+     *
      * @param discoveredManagedBeanDescriptors managed bean configuration to merge with
      * @return managed bean descriptors with applied configuration changes
      */
@@ -142,7 +142,7 @@ public class ConfigurationService {
                     descriptors.add(reconfigured);
                 } else {
                     throw new IllegalStateException("Cannot reconfigure bean: " + configuredBean.getName() + ". Exactly one candidate required but there are: "
-                            + descriptors.toString());
+                        + descriptors.toString());
                 }
             } else {
                 Set<BeanDescriptor> replacements = new HashSet<BeanDescriptor>();

@@ -98,7 +98,7 @@ public class ExpressionsImpl extends Expressions {
         private static final long serialVersionUID = -2474548142003084216L;
         private javax.el.MethodExpression delegate;
         private ELContext context;
-        
+
         public ForwardingMethodExpression(javax.el.MethodExpression delegate, ELContext context) {
             this.delegate = delegate;
             this.context = context;

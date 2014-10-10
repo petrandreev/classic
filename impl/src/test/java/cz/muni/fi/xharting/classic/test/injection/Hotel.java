@@ -11,7 +11,7 @@ public class Hotel {
 
     @In
     private Echo echo;
-    
+
     public void checkInjection()
     {
         if (echo == null)

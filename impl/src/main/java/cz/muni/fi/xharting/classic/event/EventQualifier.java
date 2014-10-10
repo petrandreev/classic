@@ -13,9 +13,9 @@ import java.lang.annotation.Target;
 
 /**
  * A qualifier used to identify a legacy event.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Target({ FIELD, PARAMETER })
 @Qualifier

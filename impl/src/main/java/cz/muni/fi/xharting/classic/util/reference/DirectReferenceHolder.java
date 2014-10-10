@@ -23,9 +23,9 @@ import cz.muni.fi.xharting.classic.util.spi.AbstractBean;
 /**
  * Bean implementation for {@link DirectReferenceHolderImpl}, which holds a direct reference to a bean instance. This bean has
  * the scope of the original bean, while the scope of the original bean has been altered to {@link Dependent}.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  * @param <T> type of reference
  */
 public class DirectReferenceHolder<T> extends AbstractBean<DirectReferenceHolderImpl<T>> implements Bean<DirectReferenceHolderImpl<T>> {

@@ -10,9 +10,9 @@ import cz.muni.fi.xharting.classic.util.literal.PostConstructLiteral;
 
 /**
  * Provides trivial syntactic transformation of {@link Create} to {@link PostConstruct}.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class CreateAnnotationRedefiner extends AbstractAnnotationRedefiner<Create> {
 

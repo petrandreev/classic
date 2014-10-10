@@ -1,13 +1,11 @@
 package cz.muni.fi.xharting.classic.test.outjection;
 
 import static cz.muni.fi.xharting.classic.test.util.Archives.createSeamWebApp;
+import static cz.muni.fi.xharting.classic.test.util.Dependencies.SELENIUM;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.inject.Inject;
@@ -15,6 +13,7 @@ import javax.inject.Named;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
+import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.test.api.ArquillianResource;
 import org.jboss.seam.RequiredException;
@@ -22,6 +21,7 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.solder.el.Expressions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.WebDriver;
 
 @RunWith(Arquillian.class)
 public class OutjectionTest {
@@ -36,6 +36,8 @@ public class OutjectionTest {
     @Deployment
     public static WebArchive getDeployment() {
         WebArchive war = createSeamWebApp("test.war").addPackage(OutjectionTest.class.getPackage());
+        // since we mix in-container and client tests the WebDriver API must be available in the deployment
+        war.addAsLibraries(SELENIUM);
         war.addAsWebResource("cz/muni/fi/xharting/classic/test/outjection/home.xhtml", "home.xhtml");
         war.addAsWebInfResource("cz/muni/fi/xharting/classic/test/outjection/faces-config.xml", "faces-config.xml");
         war.setWebXML("cz/muni/fi/xharting/classic/test/outjection/web.xml");
@@ -107,8 +109,9 @@ public class OutjectionTest {
 
     @Test
     @RunAsClient
-    public void testOutjectedValuesAccessibleFromJsf(@ArquillianResource URL contextPath) throws Exception {
-        String homepage = doGet(contextPath, "/test/home.jsf");
+    public void testOutjectedValuesAccessibleFromJsf(@ArquillianResource URL contextPath, @Drone WebDriver browser) throws Exception {
+        browser.get(contextPath + "home.jsf");
+        String homepage = browser.getPageSource();
         assertTrue(verifyValue(homepage, "alpha", "alpha"));
         assertTrue(verifyValue(homepage, "bravo", "bravo"));
         assertTrue(verifyValue(homepage, "charlie", "charlie"));
@@ -120,24 +123,5 @@ public class OutjectionTest {
 
     private boolean verifyValue(String content, String key, String value) {
         return content.contains(key + ":" + value);
-    }
-
-    private String doGet(URL contextPath, String path) throws IOException {
-        BufferedReader reader = null;
-        try {
-            URL homepage = new URL(contextPath, path);
-            reader = new BufferedReader(new InputStreamReader(homepage.openStream()));
-            StringBuilder builder = new StringBuilder();
-            String line = reader.readLine();
-            while (line != null) {
-                builder.append(line);
-                line = reader.readLine();
-            }
-            return builder.toString();
-        } finally {
-            if (reader != null) {
-                reader.close();
-            }
-        }
     }
 }

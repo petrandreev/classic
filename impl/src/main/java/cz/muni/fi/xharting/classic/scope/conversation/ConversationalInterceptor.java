@@ -19,9 +19,9 @@ import cz.muni.fi.xharting.classic.util.CdiUtils;
 /**
  * Enforces the {@link Conversational} annotation. Components annotated with this annotation may only be called within a
  * long-running conversation.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Interceptor
 @Conversational

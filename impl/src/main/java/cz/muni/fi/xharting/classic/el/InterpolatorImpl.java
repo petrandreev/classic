@@ -9,7 +9,7 @@ import org.jboss.solder.el.Expressions;
 
 /**
  * Interpolates EL expressions in Strings
- * 
+ *
  * @author Gavin King
  * @author Jozef Hartinger
  */
@@ -22,7 +22,7 @@ public class InterpolatorImpl extends Interpolator {
 
     /**
      * Replace all EL expressions in the form #{...} with their evaluated values.
-     * 
+     *
      * @param string a template
      * @return the interpolated string
      */

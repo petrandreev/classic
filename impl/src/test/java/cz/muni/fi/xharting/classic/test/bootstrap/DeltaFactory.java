@@ -17,13 +17,13 @@ public class DeltaFactory implements Serializable {
     {
         return new Delta("d1");
     }
-    
+
     @Factory("d2")
     public Delta createD2()
     {
         return new Delta("d2");
     }
-    
+
     @Factory(value = "d3", scope = ScopeType.EVENT)
     public Delta createD3()
     {

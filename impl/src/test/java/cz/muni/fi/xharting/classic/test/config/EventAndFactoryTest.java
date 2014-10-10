@@ -21,7 +21,7 @@ public class EventAndFactoryTest {
     @Deployment
     public static WebArchive getDeployment() {
         return createSeamWebApp("test.war", InjectedBean.class, Foo.class, ObservingBean.class).addAsResource(
-                "cz/muni/fi/xharting/classic/test/config/event-factory-components.xml", "META-INF/components.xml");
+            "cz/muni/fi/xharting/classic/test/config/event-factory-components.xml", "META-INF/components.xml");
     }
 
     @Test

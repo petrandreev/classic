@@ -15,7 +15,7 @@ public class Foo {
     public boolean isBool() {
         return bool;
     }
-    
+
     public String delta()
     {
         return "delta";

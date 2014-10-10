@@ -14,9 +14,9 @@ import com.google.common.primitives.Ints;
 
 /**
  * Delegates method calls to the CDI conversation bean.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @ConversationScoped
 @Named("org.jboss.seam.core.conversation")

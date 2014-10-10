@@ -10,7 +10,7 @@ import org.jboss.seam.annotations.Scope;
 public class NonInitializedObservingBean {
 
     private static boolean observerCalled = false;
-    
+
     @Observer(value = "ignoredEvent", create = false)
     public void observeEvent() {
         observerCalled = true;

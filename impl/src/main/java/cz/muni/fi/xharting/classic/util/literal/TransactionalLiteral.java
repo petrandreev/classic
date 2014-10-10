@@ -5,7 +5,7 @@ import javax.transaction.Transactional;
 
 /**
  * JTA 1.2 {@link Transactional} literal.
- * 
+ *
  * @author pan
  *
  */

@@ -8,11 +8,11 @@ import javax.enterprise.inject.spi.BeforeBeanDiscovery;
 import cz.muni.fi.xharting.classic.bootstrap.scan.Scanner;
 
 /**
- * The {@link CoreExtension} uses this event during bootstrap to notify other extensions that scanning finished.
- * Extensions can register qualifiers, scopes, etc. similarly to @{link BeforeBeanDiscovery}.
- * 
+ * The {@link CoreExtension} uses this event during bootstrap to notify other extensions that scanning finished. Extensions can
+ * register qualifiers, scopes, etc. similarly to @{link BeforeBeanDiscovery}.
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class ScanningCompleteEvent {
 

@@ -17,9 +17,9 @@ import cz.muni.fi.xharting.classic.util.CdiUtils;
 
 /**
  * Represents a Seam 2 factory method.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class LegacyFactory extends AbstractLegacyFactory<Object> {
 

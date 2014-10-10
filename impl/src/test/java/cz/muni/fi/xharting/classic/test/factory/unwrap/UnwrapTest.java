@@ -20,7 +20,7 @@ public class UnwrapTest {
     @Inject
     @Named
     private List<Object> objects;
-    
+
     @Inject
     private Model model;
 

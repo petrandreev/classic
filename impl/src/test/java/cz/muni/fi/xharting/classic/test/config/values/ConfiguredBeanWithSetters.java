@@ -15,7 +15,7 @@ import org.jboss.seam.annotations.Scope;
 public class ConfiguredBeanWithSetters extends ConfiguredBean {
 
     private int invocationCount = 0;
-    
+
     public void setString(String string) {
         invocationCount++;
         this.string = string;

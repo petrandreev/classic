@@ -14,9 +14,9 @@ import javax.enterprise.util.AnnotationLiteral;
 
 /**
  * Stateless scoped beans are created for every method invocation. Their state is not kept by the container.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Inherited
 @Target({ TYPE, METHOD, FIELD })

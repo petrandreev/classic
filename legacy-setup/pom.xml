@@ -46,9 +46,9 @@
             <version>2.3.2-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>javax.faces</groupId>
-            <artifactId>jsf-api</artifactId>
-            <version>2.1</version>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.faces</artifactId>
+            <version>2.1.6</version>
         </dependency>
         <dependency>
             <groupId>javax.el</groupId>
@@ -61,10 +61,13 @@
             <version>1.0_02.CR7-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>5.11</version>
-            <classifier>jdk15</classifier>
+            <version>6.8.8</version>
         </dependency>
     </dependencies>
     <build>

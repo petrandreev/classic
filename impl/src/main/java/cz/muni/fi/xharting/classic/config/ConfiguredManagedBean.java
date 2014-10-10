@@ -6,9 +6,9 @@ import org.jboss.seam.ScopeType;
 
 /**
  * Represents a Seam component configuration defined in the configuration file.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class ConfiguredManagedBean {
 
@@ -23,7 +23,7 @@ public class ConfiguredManagedBean {
     private Boolean autoCreate;
 
     public ConfiguredManagedBean(String name, String installed, String scope, String startup, String startupDependends, Class<?> clazz, String jndiName, String precedence,
-            String autoCreate) throws ClassNotFoundException {
+        String autoCreate) throws ClassNotFoundException {
         this.name = name;
         this.installed = (installed != null) ? Boolean.valueOf(installed) : null;
         this.scope = (scope != null) ? ScopeType.valueOf(scope.toUpperCase()) : null;
@@ -74,6 +74,6 @@ public class ConfiguredManagedBean {
     @Override
     public String toString() {
         return "ConfiguredManagedBean [name=" + name + ", installed=" + installed + ", scope=" + scope + ", startup=" + startup + ", startupDependends="
-                + Arrays.toString(startupDependends) + ", clazz=" + clazz + ", jndiName=" + jndiName + ", precedence=" + precedence + ", autoCreate=" + autoCreate + "]";
+            + Arrays.toString(startupDependends) + ", clazz=" + clazz + ", jndiName=" + jndiName + ", precedence=" + precedence + ", autoCreate=" + autoCreate + "]";
     }
 }

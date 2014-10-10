@@ -13,25 +13,29 @@ public class InterceptedBean {
 
     @BooleanInterceptorBinding
     // should invert
-    public boolean getBool1() {
+        public
+        boolean getBool1() {
         return true;
     }
 
     @IntegerInterceptorBinding
     // should do nothing
-    public boolean getBool2() {
+        public
+        boolean getBool2() {
         return true;
     }
 
     @BooleanInterceptorBinding
     // should do nothing
-    public int getInt1() {
+        public
+        int getInt1() {
         return 0;
     }
 
     @IntegerInterceptorBinding
     // should modify
-    public int getInt2() {
+        public
+        int getInt2() {
         return 0;
     }
 }

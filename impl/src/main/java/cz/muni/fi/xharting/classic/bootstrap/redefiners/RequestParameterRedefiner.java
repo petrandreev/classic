@@ -10,9 +10,9 @@ import cz.muni.fi.xharting.classic.util.literal.RequestParameterLiteral;
 
 /**
  * Provides trivial syntactic transformation of {@link RequestParameter} to its counterpart in Classic.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class RequestParameterRedefiner extends AbstractAnnotationRedefiner<RequestParameter> {
 

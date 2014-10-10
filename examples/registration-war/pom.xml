@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cz.muni.fi.xharting.classic</groupId>
@@ -7,11 +8,9 @@
         <relativePath>../../pom.xml</relativePath>
         <version>1.1.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>registration-war</artifactId>
     <packaging>war</packaging>
     <name>Registration - War version</name>
-
     <dependencies>
         <dependency>
             <groupId>cz.muni.fi.xharting.classic</groupId>
@@ -53,8 +52,12 @@
             <artifactId>cdi-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- must be added to WAR for auto-registration, see: http://deltaspike.apache.org/documentation/servlet.html -->
+        <dependency>
+            <groupId>org.apache.deltaspike.modules</groupId>
+            <artifactId>deltaspike-servlet-module-impl</artifactId>
+        </dependency>
     </dependencies>
-
     <build>
         <finalName>classic-registration-war</finalName>
     </build>

@@ -9,9 +9,9 @@ import org.jboss.seam.annotations.RaiseEvent;
 
 /**
  * Fires events upon successful execution of a {@link RaiseEvent}-annotated method.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Interceptor
 @RaiseEvent

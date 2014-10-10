@@ -18,7 +18,7 @@ public class LogFactoryImpl extends Logging {
 
     @Inject
     private Expressions expressions;
-    
+
     @Override
     protected Log internalGetLog(String category) {
         return new LogImpl(LoggerFactory.getLogger(category), expressions);

@@ -1,17 +1,15 @@
 package cz.muni.fi.xharting.classic.log;
 
 import java.io.Serializable;
-import java.util.logging.Level;
-
 import org.jboss.seam.log.Log;
 import org.jboss.solder.el.Expressions;
 import org.slf4j.Logger;
 
 /**
  * Log implementation that delegates calls to Solder logging
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class LogImpl implements Log, Serializable {
 
@@ -55,7 +53,7 @@ public class LogImpl implements Log, Serializable {
 
     @Override
     public void trace(Object object, Throwable t, Object... params) {
-        delegate.trace(interpolate(object), t,params);
+        delegate.trace(interpolate(object), t, params);
     }
 
     @Override
@@ -85,7 +83,7 @@ public class LogImpl implements Log, Serializable {
 
     @Override
     public void warn(Object object, Throwable t, Object... params) {
-        delegate.warn(interpolate(object),t, params);
+        delegate.warn(interpolate(object), t, params);
     }
 
     @Override
@@ -95,7 +93,7 @@ public class LogImpl implements Log, Serializable {
 
     @Override
     public void error(Object object, Throwable t, Object... params) {
-        delegate.error(interpolate(object),t, params);
+        delegate.error(interpolate(object), t, params);
     }
 
     @Override

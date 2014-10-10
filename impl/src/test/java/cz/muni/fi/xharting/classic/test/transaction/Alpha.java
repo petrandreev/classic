@@ -22,13 +22,13 @@ import org.jboss.seam.annotations.Transactional;
 @Name("alpha")
 public class Alpha implements Serializable {
     private static final long serialVersionUID = -2579343717564002446L;
-    
+
     @Resource(lookup = "java:comp/TransactionSynchronizationRegistry")
     private TransactionSynchronizationRegistry transactionSynchronizationRegistry;
 
     /**
      * TX required by default.
-     * 
+     *
      * @return current transaction status
      * @throws SystemException
      */
@@ -39,7 +39,7 @@ public class Alpha implements Serializable {
 
     /**
      * TX supported.
-     * 
+     *
      * @return current transaction status
      * @throws SystemException
      */
@@ -50,7 +50,7 @@ public class Alpha implements Serializable {
 
     /**
      * TX mandatory.
-     * 
+     *
      * @return current transaction status
      * @throws SystemException
      */
@@ -61,7 +61,7 @@ public class Alpha implements Serializable {
 
     /**
      * TX never.
-     * 
+     *
      * @return current transaction status
      * @throws SystemException
      */

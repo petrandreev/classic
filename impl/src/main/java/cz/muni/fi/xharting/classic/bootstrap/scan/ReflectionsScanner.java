@@ -20,9 +20,9 @@ import org.reflections.vfs.Vfs;
 
 /**
  * Scanner implementation that uses Reflections.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class ReflectionsScanner extends AbstractScanner {
 

@@ -22,9 +22,9 @@ import javax.inject.Qualifier;
  * is reflected within the rewritable context. Likewise, when a component instance is requested, the rewritable context is
  * checked first. If the requested component instance is found in the rewritable context, it is served from there. Otherwise,
  * the request is delegated to the CDI context. The rewritable context internally uses a threadsafe map structure.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Vetoed
 public class OutjectedReferenceHolder implements Serializable {
@@ -52,9 +52,9 @@ public class OutjectedReferenceHolder implements Serializable {
     /**
      * A qualifier used to distinguish between different instances of {@link OutjectedReferenceHolder} placed in different
      * context.
-     * 
+     *
      * @author Jozef Hartinger
-     * 
+     *
      */
     @Qualifier
     @Target({ TYPE })

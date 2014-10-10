@@ -20,8 +20,7 @@ import java.lang.reflect.AccessibleObject;
 import java.security.PrivilegedAction;
 
 /**
- * A {@link PrivilegedAction} that calls
- * {@link AccessibleObject#setAccessible(boolean)}
+ * A {@link PrivilegedAction} that calls {@link AccessibleObject#setAccessible(boolean)}
  *
  * @author Stuart Douglas
  */

@@ -47,8 +47,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Utility class for working with JDK Reflection and also CDI's
- * {@link Annotated} metadata.
+ * Utility class for working with JDK Reflection and also CDI's {@link Annotated} metadata.
  *
  * @author Stuart Douglas
  * @author Pete Muir
@@ -56,16 +55,14 @@ import org.slf4j.LoggerFactory;
 public class Reflections {
 
     private static final Logger log = LoggerFactory.getLogger(Reflections.class);
-    
+
     /**
-     * An empty array of type {@link Annotation}, useful converting lists to
-     * arrays.
+     * An empty array of type {@link Annotation}, useful converting lists to arrays.
      */
     public static final Annotation[] EMPTY_ANNOTATION_ARRAY = new Annotation[0];
 
     /**
-     * An empty array of type {@link Object}, useful for converting lists to
-     * arrays.
+     * An empty array of type {@link Object}, useful for converting lists to arrays.
      */
     public static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
 
@@ -75,8 +72,8 @@ public class Reflections {
 
     /**
      * <p>
-     * Perform a runtime cast. Similar to {@link Class#cast(Object)}, but useful
-     * when you do not have a {@link Class} object for type you wish to cast to.
+     * Perform a runtime cast. Similar to {@link Class#cast(Object)}, but useful when you do not have a {@link Class} object for
+     * type you wish to cast to.
      * </p>
      * <p/>
      * <p>
@@ -95,8 +92,7 @@ public class Reflections {
     }
 
     /**
-     * Get all the declared fields on the class hierarchy. This <b>will</b>
-     * return overridden fields.
+     * Get all the declared fields on the class hierarchy. This <b>will</b> return overridden fields.
      *
      * @param clazz The class to search
      * @return the set of all declared fields or an empty set if there are none
@@ -112,12 +108,11 @@ public class Reflections {
     }
 
     /**
-     * Search the class hierarchy for a field with the given name. Will return
-     * the nearest match, starting with the class specified and searching up the
-     * hierarchy.
+     * Search the class hierarchy for a field with the given name. Will return the nearest match, starting with the class
+     * specified and searching up the hierarchy.
      *
      * @param clazz The class to search
-     * @param name  The name of the field to search for
+     * @param name The name of the field to search for
      * @return The field found, or null if no field is found
      */
     public static Field findDeclaredField(Class<?> clazz, String name) {
@@ -132,11 +127,10 @@ public class Reflections {
     }
 
     /**
-     * Search the annotatedType for the field, returning the
-     * {@link AnnotatedField}
+     * Search the annotatedType for the field, returning the {@link AnnotatedField}
      *
      * @param annotatedType The annotatedType to search
-     * @param field         the field to search for
+     * @param field the field to search for
      * @return The {@link AnnotatedField} found, or null if no field is found
      */
     public static <X> AnnotatedField<? super X> getField(AnnotatedType<X> annotatedType, Field field) {
@@ -151,10 +145,9 @@ public class Reflections {
     /**
      * Search for annotations with the specified meta annotation type
      *
-     * @param annotations        The annotation set to search
+     * @param annotations The annotation set to search
      * @param metaAnnotationType The type of the meta annotation to search for
-     * @return The set of annotations with the specified meta annotation, or an
-     *         empty set if none are found
+     * @return The set of annotations with the specified meta annotation, or an empty set if none are found
      */
     public static Set<Annotation> getAnnotationsWithMetaAnnotation(Set<Annotation> annotations, Class<? extends Annotation> metaAnnotationType) {
         Set<Annotation> set = new HashSet<Annotation>();
@@ -170,10 +163,8 @@ public class Reflections {
      * Extract any qualifiers from the set of annotations
      *
      * @param annotations The set of annotations to search
-     * @param beanManager The beanManager to use to establish if an annotation is
-     *                    a qualifier
-     * @return The qualifiers present in the set, or an empty set if there are
-     *         none
+     * @param beanManager The beanManager to use to establish if an annotation is a qualifier
+     * @return The qualifiers present in the set, or an empty set if there are none
      */
     public static Set<Annotation> getQualifiers(Set<Annotation> annotations, BeanManager beanManager) {
         Set<Annotation> set = new HashSet<Annotation>();
@@ -189,7 +180,7 @@ public class Reflections {
      * Determine if a method exists in a specified class hierarchy
      *
      * @param clazz The class to search
-     * @param name  The name of the method
+     * @param name The name of the method
      * @return true if a method is found, otherwise false
      */
     public static boolean methodExists(Class<?> clazz, String name) {
@@ -204,8 +195,7 @@ public class Reflections {
     }
 
     /**
-     * Get all the declared methods on the class hierarchy. This <b>will</b>
-     * return overridden methods.
+     * Get all the declared methods on the class hierarchy. This <b>will</b> return overridden methods.
      *
      * @param clazz The class to search
      * @return the set of all declared methods or an empty set if there are none
@@ -221,13 +211,12 @@ public class Reflections {
     }
 
     /**
-     * Search the class hierarchy for a method with the given name and arguments.
-     * Will return the nearest match, starting with the class specified and
-     * searching up the hierarchy.
+     * Search the class hierarchy for a method with the given name and arguments. Will return the nearest match, starting with
+     * the class specified and searching up the hierarchy.
      *
      * @param clazz The class to search
-     * @param name  The name of the method to search for
-     * @param args  The arguments of the method to search for
+     * @param name The name of the method to search for
+     * @param args The arguments of the method to search for
      * @return The method found, or null if no method is found
      */
     public static Method findDeclaredMethod(Class<?> clazz, String name, Class<?>... args) {
@@ -242,12 +231,11 @@ public class Reflections {
     }
 
     /**
-     * Search the class hierarchy for a constructor with the given arguments.
-     * Will return the nearest match, starting with the class specified and
-     * searching up the hierarchy.
+     * Search the class hierarchy for a constructor with the given arguments. Will return the nearest match, starting with the
+     * class specified and searching up the hierarchy.
      *
      * @param clazz The class to search
-     * @param args  The arguments of the constructor to search for
+     * @param args The arguments of the constructor to search for
      * @return The constructor found, or null if no constructor is found
      */
     public static Constructor<?> findDeclaredConstructor(Class<?> clazz, Class<?>... args) {
@@ -262,12 +250,10 @@ public class Reflections {
     }
 
     /**
-     * Get all the declared constructors on the class hierarchy. This <b>will</b>
-     * return overridden constructors.
+     * Get all the declared constructors on the class hierarchy. This <b>will</b> return overridden constructors.
      *
      * @param clazz The class to search
-     * @return the set of all declared constructors or an empty set if there are
-     *         none
+     * @return the set of all declared constructors or an empty set if there are none
      */
     public static Set<Constructor<?>> getAllDeclaredConstructors(Class<?> clazz) {
         HashSet<Constructor<?>> constructors = new HashSet<Constructor<?>>();
@@ -284,8 +270,7 @@ public class Reflections {
      *
      * @param member The member
      * @return The type of the member
-     * @throws UnsupportedOperationException if the member is not a field,
-     *                                       method, or constructor
+     * @throws UnsupportedOperationException if the member is not a field, method, or constructor
      */
     public static Class<?> getMemberType(Member member) {
         if (member instanceof Field) {
@@ -305,17 +290,16 @@ public class Reflections {
      * </p>
      * <p/>
      * <p>
-     * If the Thread Context Class Loader is available, it will be used,
-     * otherwise the classloader used to load {@link Reflections} will be used
+     * If the Thread Context Class Loader is available, it will be used, otherwise the classloader used to load
+     * {@link Reflections} will be used
      * </p>
      * <p/>
      * <p>
-     * It is also possible to specify additional classloaders to attempt to load
-     * the class with. If the first attempt fails, then these additional loaders
-     * are tried in order.
+     * It is also possible to specify additional classloaders to attempt to load the class with. If the first attempt fails,
+     * then these additional loaders are tried in order.
      * </p>
      *
-     * @param name    the name of the class to load
+     * @param name the name of the class to load
      * @param loaders additional classloaders to use to attempt to load the class
      * @return the class object
      * @throws ClassNotFoundException if the class cannot be found
@@ -337,7 +321,8 @@ public class Reflections {
             }
         }
         if (Thread.currentThread().getContextClassLoader() != null) {
-            throw new ClassNotFoundException("Could not load class " + name + " with the context class loader " + Thread.currentThread().getContextClassLoader().toString() + " or any of the additional ClassLoaders: " + Arrays.toString(loaders));
+            throw new ClassNotFoundException("Could not load class " + name + " with the context class loader " + Thread.currentThread().getContextClassLoader().toString()
+                + " or any of the additional ClassLoaders: " + Arrays.toString(loaders));
         } else {
             throw new ClassNotFoundException("Could not load class " + name + " using Class.forName or using any of the additional ClassLoaders: " + Arrays.toString(loaders));
         }
@@ -354,10 +339,9 @@ public class Reflections {
 
     /**
      * Set the accessibility flag on the {@link AccessibleObject} as described in
-     * {@link AccessibleObject#setAccessible(boolean)} within the context of
-     * a {@link PrivilegedAction}.
+     * {@link AccessibleObject#setAccessible(boolean)} within the context of a {@link PrivilegedAction}.
      *
-     * @param <A>    member the accessible object type
+     * @param <A> member the accessible object type
      * @param member the accessible object
      * @return the accessible object after the accessible flag has been altered
      */
@@ -368,13 +352,15 @@ public class Reflections {
 
     /**
      * <p>
-     * Invoke the specified method on the provided instance, passing any additional
-     * arguments included in this method as arguments to the specified method.
+     * Invoke the specified method on the provided instance, passing any additional arguments included in this method as
+     * arguments to the specified method.
      * </p>
      * <p/>
-     * <p>This method provides the same functionality and throws the same exceptions as
-     * {@link Reflections#invokeMethod(boolean, Method, Class, Object, Object...)}, with the
-     * expected return type set to {@link Object} and no change to the method's accessibility.</p>
+     * <p>
+     * This method provides the same functionality and throws the same exceptions as
+     * {@link Reflections#invokeMethod(boolean, Method, Class, Object, Object...)}, with the expected return type set to
+     * {@link Object} and no change to the method's accessibility.
+     * </p>
      *
      * @see Reflections#invokeMethod(boolean, Method, Class, Object, Object...)
      * @see Method#invoke(Object, Object...)
@@ -385,19 +371,20 @@ public class Reflections {
 
     /**
      * <p>
-     * Invoke the specified method on the provided instance, passing any additional
-     * arguments included in this method as arguments to the specified method.
+     * Invoke the specified method on the provided instance, passing any additional arguments included in this method as
+     * arguments to the specified method.
      * </p>
      * <p/>
      * <p>
-     * This method attempts to set the accessible flag of the method in a
-     * {@link PrivilegedAction} before invoking the method if the first argument
-     * is true.
+     * This method attempts to set the accessible flag of the method in a {@link PrivilegedAction} before invoking the method if
+     * the first argument is true.
      * </p>
      * <p/>
-     * <p>This method provides the same functionality and throws the same exceptions as
-     * {@link Reflections#invokeMethod(boolean, Method, Class, Object, Object...)}, with the
-     * expected return type set to {@link Object}.</p>
+     * <p>
+     * This method provides the same functionality and throws the same exceptions as
+     * {@link Reflections#invokeMethod(boolean, Method, Class, Object, Object...)}, with the expected return type set to
+     * {@link Object}.
+     * </p>
      *
      * @see Reflections#invokeMethod(boolean, Method, Class, Object, Object...)
      * @see Method#invoke(Object, Object...)
@@ -408,14 +395,15 @@ public class Reflections {
 
     /**
      * <p>
-     * Invoke the specified method on the provided instance, passing any additional
-     * arguments included in this method as arguments to the specified method.
+     * Invoke the specified method on the provided instance, passing any additional arguments included in this method as
+     * arguments to the specified method.
      * </p>
      * <p/>
-     * <p>This method provides the same functionality and throws the same exceptions as
-     * {@link Reflections#invokeMethod(boolean, Method, Class, Object, Object...)}, with the
-     * expected return type set to {@link Object} and honoring the accessibility of
-     * the method.</p>
+     * <p>
+     * This method provides the same functionality and throws the same exceptions as
+     * {@link Reflections#invokeMethod(boolean, Method, Class, Object, Object...)}, with the expected return type set to
+     * {@link Object} and honoring the accessibility of the method.
+     * </p>
      *
      * @see Reflections#invokeMethod(boolean, Method, Class, Object, Object...)
      * @see Method#invoke(Object, Object...)
@@ -426,46 +414,36 @@ public class Reflections {
 
     /**
      * <p>
-     * Invoke the method on the instance, with any arguments specified, casting
-     * the result of invoking the method to the expected return type.
+     * Invoke the method on the instance, with any arguments specified, casting the result of invoking the method to the
+     * expected return type.
      * </p>
      * <p/>
      * <p>
-     * This method wraps {@link Method#invoke(Object, Object...)}, converting the
-     * checked exceptions that {@link Method#invoke(Object, Object...)} specifies
-     * to runtime exceptions.
+     * This method wraps {@link Method#invoke(Object, Object...)}, converting the checked exceptions that
+     * {@link Method#invoke(Object, Object...)} specifies to runtime exceptions.
      * </p>
      * <p/>
      * <p>
-     * If instructed, this method attempts to set the accessible flag of the method in a
-     * {@link PrivilegedAction} before invoking the method.
+     * If instructed, this method attempts to set the accessible flag of the method in a {@link PrivilegedAction} before
+     * invoking the method.
      * </p>
      *
-     * @param setAccessible flag indicating whether method should first be set as
-     *                      accessible
-     * @param method        the method to invoke
-     * @param instance      the instance to invoke the method
-     * @param args          the arguments to the method
-     * @return the result of invoking the method, or null if the method's return
-     *         type is void
-     * @throws RuntimeException            if this <code>Method</code> object enforces Java
-     *                                     language access control and the underlying method is
-     *                                     inaccessible or if the underlying method throws an exception or
-     *                                     if the initialization provoked by this method fails.
-     * @throws IllegalArgumentException    if the method is an instance method and
-     *                                     the specified <code>instance</code> argument is not an instance
-     *                                     of the class or interface declaring the underlying method (or
-     *                                     of a subclass or implementor thereof); if the number of actual
-     *                                     and formal parameters differ; if an unwrapping conversion for
-     *                                     primitive arguments fails; or if, after possible unwrapping, a
-     *                                     parameter value cannot be converted to the corresponding formal
-     *                                     parameter type by a method invocation conversion.
-     * @throws NullPointerException        if the specified <code>instance</code> is
-     *                                     null and the method is an instance method.
-     * @throws ClassCastException          if the result of invoking the method cannot be
-     *                                     cast to the expectedReturnType
-     * @throws ExceptionInInitializerError if the initialization provoked by this
-     *                                     method fails.
+     * @param setAccessible flag indicating whether method should first be set as accessible
+     * @param method the method to invoke
+     * @param instance the instance to invoke the method
+     * @param args the arguments to the method
+     * @return the result of invoking the method, or null if the method's return type is void
+     * @throws RuntimeException if this <code>Method</code> object enforces Java language access control and the underlying
+     *         method is inaccessible or if the underlying method throws an exception or if the initialization provoked by this
+     *         method fails.
+     * @throws IllegalArgumentException if the method is an instance method and the specified <code>instance</code> argument is
+     *         not an instance of the class or interface declaring the underlying method (or of a subclass or implementor
+     *         thereof); if the number of actual and formal parameters differ; if an unwrapping conversion for primitive
+     *         arguments fails; or if, after possible unwrapping, a parameter value cannot be converted to the corresponding
+     *         formal parameter type by a method invocation conversion.
+     * @throws NullPointerException if the specified <code>instance</code> is null and the method is an instance method.
+     * @throws ClassCastException if the result of invoking the method cannot be cast to the expectedReturnType
+     * @throws ExceptionInInitializerError if the initialization provoked by this method fails.
      * @see Method#invoke(Object, Object...)
      */
     public static <T> T invokeMethod(boolean setAccessible, Method method, Class<T> expectedReturnType, Object instance, Object... args) {
@@ -497,9 +475,10 @@ public class Reflections {
      * Set the value of a field on the instance to the specified value.
      * </p>
      * <p/>
-     * <p>This method provides the same functionality and throws the same exceptions as
-     * {@link Reflections#setFieldValue(boolean, Method, Class, Object, Object...)}, honoring
-     * the accessibility of the field.</p>
+     * <p>
+     * This method provides the same functionality and throws the same exceptions as
+     * {@link Reflections#setFieldValue(boolean, Method, Class, Object, Object...)}, honoring the accessibility of the field.
+     * </p>
      */
     public static void setFieldValue(Field field, Object instance, Object value) {
         setFieldValue(false, field, instance, value);
@@ -511,28 +490,23 @@ public class Reflections {
      * </p>
      * <p/>
      * <p>
-     * This method wraps {@link Field#set(Object, Object)}, converting the
-     * checked exceptions that {@link Field#set(Object, Object)} specifies to
-     * runtime exceptions.
+     * This method wraps {@link Field#set(Object, Object)}, converting the checked exceptions that
+     * {@link Field#set(Object, Object)} specifies to runtime exceptions.
      * </p>
      * <p/>
      * <p>
-     * If instructed, this method attempts to set the accessible flag of the method in a
-     * {@link PrivilegedAction} before invoking the method.
+     * If instructed, this method attempts to set the accessible flag of the method in a {@link PrivilegedAction} before
+     * invoking the method.
      * </p>
      *
-     * @param field    the field on which to operate, or null if the field is static
+     * @param field the field on which to operate, or null if the field is static
      * @param instance the instance on which the field value should be set upon
-     * @param value    the value to set the field to
-     * @throws RuntimeException            if the underlying field is inaccessible.
-     * @throws IllegalArgumentException    if the specified <code>instance</code> is not an
-     *                                     instance of the class or interface declaring the underlying
-     *                                     field (or a subclass or implementor thereof), or if an
-     *                                     unwrapping conversion fails.
-     * @throws NullPointerException        if the specified <code>instance</code> is null and the field
-     *                                     is an instance field.
-     * @throws ExceptionInInitializerError if the initialization provoked by this
-     *                                     method fails.
+     * @param value the value to set the field to
+     * @throws RuntimeException if the underlying field is inaccessible.
+     * @throws IllegalArgumentException if the specified <code>instance</code> is not an instance of the class or interface
+     *         declaring the underlying field (or a subclass or implementor thereof), or if an unwrapping conversion fails.
+     * @throws NullPointerException if the specified <code>instance</code> is null and the field is an instance field.
+     * @throws ExceptionInInitializerError if the initialization provoked by this method fails.
      * @see Field#set(Object, Object)
      */
     public static void setFieldValue(boolean setAccessible, Field field, Object instance, Object value) {
@@ -569,28 +543,24 @@ public class Reflections {
 
     /**
      * <p>
-     * Get the value of the field, on the specified instance, casting the value
-     * of the field to the expected type.
+     * Get the value of the field, on the specified instance, casting the value of the field to the expected type.
      * </p>
      * <p/>
      * <p>
-     * This method wraps {@link Field#get(Object)}, converting the checked
-     * exceptions that {@link Field#get(Object)} specifies to runtime exceptions.
+     * This method wraps {@link Field#get(Object)}, converting the checked exceptions that {@link Field#get(Object)} specifies
+     * to runtime exceptions.
      * </p>
      *
-     * @param <T>          the type of the field's value
-     * @param field        the field to operate on
-     * @param instance     the instance from which to retrieve the value
+     * @param <T> the type of the field's value
+     * @param field the field to operate on
+     * @param instance the instance from which to retrieve the value
      * @param expectedType the expected type of the field's value
      * @return the value of the field
-     * @throws RuntimeException            if the underlying field is inaccessible.
-     * @throws IllegalArgumentException    if the specified <code>instance</code> is not an
-     *                                     instance of the class or interface declaring the underlying
-     *                                     field (or a subclass or implementor thereof).
-     * @throws NullPointerException        if the specified <code>instance</code> is null and the field
-     *                                     is an instance field.
-     * @throws ExceptionInInitializerError if the initialization provoked by this
-     *                                     method fails.
+     * @throws RuntimeException if the underlying field is inaccessible.
+     * @throws IllegalArgumentException if the specified <code>instance</code> is not an instance of the class or interface
+     *         declaring the underlying field (or a subclass or implementor thereof).
+     * @throws NullPointerException if the specified <code>instance</code> is null and the field is an instance field.
+     * @throws ExceptionInInitializerError if the initialization provoked by this method fails.
      */
     public static <T> T getFieldValue(Field field, Object instance, Class<T> expectedType) {
         try {
@@ -611,7 +581,7 @@ public class Reflections {
     /**
      * Extract the raw type, given a type.
      *
-     * @param <T>  the type
+     * @param <T> the type
      * @param type the type to extract the raw type from
      * @return the raw type, or null if the raw type cannot be determined.
      */
@@ -636,7 +606,6 @@ public class Reflections {
     public static boolean isSerializable(Class<?> clazz) {
         return clazz.isPrimitive() || Serializable.class.isAssignableFrom(clazz);
     }
-
 
     public static Map<Class<?>, Type> buildTypeMap(Set<Type> types) {
         Map<Class<?>, Type> map = new HashMap<Class<?>, Type>();
@@ -680,8 +649,7 @@ public class Reflections {
      * We extend JavaBean conventions, allowing the getter method to have parameters
      *
      * @param method The getter method
-     * @return The name of the property. Returns null if method wasn't JavaBean
-     *         getter-styled
+     * @return The name of the property. Returns null if method wasn't JavaBean getter-styled
      */
     public static String getPropertyName(Method method) {
         String methodName = method.getName();
@@ -864,7 +832,6 @@ public class Reflections {
         Class<?> rawType = getRawType(type);
         return rawType == null ? false : rawType.isPrimitive();
     }
-
 
     private Reflections() {
     }

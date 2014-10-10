@@ -1,28 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <parent>
         <groupId>cz.muni.fi.xharting.classic</groupId>
         <artifactId>classic-parent</artifactId>
         <relativePath>../../pom.xml</relativePath>
         <version>1.1.0-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
     <groupId>cz.muni.fi.xharting.classic.example</groupId>
     <artifactId>registration-parent</artifactId>
     <packaging>pom</packaging>
     <name>Registration Example</name>
-
     <modules>
         <module>registration-ejb</module>
         <module>registration-web</module>
         <module>registration-ear</module>
     </modules>
-
     <properties>
+        <wildfly-maven-plugin.version>1.0.2.Final</wildfly-maven-plugin.version>
         <example.name>registration</example.name>
     </properties>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -44,5 +42,28 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.wildfly.plugins</groupId>
+                    <artifactId>wildfly-maven-plugin</artifactId>
+                    <version>${wildfly-maven-plugin.version}</version>
+                    <configuration>
+                        <jbossHome>${wildfly.home}</jbossHome>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <configuration>
+                    <targetDir>registration-ear/target</targetDir>
+                    <filename>classic-registration.ear</filename>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

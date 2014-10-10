@@ -11,9 +11,9 @@ import org.jboss.seam.core.Events;
 
 /**
  * Implementation of the legacy {@link Events} API.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Named("org.jboss.seam.core.events")
 @ApplicationScoped
@@ -26,7 +26,7 @@ public class EventsImpl extends Events {
 
     /**
      * Raise an event that is to be processed synchronously
-     * 
+     *
      * @param type the event type
      * @param parameters parameters to be passes to the listener method
      */

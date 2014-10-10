@@ -9,7 +9,7 @@ import org.jboss.seam.annotations.Scope;
 @Name("voidFactory")
 @Scope(ScopeType.APPLICATION)
 public class VoidFactoryBean {
-    
+
     @Out(scope = ScopeType.EVENT)
     private Message hotel;
 

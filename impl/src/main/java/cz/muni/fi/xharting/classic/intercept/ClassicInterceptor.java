@@ -23,9 +23,9 @@ import cz.muni.fi.xharting.classic.util.spi.AbstractInterceptor;
 
 /**
  * An implementation of {@link Interceptor} which represents a Seam interceptor.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  * @param <T>
  */
 @SuppressWarnings("deprecation")

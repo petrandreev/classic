@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 
 /**
  * Scanner that discovers Seam 2 components.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public interface Scanner {
 

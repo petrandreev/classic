@@ -8,9 +8,9 @@ import java.lang.reflect.Type;
 
 /**
  * Reflection utilities. Selected methods are copied from Seam 2.2
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class ClassicReflections {
 

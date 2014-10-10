@@ -10,9 +10,9 @@ import javax.inject.Inject;
 
 /**
  * An implementation of {@link ELResolver} which considers {@link OutjectedReferenceHolder} instances in the resolution process.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 public class RewritableContextAwareElResolver extends ELResolver {
 

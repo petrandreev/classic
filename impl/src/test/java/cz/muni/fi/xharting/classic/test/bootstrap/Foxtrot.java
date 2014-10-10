@@ -6,7 +6,7 @@ import javax.enterprise.context.RequestScoped;
 
 /**
  * Native CDI bean for functionality comparison.
- * 
+ *
  * @author pan
  *
  */

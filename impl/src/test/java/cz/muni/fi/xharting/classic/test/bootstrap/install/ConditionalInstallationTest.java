@@ -23,41 +23,41 @@ public class ConditionalInstallationTest {
     public static void prepare()
     {
         Set<BeanDescriptor> allDescriptors = new HashSet<BeanDescriptor>();
-        for (Class<?> clazz : new Class<?>[] {Bean1.class, Bean2.class, Bean3.class, Bean4.class, Bean5.class, Bean6.class, Bean7.class, Bean8.class, Bean9.class})
+        for (Class<?> clazz : new Class<?>[] { Bean1.class, Bean2.class, Bean3.class, Bean4.class, Bean5.class, Bean6.class, Bean7.class, Bean8.class, Bean9.class })
         {
             allDescriptors.add(new BeanDescriptor(clazz));
         }
         installationService = new ConditionalInstallationService(allDescriptors);
         installationService.filterInstallableComponents();
     }
-    
+
     @Test
     public void testPrecedence()
     {
         assertTrue(installationService.getInstallableManagedBeanDescriptorMap().containsKey("alpha"));
         assertEquals(installationService.getInstallableManagedBeanDescriptorMap().get("alpha").getJavaClass(), Bean1.class);
     }
-    
+
     @Test
     public void testClassDependencies()
     {
         assertFalse(installationService.getInstallableManagedBeanDescriptorMap().containsKey("bravo"));
     }
-    
+
     @Test
     public void testDependencies()
     {
         assertTrue(installationService.getInstallableManagedBeanDescriptorMap().containsKey("charlie"));
         assertEquals(installationService.getInstallableManagedBeanDescriptorMap().get("charlie").getJavaClass(), Bean4.class);
     }
-    
+
     @Test
     public void testGenericDependencies()
     {
         assertTrue(installationService.getInstallableManagedBeanDescriptorMap().containsKey("delta"));
         assertEquals(installationService.getInstallableManagedBeanDescriptorMap().get("delta").getJavaClass(), Bean7.class);
     }
-    
+
     @Test
     public void testExplicitVeto()
     {
@@ -70,7 +70,7 @@ public class ConditionalInstallationTest {
             }
         }
     }
-    
+
     @Test
     public void testExplicitInstallation()
     {

@@ -10,7 +10,7 @@ import cz.muni.fi.xharting.classic.util.spi.ForwardingElResolver;
 public class ClassicElResolver extends ForwardingElResolver {
 
     private ELResolver delegate;
-    
+
     @Override
     protected ELResolver getDelegate() {
         if (delegate == null)

@@ -13,9 +13,9 @@ import javax.enterprise.util.AnnotationLiteral;
 
 /**
  * Internal interceptor binding. Similarly Seam 2 interceptor bindings, this binding maps directly to an interceptor class.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Inherited
 @Target({ TYPE, METHOD })
@@ -27,7 +27,7 @@ public @interface ClassicInterceptorBinding {
 
     @SuppressWarnings("all")
     public static class ClassicInterceptorBindingLiteral extends AnnotationLiteral<ClassicInterceptorBinding> implements
-            ClassicInterceptorBinding {
+        ClassicInterceptorBinding {
 
         private static final long serialVersionUID = 5454163206338191633L;
         private final Class<?> value;

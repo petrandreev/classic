@@ -17,9 +17,9 @@ import org.jboss.seam.core.Conversation;
 /**
  * Interceptor that starts/ends a long-running conversation if a {@link Begin} or {@link End} annotation is used on the
  * intercepted method.
- * 
+ *
  * @author Jozef Hartinger
- * 
+ *
  */
 @Interceptor
 @ConversationBoundary

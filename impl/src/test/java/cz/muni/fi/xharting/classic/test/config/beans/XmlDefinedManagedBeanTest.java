@@ -28,11 +28,11 @@ public class XmlDefinedManagedBeanTest {
     @Deployment
     public static WebArchive getDeployment() {
         return createSeamWebApp("test.war", Eagle.class, Falcon.class, Pigeon.class, UltimatePigeon.class, Sparrow.class)
-                .addPackage(Sparrow.class.getPackage())
-                .addAsResource("cz/muni/fi/xharting/classic/test/config/beans/components.xml", "META-INF/components.xml")
-                .addAsResource("cz/muni/fi/xharting/classic/test/config/beans/package-components.xml", "classes/cz/muni/fi/xharting/classic/test/config/beans/components.xml")
-                .addAsResource("cz/muni/fi/xharting/classic/test/config/beans/Eagle3.components.xml", "META-INF/Eagle3.components.xml")
-                .addAsResource("cz/muni/fi/xharting/classic/test/config/beans/components.properties", "components.properties");
+            .addPackage(Sparrow.class.getPackage())
+            .addAsResource("cz/muni/fi/xharting/classic/test/config/beans/components.xml", "META-INF/components.xml")
+            .addAsResource("cz/muni/fi/xharting/classic/test/config/beans/package-components.xml", "classes/cz/muni/fi/xharting/classic/test/config/beans/components.xml")
+            .addAsResource("cz/muni/fi/xharting/classic/test/config/beans/Eagle3.components.xml", "META-INF/Eagle3.components.xml")
+            .addAsResource("cz/muni/fi/xharting/classic/test/config/beans/components.properties", "components.properties");
     }
 
     @Inject
@@ -46,7 +46,7 @@ public class XmlDefinedManagedBeanTest {
         assertEquals(ScopeType.SESSION, descriptor.getImplicitRole().getSpecifiedScope());
         assertEquals(true, descriptor.isAutoCreate());
     }
-    
+
     @Test
     public void testBeanRegistrationPackageLevelFile() {
         BeanDescriptor descriptor = getManagedBeanDescriptorByName("eagle2");
@@ -54,7 +54,7 @@ public class XmlDefinedManagedBeanTest {
         assertEquals(ScopeType.APPLICATION, descriptor.getImplicitRole().getSpecifiedScope());
         assertEquals(true, descriptor.isAutoCreate());
     }
-    
+
     @Test
     public void testBeanRegistrationSingleComponentFile() {
         BeanDescriptor descriptor = getManagedBeanDescriptorByName("eagle3");
