@@ -12,12 +12,12 @@
     <name>Classic Implementation</name>
     <properties>
         <dom4j.version>1.6.1</dom4j.version>
-        <wildfly.version>8.1.0.Final</wildfly.version>
+        <wildfly.version>8.2.0.Final</wildfly.version>
         <jboss.logging.version>3.1.4.GA</jboss.logging.version>
         <junit.version>4.11</junit.version>
         <reflections.version>0.9.9-RC2</reflections.version>
         <jboss-vfs.version>3.2.5.Final</jboss-vfs.version>
-        <weld.version>2.2.5.Final</weld.version>
+        <weld.version>2.2.6.Final</weld.version>
         <javassist.version>3.18.1-GA</javassist.version>
         <!-- PhantomJS will be our default browser if no profile is specified -->
         <browser>phantomjs</browser>
