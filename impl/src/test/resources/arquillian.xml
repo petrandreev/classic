@@ -6,7 +6,14 @@
     <engine>
         <property name="deploymentExportPath">target/deployment</property>
     </engine>
-    <container qualifier="wildfly-managed-8" default="true">
+    <container qualifier="wildfly-managed-9" default="true">
+        <configuration>
+            <property name="jbossHome">${wildfly.home}</property>
+            <!-- -Dorg.jboss.weld.nonPortableMode=true -->
+            <property name="javaVmArguments">-Xms256m -Xmx1024m -server -Djava.util.logging.manager=org.jboss.logmanager.LogManager</property>
+        </configuration>
+    </container>
+    <container qualifier="wildfly-managed-8">
         <configuration>
             <property name="jbossHome">${wildfly.home}</property>
             <!-- -Dorg.jboss.weld.nonPortableMode=true -->

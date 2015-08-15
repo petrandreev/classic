@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>14</version>
+        <version>19</version>
     </parent>
     <groupId>cz.muni.fi.xharting.classic</groupId>
     <artifactId>classic-parent</artifactId>
@@ -12,22 +12,24 @@
     <packaging>pom</packaging>
     <name>Classic Parent</name>
     <properties>
-        <javaee.spec.version>1.0.1.Final</javaee.spec.version>
-        <deltaspike.version>1.0.3</deltaspike.version>
-        <arquillian-core.version>1.1.5.Final</arquillian-core.version>
+        <javaee.spec.version>1.0.3.Final</javaee.spec.version>
+        <deltaspike.version>1.5.0</deltaspike.version>
+        <arquillian-core.version>1.1.8.Final</arquillian-core.version>
         <arquillian-transaction.version>1.0.1.Final</arquillian-transaction.version>
-        <arquillian-drone.version>2.0.0.Alpha2</arquillian-drone.version>
+        <arquillian-drone.version>2.0.0.Alpha5</arquillian-drone.version>
+        <!-- must be inline with selenium dependencies -->
+        <httpcore.version>4.4.1</httpcore.version>
         <arquillian-warp.version>1.0.0.Alpha7</arquillian-warp.version>
-        <shrinkwrap-resolver.version>2.1.1</shrinkwrap-resolver.version>
-        <slf4j.version>1.7.2</slf4j.version>
+        <shrinkwrap-resolver.version>2.2.0-beta-2</shrinkwrap-resolver.version>
+        <slf4j.version>1.7.12</slf4j.version>
         <!-- maven-compiler-plugin -->
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
         <!-- Options to override the compiler arguments directly on the compiler argument line to separate between what the IDE understands 
             as the source level and what the Maven compiler actually use. -->
         <maven.compiler.argument.target>${maven.compiler.target}</maven.compiler.argument.target>
         <maven.compiler.argument.source>${maven.compiler.source}</maven.compiler.argument.source>
-        <maven-dependency-plugin.version>2.9</maven-dependency-plugin.version>
+        <maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
     </properties>
     <modules>
         <module>api</module>
@@ -62,6 +64,12 @@
                 <version>${arquillian-drone.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <!-- Warp brings along the outdated httpcore version -->
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore</artifactId>
+                <version>${httpcore.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jboss.arquillian.extension</groupId>

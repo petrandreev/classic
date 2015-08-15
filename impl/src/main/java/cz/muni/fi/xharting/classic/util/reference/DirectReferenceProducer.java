@@ -18,6 +18,8 @@ import javax.enterprise.inject.spi.BeanManager;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.faces.view.ViewScoped;
 
+import org.jboss.weld.bean.builtin.BeanManagerProxy;
+
 import cz.muni.fi.xharting.classic.util.spi.AbstractBean;
 
 /**
@@ -34,8 +36,8 @@ public class DirectReferenceProducer<T> extends AbstractBean<T> {
     private final boolean checkScope;
     private Bean<?> ip;
 
-    public DirectReferenceProducer(DirectReferenceHolder<T> directReferenceHolder, Class<T> clazz, Set<Type> types, Set<Annotation> qualifiers, String name, BeanManager manager,
-        boolean checkScope) {
+    public DirectReferenceProducer(DirectReferenceHolder<T> directReferenceHolder, Class<T> clazz, Set<Type> types,
+        Set<Annotation> qualifiers, String name, BeanManager manager, boolean checkScope) {
         super(clazz, types, Dependent.class, name, false, false, qualifiers);
         this.directReferenceHolder = directReferenceHolder;
         this.manager = manager;
@@ -48,16 +50,21 @@ public class DirectReferenceProducer<T> extends AbstractBean<T> {
 
         checkInjectionPoint(creationalContext);
 
-        DirectReferenceHolderImpl<T> holder = (DirectReferenceHolderImpl<T>) manager.getReference(directReferenceHolder, directReferenceHolder.getType(), creationalContext);
+        DirectReferenceHolderImpl<T> holder = (DirectReferenceHolderImpl<T>) manager.getReference(directReferenceHolder,
+            directReferenceHolder.getType(), creationalContext);
         return holder.getReference();
     }
 
     protected InjectionPoint getInjectionPoint(CreationalContext<T> creationalContext) {
         if (ip == null) {
-            ip = manager.resolve(manager.getBeans(InjectionPoint.class));
+            Set<Bean<?>> beans = manager.getBeans(InjectionPoint.class);
+            ip = manager.resolve(beans);
         }
         if (ip != null) {
-            return (InjectionPoint) manager.getReference(ip, InjectionPoint.class, creationalContext);
+            // we have to do a wild cast here since the Weld`s bean manager pushes an empty IP in the standard method
+            InjectionPoint result = (InjectionPoint) ((BeanManagerProxy) manager).delegate().getReference(ip,
+                InjectionPoint.class, creationalContext, true);
+            return result;
         }
         return null;
     }
@@ -69,7 +76,8 @@ public class DirectReferenceProducer<T> extends AbstractBean<T> {
                 Class<? extends Annotation> scope = ip.getBean().getScope();
                 // the injected component must not be of wider scope, other it would be left with a stale reference
                 if (ScopeComparator.INSTANCE.compare(scope, directReferenceHolder.getScope()) > 0) {
-                    throw new IllegalArgumentException(directReferenceHolder.getScope() + " bean " + this + " cannot be injected into a bean with wider scope " + ip.getBean());
+                    throw new IllegalArgumentException(directReferenceHolder.getScope() + " bean " + this
+                        + " cannot be injected into a bean with wider scope " + ip.getBean());
                 }
             }
         }

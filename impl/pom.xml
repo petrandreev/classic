@@ -12,12 +12,12 @@
     <name>Classic Implementation</name>
     <properties>
         <dom4j.version>1.6.1</dom4j.version>
-        <wildfly.version>8.2.0.Final</wildfly.version>
-        <jboss.logging.version>3.1.4.GA</jboss.logging.version>
-        <junit.version>4.11</junit.version>
+        <wildfly.version>9.0.1.Final</wildfly.version>
+        <jboss.logging.version>3.2.1.Final</jboss.logging.version>
+        <junit.version>4.12</junit.version>
         <reflections.version>0.9.9-RC2</reflections.version>
-        <jboss-vfs.version>3.2.5.Final</jboss-vfs.version>
-        <weld.version>2.2.6.Final</weld.version>
+        <jboss-vfs.version>3.2.9.Final</jboss-vfs.version>
+        <weld.version>2.2.14.Final</weld.version>
         <javassist.version>3.18.1-GA</javassist.version>
         <!-- PhantomJS will be our default browser if no profile is specified -->
         <browser>phantomjs</browser>
@@ -198,10 +198,29 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>wildfly-managed-8</id>
+            <id>wildfly-managed-9</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+            <properties>
+                <arquillian.launch>wildfly-managed-9</arquillian.launch>
+                <arquillian.transaction.manager>java:comp/UserTransaction</arquillian.transaction.manager>
+            </properties>
+            <dependencies>
+                <dependency>
+	            <groupId>org.wildfly.arquillian</groupId>
+	            <artifactId>wildfly-arquillian-container-managed</artifactId>
+	            <version>1.0.1.Final</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.jboss.arquillian.protocol</groupId>
+                    <artifactId>arquillian-protocol-servlet</artifactId>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>wildfly-managed-8</id>
             <properties>
                 <arquillian.launch>wildfly-managed-8</arquillian.launch>
                 <arquillian.transaction.manager>java:comp/UserTransaction</arquillian.transaction.manager>
@@ -248,7 +267,7 @@
                     <systemProperties>
                         <arquillian.launch>${arquillian.launch}</arquillian.launch>
                     </systemProperties>
-                    <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
+                    <argLine>-Xmx1024m</argLine>
                 </configuration>
             </plugin>
         </plugins>

@@ -1,7 +1,7 @@
 Classic - Seam 2 Bridge for Java EE 7
 =====================================
-Ported to WildFly 8.2.0.Final
-Dependencies: DeltaSpike 1.0 Core/Servlet, Weld 2, Javassist 3, Reflections 0.9
+Ported to WildFly 9.0.1.Final
+Dependencies: DeltaSpike 1.5 Core/Servlet, Weld 2, Javassist 3, Reflections 0.9
 Restrictions: 
 - the @RequestParameter injection points don`t support automatic type coercion (only Strings will be injected).
 - the synchronization behavior (explicit and built-in) is taken over from Seam 2.3 (Stateful and Stateless EJBs are synchronized by container)
