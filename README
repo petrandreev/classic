@@ -6,5 +6,3 @@ Restrictions:
 - the @RequestParameter injection points don`t support automatic type coercion (only Strings will be injected).
 - the synchronization behavior (explicit and built-in) is taken over from Seam 2.3 (Stateful and Stateless EJBs are synchronized by container)
 
-Notes: it is recommended to patch WidlFly with the latest Weld 2.2 version \ 
-since the Classic interceptors doesn`t play well with Weld`s LifeCycleMixins (the @PostConstruct and @PreDestroy`s don't get invoked)
